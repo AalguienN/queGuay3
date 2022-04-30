@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="420.0" maxWidth="400.0" minHeight="420.0" minWidth="400.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="420.0" prefWidth="400.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="poiupv.FXMLInicioController">
+   <center>
+      <VBox alignment="CENTER_LEFT" prefWidth="380.0" BorderPane.alignment="TOP_CENTER">
+         <children>
+            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label text="Usuario" textFill="#025477">
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </Label>
+                  <VBox alignment="BOTTOM_LEFT" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <TextField fx:id="id_usuario" minHeight="26.0" minWidth="270.0" onKeyPressed="#teclaEnter" prefHeight="26.0" prefWidth="350.0" promptText="Nickname">
+                           <VBox.margin>
+                              <Insets right="30.0" top="20.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <Label fx:id="id_usuarioIncorrecto" text="Usuario Incorrecto" textFill="#ec2626" visible="false">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </VBox>
+               </children>
+               <VBox.margin>
+                  <Insets top="30.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label text="Contraseña" textFill="#025477">
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </Label>
+                  <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <PasswordField fx:id="id_contraseña" minHeight="-Infinity" minWidth="270.0" onKeyPressed="#teclaEnter" prefWidth="350.0" promptText="LetrasNúmerosSímbolos">
+                           <VBox.margin>
+                              <Insets right="30.0" top="20.0" />
+                           </VBox.margin>
+                        </PasswordField>
+                        <Label fx:id="id_contraseñaIncorrecta" text="Contraseña Incorrecta" textFill="#ec2626" visible="false">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="id_iniciarSesion" contentDisplay="CENTER" minWidth="120.0" mnemonicParsing="false" onAction="#iniciarSesion" onKeyPressed="#teclaEnter" style="-fx-background-color: yellowgreen;" text="Iniciar Sesión" textAlignment="RIGHT" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <HBox.margin>
+                        <Insets left="80.0" right="30.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="id_cancelar" contentDisplay="CENTER" minWidth="120.0" mnemonicParsing="false" onAction="#cancelar" style="-fx-background-color: yellowgreen;" text="Cancelar" textAlignment="RIGHT" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+         <BorderPane.margin>
+            <Insets left="20.0" />
+         </BorderPane.margin>
+      </VBox>
+   </center>
+   <top>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: olivedrab;" BorderPane.alignment="CENTER_LEFT">
+         <children>
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="LOGO!">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="40.0" />
+               </font>
+            </Text>
+         </children>
+         <BorderPane.margin>
+            <Insets top="30.0" />
+         </BorderPane.margin>
+         <padding>
+            <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+         </padding>
+      </HBox>
+   </top>
+   <bottom>
+      <HBox alignment="CENTER_RIGHT" spacing="25.0" BorderPane.alignment="CENTER_RIGHT">
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+         <children>
+            <Hyperlink onAction="#registrase" text="¿No estás registrado? Registrar nueva cuenta" textFill="YELLOWGREEN">
+               <HBox.margin>
+                  <Insets bottom="20.0" right="30.0" />
+               </HBox.margin>
+            </Hyperlink>
+         </children>
+      </HBox>
+   </bottom>
+</BorderPane>

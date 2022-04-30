@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="poiupv.FXMLEstadisticasController">
+   <center>
+      <VBox prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Text fill="YELLOWGREEN" strokeType="OUTSIDE" strokeWidth="0.0" text="Porcentaje de acierto:" wrappingWidth="142.9375">
+                           <font>
+                              <Font name="Arial Rounded MT Bold" size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="10.0" />
+                           </VBox.margin>
+                        </Text>
+                        <Label fx:id="id_porcentajeAcierto" prefHeight="32.0" prefWidth="143.0" text="0%">
+                           <font>
+                              <Font size="50.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="30.0" right="30.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox>
+                     <children>
+                        <Label fx:id="id_porcentajeAcierto1" text="En la última semana">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="30.0" right="30.0" />
+                           </VBox.margin>
+                        </Label>
+                        <BarChart fx:id="id_barChar" titleSide="LEFT">
+                          <xAxis>
+                            <CategoryAxis fx:id="id_xAxis" side="BOTTOM" />
+                          </xAxis>
+                          <yAxis>
+                            <NumberAxis fx:id="id_yAxis" side="LEFT" />
+                          </yAxis>
+                        </BarChart>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox prefHeight="165.0" prefWidth="313.0">
+               <children>
+                  <VBox prefHeight="100.0" prefWidth="283.0">
+                     <children>
+                        <CheckBox fx:id="id_checkFecha" mnemonicParsing="false" onAction="#filtrarFecha" text="Filtrar por fecha">
+                           <VBox.margin>
+                              <Insets left="10.0" top="10.0" />
+                           </VBox.margin>
+                        </CheckBox>
+                        <Label text="Ver resultados a partir del día:">
+                           <VBox.margin>
+                              <Insets left="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <DatePicker fx:id="id_fechaFiltrar" prefHeight="25.0" prefWidth="276.0">
+                           <VBox.margin>
+                              <Insets left="10.0" />
+                           </VBox.margin>
+                        </DatePicker>
+                     </children>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+         <BorderPane.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </BorderPane.margin>
+      </VBox>
+   </center>
+   <top>
+      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: olivedrab;" BorderPane.alignment="CENTER">
+         <children>
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Estadísticas">
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="50.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="20.0" />
+               </HBox.margin>
+            </Text>
+         </children>
+      </HBox>
+   </top>
+   <bottom>
+      <HBox alignment="BOTTOM_RIGHT" BorderPane.alignment="CENTER_RIGHT">
+         <children>
+            <Button fx:id="id_volverMenuPrincipalButton" mnemonicParsing="false" onAction="#volverMenuPrincipal" style="-fx-background-color: yellowgreen;" text="Volver a menú principal" textFill="WHITE">
+               <HBox.margin>
+                  <Insets bottom="20.0" right="20.0" />
+               </HBox.margin>
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+   </bottom>
+</BorderPane>
