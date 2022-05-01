@@ -90,7 +90,7 @@ public class FXMLPrincipalController implements Initializable {
 
     @FXML
     private void problemasAleatorios(ActionEvent event) throws IOException {
-        switchToScene(event, "FXMLProblemaAleatorio");
+        switchToScene(event, "FXMLProblema");
         primaryStage.setResizable(true);
     }
 
@@ -104,6 +104,7 @@ public class FXMLPrincipalController implements Initializable {
         //switchToScene(event, "FXMLModificarPerfil");
     }
 
+    @FXML
     private void cerrarSesion(MouseEvent event) throws IOException {
         switchToScene(event, "FXMLInicio");
     }

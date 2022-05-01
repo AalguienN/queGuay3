@@ -5,26 +5,38 @@
  */
 package poiupv;
 
+import DBAccess.NavegacionDAOException;
+import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import model.Answer;
+import model.Navegacion;
+import model.Problem;
 
 /**
  * FXML Controller class
@@ -53,6 +65,27 @@ public class FXMLProblemaController implements Initializable {
     private MenuItem pin_info;
     @FXML
     private Label posicion;
+    @FXML
+    private ToggleGroup Respuesta;
+    
+    private Navegacion navegador;
+    @FXML
+    private Label id_TituloProblema;
+    @FXML
+    private Label id_EnunciadoProblema;
+    @FXML
+    private RadioButton id_respuesta1;
+    @FXML
+    private RadioButton id_respuesta2;
+    @FXML
+    private RadioButton id_respuesta3;
+    @FXML
+    private RadioButton id_respuesta4;
+    
+    public Problem problemaActual;
+    private List<Answer> respuestasList;
+    
+    private Stage primaryStage;
     
     @FXML
     void zoomIn(MouseEvent event) {
@@ -121,12 +154,17 @@ public class FXMLProblemaController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         initData();
+        try {
+            navegador = Navegacion.getSingletonNavegacion();
+        } catch (NavegacionDAOException ex) {
+            java.util.logging.Logger.getLogger(FXMLProblemasListaController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
         
         //==========================================================
         // inicializamos el slider y enlazamos con el zoom
         zoom_slider.setMin(0.1);
-        zoom_slider.setMax(1.5);
-        zoom_slider.setValue(1.0);
+        zoom_slider.setMax(1);
+        zoom_slider.setValue(0.5);
         zoom_slider.valueProperty().addListener((o, oldVal, newVal) -> zoom((Double) newVal));
         
         //=========================================================================
@@ -137,9 +175,31 @@ public class FXMLProblemaController implements Initializable {
         contentGroup.getChildren().add(zoomGroup);
         zoomGroup.getChildren().add(map_scrollpane.getContent());
         map_scrollpane.setContent(contentGroup);
+        
+        List<Problem> lista = navegador.getProblems();
+
+        
+        problemaActual = lista.get(0);
+        id_EnunciadoProblema.setText((problemaActual).getText());
+       
+        respuestasList = problemaActual.getAnswers();
+        id_respuesta1.setText(respuestasList.get(0).getText());
+        id_respuesta2.setText(respuestasList.get(1).getText());
+        id_respuesta3.setText(respuestasList.get(2).getText());
+        id_respuesta4.setText(respuestasList.get(3).getText());
+        
 
     }
 
+    private void switchToScene(ActionEvent event, String name) throws IOException {
+  
+        Parent root = FXMLLoader.load(getClass().getResource(name+".fxml"));
+        primaryStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
+        primaryStage.show();
+    }
     @FXML
     private void muestraPosicion(MouseEvent event) {
         posicion.setText("sceneX: " + (int) event.getSceneX() + ", sceneY: " + (int) event.getSceneY() + "\n"
@@ -155,5 +215,18 @@ public class FXMLProblemaController implements Initializable {
         mensaje.setTitle("Acerca de");
         mensaje.setHeaderText("IPC - 2022");
         mensaje.showAndWait();
+    }
+
+    @FXML
+    private void BorrarSeleccion(ActionEvent event) {
+    }
+
+    @FXML
+    private void ConfirmarRespuesta(ActionEvent event) {
+    }
+
+    @FXML
+    private void volverMenu(ActionEvent event) throws IOException {
+        switchToScene(event,"FXMLPrincipal_1");
     }
 }

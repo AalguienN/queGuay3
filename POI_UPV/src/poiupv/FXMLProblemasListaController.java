@@ -97,7 +97,7 @@ public class FXMLProblemasListaController implements Initializable {
 
     @FXML
     private void handleProblemaAleatorio(ActionEvent event) throws IOException {
-        switchToScene(event, "FXMLProblemaAleatorio");
+        switchToScene(event, "FXMLProblema");
         stage.setResizable(true);
         
     }
