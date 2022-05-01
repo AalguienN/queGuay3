@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="750.0" prefWidth="1000.0" stylesheets="@../resources/estilos.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="poiupv.FXMLProblemaController">
+   <children>
+      <HBox fillHeight="false" spacing="5.0" VBox.vgrow="NEVER">
+         <VBox.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </VBox.margin>
+         <children>
+            <SplitPane dividerPositions="0.4431438127090301">
+               <items>
+                  <ListView fx:id="map_listview" onMouseClicked="#listClicked" prefHeight="399.0" prefWidth="87.0" />
+                  <VBox>
+                     <children>
+                        <HBox>
+                           <children>
+                              <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../resources/lupa%20j%20.png" />
+                                 </image>
+                              </ImageView>
+                              <Label text="Zoom" />
+                              <Label onMouseClicked="#zoomOut" text="-">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Label>
+                              <Slider fx:id="zoom_slider" min="-100.0" HBox.hgrow="SOMETIMES" />
+                              <Label onMouseClicked="#zoomIn" text="+">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <ScrollPane fx:id="map_scrollpane" hbarPolicy="ALWAYS" onMouseMoved="#muestraPosicion" pannable="true" vbarPolicy="ALWAYS">
+                           <content>
+                              <Pane>
+                                 <children>
+                                    <ImageView fitHeight="10000.0" fitWidth="10000.0" layoutX="24.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../resources/carta_nautica.jpg" />
+                                       </image>
+                                       <viewport>
+                                          <Rectangle2D />
+                                       </viewport>
+                                    </ImageView>
+                                 </children>
+                              </Pane>
+                           </content>
+                        </ScrollPane>
+                     </children>
+                  </VBox>
+               </items>
+            </SplitPane>
+            <ToolBar orientation="VERTICAL" prefHeight="700.0" prefWidth="51.0">
+               <items>
+                  <Button mnemonicParsing="false">
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/lapiz%20j%20.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button mnemonicParsing="false">
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/regla%20j%20.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <MenuButton fx:id="map_pin" mnemonicParsing="false" visible="false">
+                     <items>
+                        <MenuItem fx:id="pin_info" mnemonicParsing="false" text="Action 1" />
+                     </items>
+                     <styleClass>
+                        <String fx:value="menu-button" />
+                        <String fx:value="map-pin" />
+                     </styleClass>
+                  </MenuButton>
+               </items>
+            </ToolBar>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_RIGHT">
+         <children>
+            <Label fx:id="posicion" minHeight="-Infinity" minWidth="-Infinity" text="SceneX:     ScenY:     " wrapText="true" HBox.hgrow="ALWAYS" />
+         </children>
+         <VBox.margin>
+            <Insets bottom="12.0" right="12.0" top="6.0" />
+         </VBox.margin>
+      </HBox>
+   </children>
+</VBox>

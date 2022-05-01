@@ -114,7 +114,7 @@ public class FXMLProblemaAleatorioController implements Initializable {
 
     @FXML
     private void irAMenu(ActionEvent event) throws IOException {
-        switchToScene(event, "FXMLPrincipal");
+        switchToScene(event, "FXMLPrincipal_1");
     }
 
     @FXML
