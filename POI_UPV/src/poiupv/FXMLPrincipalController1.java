@@ -7,6 +7,7 @@ package poiupv;
 import DBAccess.NavegacionDAOException;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,6 +27,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import model.Navegacion;
+import model.Problem;
 
 
 /**
@@ -95,7 +97,7 @@ public class FXMLPrincipalController1 implements Initializable {
 
     @FXML
     private void problemasAleatorios(ActionEvent event) throws IOException {
-        switchToScene(event, "FXMLProblemaAleatorio");
+        switchToProblema(event, -1);
         primaryStage.setResizable(true);
     }
 
@@ -123,5 +125,28 @@ public class FXMLPrincipalController1 implements Initializable {
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();
+    }
+    private void switchToProblema(ActionEvent event, int n) throws IOException{
+        //switchToScene(event, "FXMLProblema");
+        
+        List<Problem> lista = datos.getProblems();
+        
+        
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("FXMLProblema.fxml"));
+        Parent parent = loader.load();
+        
+        Scene scene = new Scene(parent);
+        
+        FXMLProblemaController controller = loader.getController();
+        //esta línea es para pasar referencia del problema concreto que vamos a realizar
+        //Estamos pasando información entre escenas!!!!
+        controller.setProblemaActual(n);
+        
+        primaryStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        primaryStage.setScene(scene);
+        primaryStage.setResizable(true);
+        primaryStage.show();
+        
     }
 }
