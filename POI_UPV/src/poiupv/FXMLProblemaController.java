@@ -83,6 +83,8 @@ public class FXMLProblemaController implements Initializable {
     @FXML
     private RadioButton id_respuesta4;
     
+    
+    
     private Problem problemaActual;
     private List<Answer> respuestasList;
     
@@ -179,6 +181,8 @@ public class FXMLProblemaController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         initData();
+            
+        //Navegador
         try {
             navegador = Navegacion.getSingletonNavegacion();
         } catch (NavegacionDAOException ex) {
@@ -238,14 +242,30 @@ public class FXMLProblemaController implements Initializable {
 
     @FXML
     private void BorrarSeleccion(ActionEvent event) {
+        id_respuesta1.setSelected(false);
+        id_respuesta2.setSelected(false);
+        id_respuesta3.setSelected(false);
+        id_respuesta4.setSelected(false);
     }
 
     @FXML
     private void ConfirmarRespuesta(ActionEvent event) {
+        if(compararRespuesta()) System.out.println("Correcto!");
+        else System.out.println("Falso :(");
     }
 
     @FXML
     private void volverMenu(ActionEvent event) throws IOException {
         switchToScene(event,"FXMLPrincipal_1");
+    }
+    
+    private boolean compararRespuesta(){
+        if(id_respuesta1.isSelected() == problemaActual.getAnswers().get(0).getValidity())
+        if(id_respuesta2.isSelected() == problemaActual.getAnswers().get(1).getValidity())
+        if(id_respuesta3.isSelected() == problemaActual.getAnswers().get(2).getValidity())
+        if(id_respuesta4.isSelected() == problemaActual.getAnswers().get(3).getValidity())
+            return true;
+        
+        return false;
     }
 }
