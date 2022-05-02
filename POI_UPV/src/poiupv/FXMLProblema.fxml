@@ -67,7 +67,10 @@
                                     <Insets right="10.0" />
                                  </VBox.margin>
                               </GridPane>
-                              <Label fx:id="id_EnunciadoProblema" text="Enunciado " wrapText="true" />
+                              <Label fx:id="id_EnunciadoProblema" maxHeight="1.7976931348623157E308" text="Enunciado " wrapText="true">
+                                 <font>
+                                    <Font size="10.0" />
+                                 </font></Label>
                               <VBox>
                                  <children>
                                     <RadioButton fx:id="id_respuesta1" mnemonicParsing="false" text="Respuesta 1" wrapText="true">
@@ -98,7 +101,7 @@
                               <Insets left="20.0" right="20.0" />
                            </VBox.margin>
                         </HBox>
-                        <ListView fx:id="map_listview" onMouseClicked="#listClicked" prefHeight="399.0" prefWidth="87.0" />
+                        <ListView fx:id="map_listview" onMouseClicked="#listClicked" prefHeight="132.0" prefWidth="466.0" />
                      </children>
                   </VBox>
                   <VBox>

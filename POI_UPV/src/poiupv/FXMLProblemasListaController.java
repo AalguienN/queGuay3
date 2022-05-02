@@ -97,29 +97,54 @@ public class FXMLProblemasListaController implements Initializable {
 
     @FXML
     private void handleProblemaAleatorio(ActionEvent event) throws IOException {
-        switchToScene(event, "FXMLProblema");
-        stage.setResizable(true);
+        switchToProblema(event, -1);
         
     }
 
     @FXML
     private void handleBoton1(ActionEvent event) throws IOException {
-        switchToScene(event, "FXMLProblemaConcreto");
+        switchToProblema(event,0);
     }
 
     @FXML
     private void handleBoton2(ActionEvent event) throws IOException {
-        switchToScene(event, "FXMLProblemaConcreto");
+        switchToProblema(event,1);
     }
 
     @FXML
     private void handleBoton3(ActionEvent event) throws IOException {
-        switchToScene(event, "FXMLProblemaConcreto");
+        switchToProblema(event,2);
     }
 
     @FXML
     private void handleBoton4(ActionEvent event) throws IOException {
-        switchToScene(event, "FXMLProblemaConcreto");
+        switchToProblema(event,3);
     }
     
+
+    //esta función carga una escena con un problema específico (marcado por n)
+    //SII n <= listaDeProblemas.lenth
+    private void switchToProblema(ActionEvent event, int n) throws IOException{
+        //switchToScene(event, "FXMLProblema");
+        
+        List<Problem> lista = navegador.getProblems();
+        
+        
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("FXMLProblema.fxml"));
+        Parent parent = loader.load();
+        
+        Scene scene = new Scene(parent);
+        
+        FXMLProblemaController controller = loader.getController();
+        //esta línea es para pasar referencia del problema concreto que vamos a realizar
+        //Estamos pasando información entre escenas!!!!
+        controller.setProblemaActual(n);
+        
+        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.setResizable(true);
+        stage.show();
+        
+    }
 }

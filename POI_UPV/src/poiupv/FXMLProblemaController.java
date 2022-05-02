@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -82,11 +83,35 @@ public class FXMLProblemaController implements Initializable {
     @FXML
     private RadioButton id_respuesta4;
     
-    public Problem problemaActual;
+    private Problem problemaActual;
     private List<Answer> respuestasList;
     
     private Stage primaryStage;
     
+    //SII problema >= 0 saca problema de la lista
+    //SII problema = -1 problema aleatorio
+    public void setProblemaActual(int problema){
+        Random rand = new Random();
+        try {
+            navegador = Navegacion.getSingletonNavegacion();
+        } catch (NavegacionDAOException ex) {
+            java.util.logging.Logger.getLogger(FXMLProblemasListaController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        
+        List<Problem> lista = navegador.getProblems();
+        if (problema == -1)
+            problema = rand.nextInt(lista.size());
+        this.problemaActual = lista.get(problema);
+        id_TituloProblema.setText("Problema "+(problema+1));
+        
+        id_EnunciadoProblema.setText((problemaActual).getText());
+       
+        respuestasList = problemaActual.getAnswers();
+        id_respuesta1.setText(respuestasList.get(0).getText());
+        id_respuesta2.setText(respuestasList.get(1).getText());
+        id_respuesta3.setText(respuestasList.get(2).getText());
+        id_respuesta4.setText(respuestasList.get(3).getText());  
+    }
     @FXML
     void zoomIn(MouseEvent event) {
         //================================================
@@ -178,15 +203,9 @@ public class FXMLProblemaController implements Initializable {
         
         List<Problem> lista = navegador.getProblems();
 
+        //En el caso de que no fuera cargado un problema anteriormente
+        //if(problemaActual == null) problemaActual = lista.get(0);
         
-        problemaActual = lista.get(0);
-        id_EnunciadoProblema.setText((problemaActual).getText());
-       
-        respuestasList = problemaActual.getAnswers();
-        id_respuesta1.setText(respuestasList.get(0).getText());
-        id_respuesta2.setText(respuestasList.get(1).getText());
-        id_respuesta3.setText(respuestasList.get(2).getText());
-        id_respuesta4.setText(respuestasList.get(3).getText());
         
 
     }
