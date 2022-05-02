@@ -15,6 +15,10 @@ import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,6 +28,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuButton;
@@ -89,6 +94,10 @@ public class FXMLProblemaController implements Initializable {
     private List<Answer> respuestasList;
     
     private Stage primaryStage;
+    
+    private BooleanProperty respuestaSeleccionada;
+    @FXML
+    private Button id_confirmRepsButton;
     
     //SII problema >= 0 saca problema de la lista
     //SII problema = -1 problema aleatorio
@@ -210,6 +219,11 @@ public class FXMLProblemaController implements Initializable {
         //En el caso de que no fuera cargado un problema anteriormente
         //if(problemaActual == null) problemaActual = lista.get(0);
         
+        respuestaSeleccionada = new SimpleBooleanProperty();
+        respuestaSeleccionada.setValue(Boolean.FALSE);
+        //Binding botón respuestas
+        id_confirmRepsButton.disableProperty().bind(respuestaSeleccionada.not());
+        
         
 
     }
@@ -246,6 +260,10 @@ public class FXMLProblemaController implements Initializable {
         id_respuesta2.setSelected(false);
         id_respuesta3.setSelected(false);
         id_respuesta4.setSelected(false);
+        
+        respuestaSeleccionada.setValue(Boolean.FALSE);
+        
+        
     }
 
     @FXML
@@ -259,13 +277,19 @@ public class FXMLProblemaController implements Initializable {
         switchToScene(event,"FXMLPrincipal_1");
     }
     
+    //Está feo pero está
     private boolean compararRespuesta(){
-        if(id_respuesta1.isSelected() == problemaActual.getAnswers().get(0).getValidity())
-        if(id_respuesta2.isSelected() == problemaActual.getAnswers().get(1).getValidity())
-        if(id_respuesta3.isSelected() == problemaActual.getAnswers().get(2).getValidity())
-        if(id_respuesta4.isSelected() == problemaActual.getAnswers().get(3).getValidity())
+        if(id_respuesta1.isSelected() == problemaActual.getAnswers().get(0).getValidity()
+        && id_respuesta2.isSelected() == problemaActual.getAnswers().get(1).getValidity()
+        && id_respuesta3.isSelected() == problemaActual.getAnswers().get(2).getValidity()
+        && id_respuesta4.isSelected() == problemaActual.getAnswers().get(3).getValidity())
             return true;
         
         return false;
+    }
+
+    @FXML
+    private void respuestaSeleccionada(ActionEvent event) {
+        respuestaSeleccionada.setValue(Boolean.TRUE);
     }
 }

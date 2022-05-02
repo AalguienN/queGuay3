@@ -69,11 +69,11 @@
                               </GridPane>
                               <Label fx:id="id_EnunciadoProblema" maxHeight="1.7976931348623157E308" text="Enunciado " wrapText="true">
                                  <font>
-                                    <Font size="10.0" />
+                                    <Font size="13.0" />
                                  </font></Label>
                               <VBox>
                                  <children>
-                                    <RadioButton fx:id="id_respuesta1" mnemonicParsing="false" text="Respuesta 1" wrapText="true">
+                                    <RadioButton fx:id="id_respuesta1" mnemonicParsing="false" onAction="#respuestaSeleccionada" text="Respuesta 1" wrapText="true">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="Respuesta" />
                                        </toggleGroup>
@@ -91,7 +91,7 @@
                         </VBox>
                         <HBox alignment="CENTER_RIGHT">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#ConfirmarRespuesta" text="Confirmar respuesta">
+                              <Button fx:id="id_confirmRepsButton" mnemonicParsing="false" onAction="#ConfirmarRespuesta" text="Confirmar respuesta">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
