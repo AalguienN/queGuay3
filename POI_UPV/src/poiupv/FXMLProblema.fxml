@@ -78,9 +78,9 @@
                                           <ToggleGroup fx:id="Respuesta" />
                                        </toggleGroup>
                                     </RadioButton>
-                                    <RadioButton fx:id="id_respuesta2" mnemonicParsing="false" text="Respuesta 2" toggleGroup="$Respuesta" wrapText="true" />
-                                    <RadioButton fx:id="id_respuesta3" mnemonicParsing="false" text="Respuesta 3" toggleGroup="$Respuesta" wrapText="true" />
-                                    <RadioButton fx:id="id_respuesta4" mnemonicParsing="false" text="Respuesta 4" toggleGroup="$Respuesta" wrapText="true" />
+                                    <RadioButton fx:id="id_respuesta2" mnemonicParsing="false" onAction="#respuestaSeleccionada" text="Respuesta 2" toggleGroup="$Respuesta" wrapText="true" />
+                                    <RadioButton fx:id="id_respuesta3" mnemonicParsing="false" onAction="#respuestaSeleccionada" text="Respuesta 3" toggleGroup="$Respuesta" wrapText="true" />
+                                    <RadioButton fx:id="id_respuesta4" mnemonicParsing="false" onAction="#respuestaSeleccionada" text="Respuesta 4" toggleGroup="$Respuesta" wrapText="true" />
                                     <Hyperlink onAction="#BorrarSeleccion" text="Borrar selección" />
                                  </children>
                               </VBox>
