@@ -181,7 +181,7 @@ public class FXMLModificarController implements Initializable {
         id_imagen.setImage(usuario.getAvatar());
         
         
-        //INICIALIZA LAS VENTANAS EMERGENTES -> ESTO ESTA CAUSANDO EL ERROR...
+        //INICIALIZA LAS VENTANAS EMERGENTES
         alerta.setTitle("Datos inválidos");
         alerta.setHeaderText(null);
         alerta.setResizable(true);
@@ -254,6 +254,7 @@ public class FXMLModificarController implements Initializable {
         }else {
             validAge.setValue(Boolean.FALSE);
             mensaje = "El usuario debe ser mayor de edad. Introduzca una fecha válida.";
+            alerta.setContentText(mensaje);
             alerta.showAndWait();
             }
        
