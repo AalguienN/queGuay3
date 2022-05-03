@@ -107,8 +107,8 @@ public class FXMLPrincipalController1 implements Initializable {
     }
 
     @FXML
-    private void modificarPerfil(MouseEvent event) {
-        //switchToScene(event, "FXMLModificarPerfil");
+    private void modificarPerfil(MouseEvent event) throws IOException {
+        switchToScene(event, "FXMLModificar");
     }
 
 
