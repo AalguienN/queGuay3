@@ -69,6 +69,8 @@ public class FXMLModificarController implements Initializable {
     
     //When to strings are equal, compareTo returns zero
     private final int EQUALS = 0;
+    
+    User usuario;
      
     
     //CAMBIAR ESCENA: parametros son el evento causante y el nombre del fichero .fxml
@@ -79,6 +81,10 @@ public class FXMLModificarController implements Initializable {
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();
+    }
+    
+     private void pasoUsuario(ActionEvent event, User usuario) {
+        this.usuario = usuario;
     }
     
     public void checkEmail() {
@@ -99,6 +105,11 @@ public class FXMLModificarController implements Initializable {
         if(!User.checkPassword(id_contraseña.getText())) {
             validPassword.setValue(Boolean.FALSE);
             mensaje = "La contraseña no es válida. La contraseña debe contener [8-20] caracteres, contener al menos una letra mayúscula, una letra minúscula, un dígito y un caracter especial [!@#$%&*()-+=]. No debe contener espacios";
+            id_contraseña.styleProperty().setValue("-fx-background-color: #FCE5E0");
+            alerta.setContentText(mensaje);
+            alerta.showAndWait();
+        }else if(usuario.getPassword().equals(id_contraseña.getText())) {
+            mensaje = "La contraseña introducida no puede coincidir con la contraseña activa actualmente. Introduce una contraseña nueva";
             id_contraseña.styleProperty().setValue("-fx-background-color: #FCE5E0");
             alerta.setContentText(mensaje);
             alerta.showAndWait();
@@ -151,6 +162,7 @@ public class FXMLModificarController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
         //inicializar Navegacion (navegador)
         try {
             navegador = Navegacion.getSingletonNavegacion();
@@ -158,9 +170,22 @@ public class FXMLModificarController implements Initializable {
             java.util.logging.Logger.getLogger(FXMLRegistroController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         
+        LocalDate fecha;
+        fecha = LocalDate.of(2000, 12, 01);
+        Image img = null;
+        usuario = new User("Usuario", "a@gmail.com", "Bb123456!",img, fecha);
+        
+        id_nombre.setText(usuario.getNickName());
+        id_correo.setPromptText(usuario.getEmail());
+        id_FechaNacimiento.setValue(usuario.getBirthdate());
+        id_imagen.setImage(usuario.getAvatar());
+        
+        
         //INICIALIZA LAS VENTANAS EMERGENTES -> ESTO ESTA CAUSANDO EL ERROR...
         alerta.setTitle("Datos inválidos");
         alerta.setHeaderText(null);
+        alerta.setResizable(true);
+        alerta.getDialogPane().setPrefSize(350, 150);
         
         //variables valid_
         validEmail = new SimpleBooleanProperty();
@@ -199,7 +224,12 @@ public class FXMLModificarController implements Initializable {
     }    
 
     @FXML
-    private void handleAcceptOnAction(ActionEvent event) throws IOException {
+    private void handleAcceptOnAction(ActionEvent event) throws IOException, NavegacionDAOException {
+        usuario.setPassword(id_contraseña.getText());
+        usuario.setBirthdate(id_FechaNacimiento.getValue());
+        usuario.setEmail(id_correo.getText());
+        usuario.setAvatar(id_imagen.getImage());
+        
         switchToScene(event, "FXMLPrincipal_1");
     }
 
@@ -210,12 +240,37 @@ public class FXMLModificarController implements Initializable {
 
     @FXML
     private void handleDate(ActionEvent event) {
+        LocalDate fecha = id_FechaNacimiento.getValue();
+        LocalDate actual = LocalDate.now();
+        
+        int años = actual.getYear() - fecha.getYear();
+        int meses = abs(actual.getMonthValue() - fecha.getMonthValue());
+        int dias = abs(actual.getDayOfMonth() - fecha.getDayOfMonth());
+ 
+        if(años >= 16) {
+            validAge.setValue(Boolean.TRUE);
+        }else if (años == 15 && meses == 0 && dias == 0) {
+            validAge.setValue(Boolean.TRUE);
+        }else {
+            validAge.setValue(Boolean.FALSE);
+            mensaje = "El usuario debe ser mayor de edad. Introduzca una fecha válida.";
+            alerta.showAndWait();
+            }
        
         }   
     
 
     @FXML
-    private void handlePressedAction(MouseEvent event) {}
+    private void handlePressedAction(MouseEvent event) throws FileNotFoundException {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Selecciona imagen de perfil");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Imágenes", "*.png", "*.jpg", "*.gif"));
+        File selectedFile = fileChooser.showOpenDialog(((Node)event.getSource()).getScene().getWindow());
+        
+        Image imagen = new Image(new FileInputStream(selectedFile));
+        id_imagen.setImage(imagen);
+        
+    }
          
         
 
