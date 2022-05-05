@@ -90,62 +90,76 @@ public class FXMLProblemasListaController implements Initializable {
         
         //AQUI SE CREAN LOS TITLEDPANE
         for(int i = 0;i < talla; i++){
+            int j = i;
+            //crean los elementos a incluir
             TitledPane titledPane = new TitledPane();
             Label etiqueta = new Label();
-            Button boton = new Button("Hacer Problema");
+            
+            //para que el texto quede más ajustado al titledpane
             valor = lista.get(i).getText().length();
             
+            //propiedades del boton
+            Button boton = new Button("Hacer Problema");
             boton.setPrefWidth(200);
             boton.setAlignment(Pos.CENTER);
             
             boton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    /**
+                    
                     try {
-                        switchToProblema(event, i); //ESTO DA PROBLEMAS (Ó-Ò)
+                        switchToProblema(event, j); 
                     } catch (IOException ex) {
                         java.util.logging.Logger.getLogger(FXMLProblemasListaController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
                     }
-                    * */
+                    
                 }
             
             });
+            
+            //propiedades de la etiqueta
             etiqueta.setPrefWidth(400);
             etiqueta.setPrefHeight(valor);
             etiqueta.setTextAlignment(TextAlignment.JUSTIFY);
             etiqueta.setWrapText(true);
             etiqueta.setText(lista.get(i).getText());
             
+            //propiedades del titledpane
             titledPane.setText("Problema " + (i+1));
 
-            // Content for TitledPane
+            //se crea un vbox dentro del titlepane
             VBox content = new VBox();
+            
+            //características del vbox
             if(valor >= 300) {content.setPrefHeight(valor/2);}
+            
+            //para que el texto quede más ajustado al titledpane
             else if(valor > 200){content.setPrefHeight(valor/1.5);}
             else {content.setPrefHeight(valor);}
             content.setPrefWidth(100);
             content.setAlignment(Pos.TOP_LEFT);
             
+            //se meten etiqueta y boton dentro del vbox
             content.getChildren().add(etiqueta);
             content.getChildren().add(boton);
-            content.setMargin(boton, new Insets(0,0,0,65));
+            content.setMargin(boton, new Insets(0,0,0,65)); //para margenes
 
-
+            //se incluye el vbox dentro del titledpane
             titledPane.setContent(content);
             
-            
-
-            
+            //mas propiedades del titledpane
             titledPane.setPrefWidth(360);
             titledPane.setPrefHeight(Control.USE_COMPUTED_SIZE);
             titledPane.setExpanded(true);
             titledPane.setAnimated(true);
             titledPane.setExpanded(false);
             
-            
+            //se vincula el vbox del anchorPane y el titledPane
             VBox root= id_vBox;
+            
+            //para que el texto quede más ajustado al titledpane
             valorHB = root.getPrefHeight() + valor/1.3;
+            
             root.setPrefHeight(valorHB);
             id_AnchorPane.setPrefHeight(valorHB);
             VBox.setMargin(titledPane, new Insets(10, 25, 10, 10));
