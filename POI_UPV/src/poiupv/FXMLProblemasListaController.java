@@ -12,15 +12,23 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import model.Navegacion;
 import model.Problem;
@@ -36,24 +44,16 @@ public class FXMLProblemasListaController implements Initializable {
     private Scene primaryScene;
     private Parent root;
 
+    private double valorHB;
+    private int valor;
+    
     Navegacion navegador;
     
     @FXML
-    private TitledPane id_desp1;
+    private VBox id_vBox;
     @FXML
-    private Label id_lab1;
-    @FXML
-    private TitledPane id_desp2;
-    @FXML
-    private Label id_lab2;
-    @FXML
-    private TitledPane id_desp3;
-    @FXML
-    private Label id_lab3;
-    @FXML
-    private TitledPane id_desp4;
-    @FXML
-    private Label id_lab4;
+    private AnchorPane id_AnchorPane;
+    
     
     
     //CAMBIAR ESCENA: parametros son el evento causante y el nombre del fichero .fxml
@@ -67,12 +67,15 @@ public class FXMLProblemasListaController implements Initializable {
         stage.show();
     }
     
+    
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+        
         
         try {
             navegador = Navegacion.getSingletonNavegacion();
@@ -83,10 +86,87 @@ public class FXMLProblemasListaController implements Initializable {
         List<Problem> lista = navegador.getProblems();
 
         
-        id_lab1.setText((lista.get(0)).getText());
-        id_lab2.setText((lista.get(1)).getText());
-        id_lab3.setText((lista.get(2)).getText());
-        id_lab4.setText((lista.get(3)).getText());
+        int talla = lista.size();
+        
+        //AQUI SE CREAN LOS TITLEDPANE
+        for(int i = 0;i < talla; i++){
+            int j = i;
+            //crean los elementos a incluir
+            TitledPane titledPane = new TitledPane();
+            Label etiqueta = new Label();
+            
+            //para que el texto quede más ajustado al titledpane
+            valor = lista.get(i).getText().length();
+            
+            //propiedades del boton
+            Button boton = new Button("Hacer Problema");
+            boton.setPrefWidth(200);
+            boton.setAlignment(Pos.CENTER);
+            
+            boton.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    
+                    try {
+                        switchToProblema(event, j); 
+                    } catch (IOException ex) {
+                        java.util.logging.Logger.getLogger(FXMLProblemasListaController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                    }
+                    
+                }
+            
+            });
+            
+            //propiedades de la etiqueta
+            etiqueta.setPrefWidth(400);
+            etiqueta.setPrefHeight(valor);
+            etiqueta.setTextAlignment(TextAlignment.JUSTIFY);
+            etiqueta.setWrapText(true);
+            etiqueta.setText(lista.get(i).getText());
+            
+            //propiedades del titledpane
+            titledPane.setText("Problema " + (i+1));
+
+            //se crea un vbox dentro del titlepane
+            VBox content = new VBox();
+            
+            //características del vbox
+            if(valor >= 300) {content.setPrefHeight(valor/2);}
+            
+            //para que el texto quede más ajustado al titledpane
+            else if(valor > 200){content.setPrefHeight(valor/1.5);}
+            else {content.setPrefHeight(valor);}
+            content.setPrefWidth(100);
+            content.setAlignment(Pos.TOP_LEFT);
+            
+            //se meten etiqueta y boton dentro del vbox
+            content.getChildren().add(etiqueta);
+            content.getChildren().add(boton);
+            content.setMargin(boton, new Insets(0,0,0,65)); //para margenes
+
+            //se incluye el vbox dentro del titledpane
+            titledPane.setContent(content);
+            
+            //mas propiedades del titledpane
+            titledPane.setPrefWidth(360);
+            titledPane.setPrefHeight(Control.USE_COMPUTED_SIZE);
+            titledPane.setExpanded(true);
+            titledPane.setAnimated(true);
+            titledPane.setExpanded(false);
+            
+            //se vincula el vbox del anchorPane y el titledPane
+            VBox root= id_vBox;
+            
+            //para que el texto quede más ajustado al titledpane
+            valorHB = root.getPrefHeight() + valor/1.3;
+            
+            root.setPrefHeight(valorHB);
+            id_AnchorPane.setPrefHeight(valorHB);
+            VBox.setMargin(titledPane, new Insets(10, 25, 10, 10));
+            root.getChildren().add(titledPane);
+
+        
+                }
         
     }    
 
@@ -98,29 +178,7 @@ public class FXMLProblemasListaController implements Initializable {
     @FXML
     private void handleProblemaAleatorio(ActionEvent event) throws IOException {
         switchToProblema(event, -1);
-        
     }
-
-    @FXML
-    private void handleBoton1(ActionEvent event) throws IOException {
-        switchToProblema(event,0);
-    }
-
-    @FXML
-    private void handleBoton2(ActionEvent event) throws IOException {
-        switchToProblema(event,1);
-    }
-
-    @FXML
-    private void handleBoton3(ActionEvent event) throws IOException {
-        switchToProblema(event,2);
-    }
-
-    @FXML
-    private void handleBoton4(ActionEvent event) throws IOException {
-        switchToProblema(event,3);
-    }
-    
 
     //esta función carga una escena con un problema específico (marcado por n)
     //SII n <= listaDeProblemas.lenth
