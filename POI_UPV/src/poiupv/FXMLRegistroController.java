@@ -102,6 +102,7 @@ public class FXMLRegistroController implements Initializable {
         stage.setResizable(false);
         stage.show();
     }
+    
 
     //COMPROBACION EMAIL VÁLIDO...[¿COMPROBAR REPETIDO?]
     public void checkEmail() {
@@ -121,7 +122,7 @@ public class FXMLRegistroController implements Initializable {
     public void checkName() {
         if(navegador.exitsNickName(id_nombre.getText()) && !User.checkNickName(id_nombre.getText())) {
             validName.setValue(Boolean.FALSE);
-            mensaje = "El nombre de usuario no está disponible o no es válido. El nombre debe contener [6-15] caracteres, letras mayúsculas, minúsculas o guiones '-' y '_'";
+            mensaje = "El nombre de usuario no está disponible o no es válido. El nombre debe contener [6-15] caracteres, letras mayúsculas, minúsculas o guiones '-' y '_'.";
             id_nombre.styleProperty().setValue("-fx-background-color: #FCE5E0");
             alerta.setContentText(mensaje);
             alerta.showAndWait();
@@ -179,9 +180,11 @@ public class FXMLRegistroController implements Initializable {
             Logger.getLogger(FXMLRegistroController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        //INICIALIZA LAS VENTANAS EMERGENTES -> ESTO ESTA CAUSANDO EL ERROR...
+        //INICIALIZA LAS VENTANAS EMERGENTES 
         alerta.setTitle("Datos inválidos");
         alerta.setHeaderText(null);
+        alerta.setResizable(true);
+        alerta.getDialogPane().setPrefSize(350, 150);
         
         //variables valid_
         validEmail = new SimpleBooleanProperty();
@@ -261,7 +264,8 @@ public class FXMLRegistroController implements Initializable {
             validAge.setValue(Boolean.TRUE);
         }else {
             validAge.setValue(Boolean.FALSE);
-            mensaje = "El usuario debe ser mayor de edad.";
+            mensaje = "El usuario debe ser mayor de edad. Introduzca una fecha válida.";
+            alerta.setContentText(mensaje);
             alerta.showAndWait();
         }
     }
