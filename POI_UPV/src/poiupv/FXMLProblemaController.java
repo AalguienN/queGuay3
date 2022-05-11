@@ -8,6 +8,7 @@ package poiupv;
 import DBAccess.NavegacionDAOException;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -118,6 +119,7 @@ public class FXMLProblemaController implements Initializable {
         id_EnunciadoProblema.setText((problemaActual).getText());
        
         respuestasList = problemaActual.getAnswers();
+        //Collections.shuffle(respuestasList); // <- Esta wea no va >:(
         id_respuesta1.setText(respuestasList.get(0).getText());
         id_respuesta2.setText(respuestasList.get(1).getText());
         id_respuesta3.setText(respuestasList.get(2).getText());
@@ -215,7 +217,7 @@ public class FXMLProblemaController implements Initializable {
         map_scrollpane.setContent(contentGroup);
         
         List<Problem> lista = navegador.getProblems();
-
+        
         //En el caso de que no fuera cargado un problema anteriormente
         //if(problemaActual == null) problemaActual = lista.get(0);
         
@@ -261,9 +263,7 @@ public class FXMLProblemaController implements Initializable {
         id_respuesta3.setSelected(false);
         id_respuesta4.setSelected(false);
         
-        respuestaSeleccionada.setValue(Boolean.FALSE);
-        
-        
+        respuestaSeleccionada.setValue(Boolean.FALSE);        
     }
 
     @FXML
