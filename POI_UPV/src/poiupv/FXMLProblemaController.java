@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
+import java.util.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -89,7 +90,7 @@ public class FXMLProblemaController implements Initializable {
     @FXML
     private RadioButton id_respuesta4;
     
-    
+    private List<Integer> intList;
     
     private Problem problemaActual;
     private List<Answer> respuestasList;
@@ -119,11 +120,21 @@ public class FXMLProblemaController implements Initializable {
         id_EnunciadoProblema.setText((problemaActual).getText());
        
         respuestasList = problemaActual.getAnswers();
-        //Collections.shuffle(respuestasList); // <- Esta wea no va >:(
-        id_respuesta1.setText(respuestasList.get(0).getText());
-        id_respuesta2.setText(respuestasList.get(1).getText());
-        id_respuesta3.setText(respuestasList.get(2).getText());
-        id_respuesta4.setText(respuestasList.get(3).getText());  
+        
+        intList = new ArrayList<Integer>();
+        
+        for (int i = 0; i<respuestasList.size(); i++) intList.add(i);
+                
+
+        
+        
+        System.out.println(intList.toString());
+        Collections.shuffle(intList); 
+        System.out.println(intList.toString());
+        id_respuesta1.setText(respuestasList.get(intList.get(0)).getText());
+        id_respuesta2.setText(respuestasList.get(intList.get(1)).getText());
+        id_respuesta3.setText(respuestasList.get(intList.get(2)).getText());
+        id_respuesta4.setText(respuestasList.get(intList.get(3)).getText());  
     }
     @FXML
     void zoomIn(MouseEvent event) {
@@ -279,10 +290,10 @@ public class FXMLProblemaController implements Initializable {
     
     //Está feo pero está
     private boolean compararRespuesta(){
-        if(id_respuesta1.isSelected() == problemaActual.getAnswers().get(0).getValidity()
-        && id_respuesta2.isSelected() == problemaActual.getAnswers().get(1).getValidity()
-        && id_respuesta3.isSelected() == problemaActual.getAnswers().get(2).getValidity()
-        && id_respuesta4.isSelected() == problemaActual.getAnswers().get(3).getValidity())
+        if(id_respuesta1.isSelected() == problemaActual.getAnswers().get(intList.get(0)).getValidity()
+        && id_respuesta2.isSelected() == problemaActual.getAnswers().get(intList.get(1)).getValidity()
+        && id_respuesta3.isSelected() == problemaActual.getAnswers().get(intList.get(2)).getValidity()
+        && id_respuesta4.isSelected() == problemaActual.getAnswers().get(intList.get(3)).getValidity())
             return true;
         
         return false;
