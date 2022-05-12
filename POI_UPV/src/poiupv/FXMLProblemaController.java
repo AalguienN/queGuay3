@@ -40,6 +40,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.Answer;
@@ -98,8 +99,16 @@ public class FXMLProblemaController implements Initializable {
     private Stage primaryStage;
     
     private BooleanProperty respuestaSeleccionada;
+    
+    private BooleanProperty boolean_linea; //SII true -> pinta lineas
     @FXML
     private Button id_confirmRepsButton;
+    
+    private Line linePainting;
+    
+    //Para pintar
+    private double iniX;
+    private double iniY;
     
     //SII problema >= 0 saca problema de la lista
     //SII problema = -1 problema aleatorio
@@ -123,14 +132,12 @@ public class FXMLProblemaController implements Initializable {
         
         intList = new ArrayList<Integer>();
         
-        for (int i = 0; i<respuestasList.size(); i++) intList.add(i);
-                
-
-        
+        for (int i = 0; i<respuestasList.size(); i++) intList.add(i);     
         
         System.out.println(intList.toString());
         Collections.shuffle(intList); 
         System.out.println(intList.toString());
+        
         id_respuesta1.setText(respuestasList.get(intList.get(0)).getText());
         id_respuesta2.setText(respuestasList.get(intList.get(1)).getText());
         id_respuesta3.setText(respuestasList.get(intList.get(2)).getText());
@@ -302,5 +309,28 @@ public class FXMLProblemaController implements Initializable {
     @FXML
     private void respuestaSeleccionada(ActionEvent event) {
         respuestaSeleccionada.setValue(Boolean.TRUE);
+    }
+
+
+    //Zona de pintura
+    @FXML
+    private void MdragEnMapa(MouseEvent event) {
+    }
+
+    @FXML
+    private void MReleaseEnMapa(MouseEvent event) {
+        linePainting = new Line(iniX, iniY,event.getX(),event.getY());
+        zoomGroup.getChildren().add(linePainting);
+        
+    }
+
+    @FXML
+    private void MclickEnMapa(MouseEvent event) {
+        
+        iniX = event.getX();
+        iniY = event.getY();
+        System.out.println(iniX +" "+iniY );
+        
+        
     }
 }
