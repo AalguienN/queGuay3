@@ -87,14 +87,6 @@ public class FXMLInicioController implements Initializable{
         primaryStage.show();
     }
     
-    private void switchToScene(KeyEvent event, String name) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource(name+".fxml"));
-        primaryStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
-        primaryStage.show();
-    }
 
     
     @FXML
@@ -109,7 +101,7 @@ public class FXMLInicioController implements Initializable{
                 if(user == null){
                         id_contraseñaIncorrecta.visibleProperty().set(true); 
                 }else{ //si todo está bien, te envía al principal
-                    switchToScene(event, "FXMLPrincipal_1   ");
+                    switchToScene(event, "FXMLPrincipal_1");
                 }
         }
     }
@@ -126,24 +118,5 @@ public class FXMLInicioController implements Initializable{
     
     void initStage(Stage stage) {
         primaryStage = stage;
-    }
-
-    @FXML
-    private void teclaEnter(KeyEvent event) throws IOException{ 
-        if(event.getCode()==ENTER){
-            id_usuarioIncorrecto.visibleProperty().set(false); //siempre que le des a iniciar sesión desaparece el mensaje de error
-            id_contraseñaIncorrecta.visibleProperty().set(false); //siempre que le des a iniciar sesión desaparece el mensaje de error
-            if(!datos.exitsNickName(id_usuario.textProperty().getValueSafe())){ //comprueba si no existe el usuario en la base de datos y muestra el mensaje de error
-                id_usuarioIncorrecto.visibleProperty().set(true); 
-            }else{ // comprueba si la contraseña no coincide con el usuario y muestra el mensaje de error
-                User user = datos.loginUser(id_usuario.textProperty().getValueSafe(),
-                id_contraseña.textProperty().getValueSafe());
-                    if(user == null){
-                        id_contraseñaIncorrecta.visibleProperty().set(true); 
-                    }else{ //si todo está bien, te envía al principal
-                        switchToScene(event, "FXMLPrincipal_1");
-                    }
-            }
-        }
     }
 }
