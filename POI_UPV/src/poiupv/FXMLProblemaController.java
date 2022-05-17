@@ -9,15 +9,19 @@ import javafx.scene.paint.Color;
 import DBAccess.NavegacionDAOException;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
@@ -49,9 +53,14 @@ import javafx.util.Duration;
 import model.Answer;
 import model.Navegacion;
 import model.Problem;
+
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.shape.Circle;
+
+import model.Session;
+import model.User;
+
 
 /**
  * FXML Controller class
@@ -103,6 +112,7 @@ public class FXMLProblemaController implements Initializable {
     private List<Answer> respuestasList;
     
     private Stage primaryStage;
+    private Scene scene;
     
     //Booleanos
     private BooleanProperty respuestaSeleccionada;
@@ -130,6 +140,10 @@ public class FXMLProblemaController implements Initializable {
     private ToggleButton ToggBLapizID;
     @FXML
     private ToggleButton ToggCompID;
+
+    User usuario;
+    int aciertos;
+    int fallos;
     
     //SII problema >= 0 saca problema de la lista
     //SII problema = -1 problema aleatorio
@@ -274,34 +288,28 @@ public class FXMLProblemaController implements Initializable {
         //if(problemaActual == null) problemaActual = lista.get(0);
         
         
-        
+        id_EnunciadoProblema.sceneProperty().addListener((obs, oldScene, newScene) -> {
+            Platform.runLater(() -> {
+                Stage stage = (Stage) newScene.getWindow();
+                stage.setOnCloseRequest(e -> {
+                    LocalDateTime tiempo = LocalDateTime.now();
+                    Session sesion = new Session(tiempo, aciertos, fallos);
+                    try {
+                        usuario.addSession(sesion);
+                    } catch (NavegacionDAOException ex) {
+                        Logger.getLogger(FXMLProblemaController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    Platform.exit();
+                    System.exit(0);
+                    });
+                });
+            });
 
-    }
-
-    private void switchToScene(ActionEvent event, String name) throws IOException {
-  
-        Parent root = FXMLLoader.load(getClass().getResource(name+".fxml"));
-        primaryStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
-        primaryStage.show();
     }
     @FXML
     private void muestraPosicion(MouseEvent event) {
         posicion.setText("sceneX: " + (int) event.getSceneX() + ", sceneY: " + (int) event.getSceneY() + "\n"
                 + "         X: " + (int) event.getX() + ",          Y: " + (int) event.getY());
-    }
-
-    private void cerrarAplicacion(ActionEvent event) {
-        ((Stage)zoom_slider.getScene().getWindow()).close();
-    }
-
-    private void acercaDe(ActionEvent event) {
-        Alert mensaje= new Alert(Alert.AlertType.INFORMATION);
-        mensaje.setTitle("Acerca de");
-        mensaje.setHeaderText("IPC - 2022");
-        mensaje.showAndWait();
     }
 
     @FXML
@@ -316,13 +324,43 @@ public class FXMLProblemaController implements Initializable {
 
     @FXML
     private void ConfirmarRespuesta(ActionEvent event) {
-        if(compararRespuesta()) System.out.println("Correcto!");
-        else System.out.println("Falso :(");
+        id_respuesta1.disableProperty().setValue(Boolean.TRUE);
+        id_respuesta2.disableProperty().setValue(Boolean.TRUE);
+        id_respuesta3.disableProperty().setValue(Boolean.TRUE);
+        id_respuesta4.disableProperty().setValue(Boolean.TRUE);
+        
+        if(compararRespuesta()) {
+            aciertos++;
+            System.out.println("Correcto!");
+        } else {
+            fallos++;
+            System.out.println("Falso :(");
+        }
     }
 
     @FXML
     private void volverMenu(ActionEvent event) throws IOException {
-        switchToScene(event,"FXMLPrincipal_1");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLPrincipal.fxml"));
+        Parent root = loader.load();
+        FXMLPrincipalController controlador = loader.getController();
+        controlador.pasarDatos(usuario, aciertos, fallos);
+        primaryStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
+        primaryStage.show();
+    }
+    
+
+    @FXML
+    private void respuestaSeleccionada(ActionEvent event) {
+        respuestaSeleccionada.setValue(Boolean.TRUE);
+    }
+    
+    public void pasarDatos(User u, int aciertos, int fallos) {
+        usuario = u;
+        this.aciertos = aciertos;
+        this.fallos = fallos;
     }
     
     //Está feo pero está
@@ -335,10 +373,16 @@ public class FXMLProblemaController implements Initializable {
         
         return false;
     }
+    
+    private void cerrarAplicacion(ActionEvent event) {
+        ((Stage)zoom_slider.getScene().getWindow()).close();
+    }
 
-    @FXML
-    private void respuestaSeleccionada(ActionEvent event) {
-        respuestaSeleccionada.setValue(Boolean.TRUE);
+    private void acercaDe(ActionEvent event) {
+        Alert mensaje= new Alert(Alert.AlertType.INFORMATION);
+        mensaje.setTitle("Acerca de");
+        mensaje.setHeaderText("IPC - 2022");
+        mensaje.showAndWait();
     }
 
 

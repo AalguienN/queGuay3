@@ -11,10 +11,12 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import static javafx.fxml.FXMLLoader.load;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -52,6 +54,9 @@ public class FXMLInicioController implements Initializable{
     private Navegacion datos; //creacion del Map
     private Stage primaryStage;
     private Scene scene;
+    int aciertos;
+    int fallos;
+    
     
     
     /**
@@ -76,7 +81,9 @@ public class FXMLInicioController implements Initializable{
             }
             
         });
+
     }
+    
        //CAMBIAR ESCENA: parametros son el evento causante y el nombre del fichero .fxml
     private void switchToScene(ActionEvent event, String name) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource(name+".fxml"));
@@ -87,14 +94,6 @@ public class FXMLInicioController implements Initializable{
         primaryStage.show();
     }
     
-    private void switchToScene(KeyEvent event, String name) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource(name+".fxml"));
-        primaryStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
-        primaryStage.show();
-    }
 
     
     @FXML
@@ -109,7 +108,17 @@ public class FXMLInicioController implements Initializable{
                 if(user == null){
                         id_contraseñaIncorrecta.visibleProperty().set(true); 
                 }else{ //si todo está bien, te envía al principal
-                    switchToScene(event, "FXMLPrincipal_1   ");
+                    //switchToScene(event, "FXMLPrincipal_1");
+                    
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLPrincipal.fxml"));
+                    Parent root = loader.load();
+                    FXMLPrincipalController controlador = loader.getController();
+                    controlador.pasarDatos(user, aciertos, fallos);
+                    primaryStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+                    scene = new Scene(root);
+                    primaryStage.setScene(scene);
+                    primaryStage.setResizable(false);
+                    primaryStage.show();
                 }
         }
     }
@@ -127,23 +136,7 @@ public class FXMLInicioController implements Initializable{
     void initStage(Stage stage) {
         primaryStage = stage;
     }
-
-    @FXML
-    private void teclaEnter(KeyEvent event) throws IOException{ 
-        if(event.getCode()==ENTER){
-            id_usuarioIncorrecto.visibleProperty().set(false); //siempre que le des a iniciar sesión desaparece el mensaje de error
-            id_contraseñaIncorrecta.visibleProperty().set(false); //siempre que le des a iniciar sesión desaparece el mensaje de error
-            if(!datos.exitsNickName(id_usuario.textProperty().getValueSafe())){ //comprueba si no existe el usuario en la base de datos y muestra el mensaje de error
-                id_usuarioIncorrecto.visibleProperty().set(true); 
-            }else{ // comprueba si la contraseña no coincide con el usuario y muestra el mensaje de error
-                User user = datos.loginUser(id_usuario.textProperty().getValueSafe(),
-                id_contraseña.textProperty().getValueSafe());
-                    if(user == null){
-                        id_contraseñaIncorrecta.visibleProperty().set(true); 
-                    }else{ //si todo está bien, te envía al principal
-                        switchToScene(event, "FXMLPrincipal_1");
-                    }
-            }
-        }
-    }
+    
+    
+    
 }

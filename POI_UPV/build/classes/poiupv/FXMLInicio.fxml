@@ -26,7 +26,7 @@
                   </Label>
                   <VBox alignment="BOTTOM_LEFT" prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <TextField fx:id="id_usuario" minHeight="26.0" minWidth="270.0" onKeyPressed="#teclaEnter" prefHeight="26.0" prefWidth="350.0" promptText="Nickname">
+                        <TextField fx:id="id_usuario" minHeight="26.0" minWidth="270.0" prefHeight="26.0" prefWidth="350.0" promptText="Nickname">
                            <VBox.margin>
                               <Insets right="30.0" top="20.0" />
                            </VBox.margin>
@@ -55,7 +55,7 @@
                   </Label>
                   <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <PasswordField fx:id="id_contraseña" minHeight="-Infinity" minWidth="270.0" onKeyPressed="#teclaEnter" prefWidth="350.0" promptText="LetrasNúmerosSímbolos">
+                        <PasswordField fx:id="id_contraseña" minHeight="-Infinity" minWidth="270.0" prefWidth="350.0" promptText="LetrasNúmerosSímbolos">
                            <VBox.margin>
                               <Insets right="30.0" top="20.0" />
                            </VBox.margin>
@@ -74,7 +74,7 @@
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="id_iniciarSesion" contentDisplay="CENTER" minWidth="120.0" mnemonicParsing="false" onAction="#iniciarSesion" onKeyPressed="#teclaEnter" style="-fx-background-color: yellowgreen;" text="Iniciar Sesión" textAlignment="RIGHT" textFill="WHITE">
+                  <Button fx:id="id_iniciarSesion" contentDisplay="CENTER" defaultButton="true" minWidth="120.0" mnemonicParsing="false" onAction="#iniciarSesion" style="-fx-background-color: yellowgreen;" text="Iniciar Sesión" textAlignment="RIGHT" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
@@ -85,7 +85,7 @@
                         <Insets left="80.0" right="30.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="id_cancelar" contentDisplay="CENTER" minWidth="120.0" mnemonicParsing="false" onAction="#cancelar" style="-fx-background-color: yellowgreen;" text="Cancelar" textAlignment="RIGHT" textFill="WHITE">
+                  <Button fx:id="id_cancelar" cancelButton="true" contentDisplay="CENTER" minWidth="120.0" mnemonicParsing="false" onAction="#cancelar" style="-fx-background-color: yellowgreen;" text="Cancelar" textAlignment="RIGHT" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
