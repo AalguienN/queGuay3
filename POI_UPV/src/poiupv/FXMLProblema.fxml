@@ -14,6 +14,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.image.Image?>
@@ -140,9 +141,9 @@
                         </HBox>
                         <ScrollPane fx:id="map_scrollpane" hbarPolicy="ALWAYS" onMouseMoved="#muestraPosicion" pannable="true" vbarPolicy="ALWAYS">
                            <content>
-                              <Pane>
+                              <Pane fx:id="mapaPane" onMouseDragged="#MdragEnMapa" onMousePressed="#MclickEnMapa" onMouseReleased="#MReleaseEnMapa">
                                  <children>
-                                    <ImageView fitHeight="10000.0" fitWidth="10000.0" layoutX="24.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="MapaScrollPaneID" fitHeight="10000.0" fitWidth="10000.0" layoutX="24.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../resources/carta_nautica.jpg" />
                                        </image>
@@ -169,7 +170,19 @@
             </SplitPane>
             <ToolBar orientation="VERTICAL" prefHeight="700.0">
                <items>
-                  <Button mnemonicParsing="false">
+                  <ToggleButton fx:id="ToggPuntoID1" mnemonicParsing="false">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/69667.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <toggleGroup>
+                        <ToggleGroup fx:id="ToolBar" />
+                     </toggleGroup>
+                  </ToggleButton>
+                  <ToggleButton fx:id="ToggBLapizID" mnemonicParsing="false" toggleGroup="$ToolBar">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -177,16 +190,16 @@
                            </image>
                         </ImageView>
                      </graphic>
-                  </Button>
-                  <Button mnemonicParsing="false">
+                  </ToggleButton>
+                  <ToggleButton fx:id="ToggCompID" mnemonicParsing="false" toggleGroup="$ToolBar">
                      <graphic>
-                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="20.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../resources/regla%20j%20.png" />
+                              <Image url="@../resources/50005.png" />
                            </image>
                         </ImageView>
                      </graphic>
-                  </Button>
+                  </ToggleButton>
                </items>
             </ToolBar>
          </children>

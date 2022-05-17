@@ -5,6 +5,7 @@
  */
 package poiupv;
 
+import javafx.scene.paint.Color;
 import DBAccess.NavegacionDAOException;
 import java.io.IOException;
 import java.net.URL;
@@ -43,14 +44,23 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.Answer;
 import model.Navegacion;
 import model.Problem;
+
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.shape.Circle;
+
 import model.Session;
 import model.User;
+
 
 /**
  * FXML Controller class
@@ -104,10 +114,33 @@ public class FXMLProblemaController implements Initializable {
     private Stage primaryStage;
     private Scene scene;
     
+    //Booleanos
     private BooleanProperty respuestaSeleccionada;
+    
     @FXML
     private Button id_confirmRepsButton;
     
+    private Line linePainting;
+    private Circle circlePainting;
+    
+    //Para pintar
+    private double iniX;
+    private double iniY;
+    @FXML
+    private Pane mapaPane;
+    @FXML
+    private ImageView MapaScrollPaneID;
+    
+    
+    @FXML
+    private ToggleGroup ToolBar;
+    @FXML
+    private ToggleButton ToggPuntoID1;
+    @FXML
+    private ToggleButton ToggBLapizID;
+    @FXML
+    private ToggleButton ToggCompID;
+
     User usuario;
     int aciertos;
     int fallos;
@@ -134,14 +167,12 @@ public class FXMLProblemaController implements Initializable {
         
         intList = new ArrayList<Integer>();
         
-        for (int i = 0; i<respuestasList.size(); i++) intList.add(i);
-                
-
-        
+        for (int i = 0; i<respuestasList.size(); i++) intList.add(i);     
         
         System.out.println(intList.toString());
         Collections.shuffle(intList); 
         System.out.println(intList.toString());
+        
         id_respuesta1.setText(respuestasList.get(intList.get(0)).getText());
         id_respuesta2.setText(respuestasList.get(intList.get(1)).getText());
         id_respuesta3.setText(respuestasList.get(intList.get(2)).getText());
@@ -214,7 +245,20 @@ public class FXMLProblemaController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         initData();
-            
+        
+        //Listeners
+        
+        respuestaSeleccionada = new SimpleBooleanProperty();
+        respuestaSeleccionada.setValue(Boolean.FALSE);
+        //Binding botón respuestas
+        id_confirmRepsButton.disableProperty().bind(respuestaSeleccionada.not());
+        
+        map_scrollpane.pannableProperty().bind(ToggBLapizID.selectedProperty()
+                .or(ToggPuntoID1.selectedProperty().or(ToggCompID.selectedProperty())
+                ).not());
+        
+        //map_scrollpane.setPannable(false);
+        
         //Navegador
         try {
             navegador = Navegacion.getSingletonNavegacion();
@@ -243,10 +287,6 @@ public class FXMLProblemaController implements Initializable {
         //En el caso de que no fuera cargado un problema anteriormente
         //if(problemaActual == null) problemaActual = lista.get(0);
         
-        respuestaSeleccionada = new SimpleBooleanProperty();
-        respuestaSeleccionada.setValue(Boolean.FALSE);
-        //Binding botón respuestas
-        id_confirmRepsButton.disableProperty().bind(respuestaSeleccionada.not());
         
         id_EnunciadoProblema.sceneProperty().addListener((obs, oldScene, newScene) -> {
             Platform.runLater(() -> {
@@ -344,4 +384,74 @@ public class FXMLProblemaController implements Initializable {
         mensaje.setHeaderText("IPC - 2022");
         mensaje.showAndWait();
     }
+
+
+    //Zona de pintura
+    @FXML
+    private void MdragEnMapa(MouseEvent event) {
+        //Línea
+        if (ToggBLapizID.selectedProperty().getValue()){
+            linePainting.setEndX(event.getX());
+            linePainting.setEndY(event.getY());
+        }
+        //Punto
+        if (ToggCompID.selectedProperty().getValue()){
+            double actX = event.getX()-iniX;
+            double actY = event.getY()-iniY;
+            double radio = Math.sqrt(actX*actX + actY*actY);
+            circlePainting.setRadius(radio);
+            
+            event.consume();
+            
+        }
+}
+
+    @FXML
+    private void MReleaseEnMapa(MouseEvent event) {
+        
+        
+        
+        
+    }
+
+    @FXML
+    private void MclickEnMapa(MouseEvent event) {
+        
+        //Línea
+        if (ToggBLapizID.selectedProperty().getValue()){
+            linePainting = new Line(event.getX(), event.getY(),event.getX(),event.getY());
+            zoomGroup.getChildren().add(linePainting);
+        }
+        //Compás
+        if (ToggCompID.selectedProperty().getValue()){
+            circlePainting = new Circle(1);
+            circlePainting.setFill(Color.TRANSPARENT);
+            circlePainting.setStroke(Color.RED);
+            
+            zoomGroup.getChildren().add(circlePainting);
+            
+            circlePainting.setCenterX(event.getX());
+            circlePainting.setCenterY(event.getY());
+            iniX = event.getX();
+            iniY = event.getY();
+        }
+        //Punto
+        if(ToggPuntoID1.selectedProperty().getValue()){
+            Circle pin = new Circle();
+            pin.setCenterX(event.getX());
+            pin.setCenterY(event.getY());
+            pin.setRadius(2);
+            pin.setStroke(Color.BLUE);
+            pin.setFill(Color.TRANSPARENT);
+
+            pin.getStyleClass().clear();
+            zoomGroup.getChildren().add(pin);
+        }
+        
+        
+        
+    }
+
+    
+
 }
