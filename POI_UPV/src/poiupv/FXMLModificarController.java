@@ -14,7 +14,9 @@ import static java.lang.Math.abs;
 import java.lang.System.Logger;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
@@ -39,6 +41,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.Navegacion;
+import model.Session;
 import model.User;
 
 /**
@@ -71,20 +74,179 @@ public class FXMLModificarController implements Initializable {
     private final int EQUALS = 0;
     
     User usuario;
-     
+    int aciertos;
+    int fallos;
+
+    @FXML
+    private Button id_buttonA;
+    @FXML
+    private Button id_buttonC;
+    @FXML
+    private TextField id_nombre;
+    @FXML
+    private TextField id_correo;
+    @FXML
+    private PasswordField id_contraseña;
+    @FXML
+    private PasswordField id_contraseña1;
+    @FXML
+    private DatePicker id_FechaNacimiento;
+    @FXML
+    private ImageView id_imagen;
+    @FXML
+    private Label id_SelecImagen;
     
-    //CAMBIAR ESCENA: parametros son el evento causante y el nombre del fichero .fxml
-    private void switchToScene(ActionEvent event, String name) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource(name+".fxml"));
-        Stage primaryStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+    private Stage primaryStage;
+
+
+    /**
+     * Initializes the controller class.
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        
+        //inicializar Navegacion (navegador)
+        try {
+            navegador = Navegacion.getSingletonNavegacion();
+        } catch (NavegacionDAOException ex) {
+            java.util.logging.Logger.getLogger(FXMLRegistroController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        
+        //INICIALIZA LAS VENTANAS EMERGENTES
+        alerta.setTitle("Datos inválidos");
+        alerta.setHeaderText(null);
+        alerta.setResizable(true);
+        alerta.getDialogPane().setPrefSize(350, 150);
+        
+        //variables valid_
+        validEmail = new SimpleBooleanProperty();
+        validPassword = new SimpleBooleanProperty();   
+        equalsPassword = new SimpleBooleanProperty();
+ 
+        validAge = new SimpleBooleanProperty();
+        
+        //inicializadas a FALSE
+        validPassword.setValue(Boolean.FALSE);
+        validEmail.setValue(Boolean.FALSE);
+        equalsPassword.setValue(Boolean.FALSE);
+        validAge.setValue(Boolean.FALSE);
+
+        //AND de todas las condiciones, la comprobacion final es sobre validFields
+        BooleanBinding validFields = Bindings.and(validEmail, validPassword).and(equalsPassword).and(validAge);
+                
+
+        
+        id_correo.focusedProperty().addListener((observable, oldValue, newValue)-> {
+            if(!newValue){checkEmail(); 
+            }});
+        
+        id_contraseña.focusedProperty().addListener((observable, oldValue, newValue)-> {
+            if(!newValue){checkPassword(); 
+            }});
+        
+        id_contraseña1.focusedProperty().addListener((observable, oldValue, newValue)-> {
+            if(!newValue){checkEqualsPassword(); 
+            }});
+        
+        
+        //comprobacion boton aceptar
+        id_buttonA.disableProperty().bind(Bindings.not(validFields));
+        
+        id_buttonA.sceneProperty().addListener((obs, oldScene, newScene) -> {
+            Platform.runLater(() -> {
+                Stage stage = (Stage) newScene.getWindow();
+                stage.setOnCloseRequest(e -> {
+                    LocalDateTime tiempo = LocalDateTime.now();
+                    Session sesion = new Session(tiempo, aciertos, fallos);
+                    try {
+                        usuario.addSession(sesion);
+                    } catch (NavegacionDAOException ex) {
+                        java.util.logging.Logger.getLogger(FXMLProblemaController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                    }
+                    Platform.exit();
+                    System.exit(0);
+                        });
+                    });
+                });
+        
+    }    
+
+    @FXML
+    private void handleAcceptOnAction(ActionEvent event) throws IOException, NavegacionDAOException {
+        usuario.setPassword(id_contraseña.getText());
+        usuario.setBirthdate(id_FechaNacimiento.getValue());
+        usuario.setEmail(id_correo.getText());
+        usuario.setAvatar(id_imagen.getImage());
+        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLPrincipal.fxml"));
+        Parent root = loader.load();
+        FXMLPrincipalController controlador = loader.getController();
+        controlador.pasarDatos(usuario, aciertos, fallos);
+        primaryStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();
     }
+
+    @FXML
+    private void handleCancelOnAction(ActionEvent event) throws IOException { 
+         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLPrincipal.fxml"));
+        Parent root = loader.load();
+        FXMLPrincipalController controlador = loader.getController();
+        controlador.pasarDatos(usuario, aciertos, fallos);
+        primaryStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
+        primaryStage.show();
+    }
+
+    @FXML
+    private void handleDate(ActionEvent event) {
+        LocalDate fecha = id_FechaNacimiento.getValue();
+        LocalDate actual = LocalDate.now();
+        
+        int años = actual.getYear() - fecha.getYear();
+        int meses = abs(actual.getMonthValue() - fecha.getMonthValue());
+        int dias = abs(actual.getDayOfMonth() - fecha.getDayOfMonth());
+ 
+        if(años >= 16) {
+            validAge.setValue(Boolean.TRUE);
+        }else if (años == 15 && meses == 0 && dias == 0) {
+            validAge.setValue(Boolean.TRUE);
+        }else {
+            validAge.setValue(Boolean.FALSE);
+            mensaje = "El usuario debe ser mayor de edad. Introduzca una fecha válida.";
+            alerta.setContentText(mensaje);
+            alerta.showAndWait();
+            }
+       
+        }   
     
-     private void pasoUsuario(ActionEvent event, User usuario) {
-        this.usuario = usuario;
+
+    @FXML
+    private void handlePressedAction(MouseEvent event) throws FileNotFoundException {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Selecciona imagen de perfil");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Imágenes", "*.png", "*.jpg", "*.gif"));
+        File selectedFile = fileChooser.showOpenDialog(((Node)event.getSource()).getScene().getWindow());
+        
+        Image imagen = new Image(new FileInputStream(selectedFile));
+        id_imagen.setImage(imagen);
+        
+    }
+    
+     public void pasarDatos(User u, int aciertos, int fallos) {
+        usuario = u;
+        this.aciertos = aciertos;
+        this.fallos = fallos;
+        
+        id_nombre.setText(usuario.getNickName());
+        id_correo.setPromptText(usuario.getEmail());
+        id_FechaNacimiento.setValue(usuario.getBirthdate());
+        id_imagen.setImage(usuario.getAvatar());
+        
     }
     
     public void checkEmail() {
@@ -134,146 +296,7 @@ public class FXMLModificarController implements Initializable {
             alerta.setContentText(mensaje);
             alerta.showAndWait(); 
         }
-    }
-    
-   
-
-    @FXML
-    private Button id_buttonA;
-    @FXML
-    private Button id_buttonC;
-    @FXML
-    private TextField id_nombre;
-    @FXML
-    private TextField id_correo;
-    @FXML
-    private PasswordField id_contraseña;
-    @FXML
-    private PasswordField id_contraseña1;
-    @FXML
-    private DatePicker id_FechaNacimiento;
-    @FXML
-    private ImageView id_imagen;
-    @FXML
-    private Label id_SelecImagen;
-
-    /**
-     * Initializes the controller class.
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        
-        //inicializar Navegacion (navegador)
-        try {
-            navegador = Navegacion.getSingletonNavegacion();
-        } catch (NavegacionDAOException ex) {
-            java.util.logging.Logger.getLogger(FXMLRegistroController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        
-        LocalDate fecha;
-        fecha = LocalDate.of(2000, 12, 01);
-        Image img = null;
-        usuario = new User("Usuario", "a@gmail.com", "Bb123456!",img, fecha);
-        
-        id_nombre.setText(usuario.getNickName());
-        id_correo.setPromptText(usuario.getEmail());
-        id_FechaNacimiento.setValue(usuario.getBirthdate());
-        id_imagen.setImage(usuario.getAvatar());
-        
-        
-        //INICIALIZA LAS VENTANAS EMERGENTES
-        alerta.setTitle("Datos inválidos");
-        alerta.setHeaderText(null);
-        alerta.setResizable(true);
-        alerta.getDialogPane().setPrefSize(350, 150);
-        
-        //variables valid_
-        validEmail = new SimpleBooleanProperty();
-        validPassword = new SimpleBooleanProperty();   
-        equalsPassword = new SimpleBooleanProperty();
- 
-        validAge = new SimpleBooleanProperty();
-        
-        //inicializadas a FALSE
-        validPassword.setValue(Boolean.FALSE);
-        validEmail.setValue(Boolean.FALSE);
-        equalsPassword.setValue(Boolean.FALSE);
-        validAge.setValue(Boolean.FALSE);
-
-        //AND de todas las condiciones, la comprobacion final es sobre validFields
-        BooleanBinding validFields = Bindings.and(validEmail, validPassword).and(equalsPassword).and(validAge);
-                
-
-        
-        id_correo.focusedProperty().addListener((observable, oldValue, newValue)-> {
-            if(!newValue){checkEmail(); 
-            }});
-        
-        id_contraseña.focusedProperty().addListener((observable, oldValue, newValue)-> {
-            if(!newValue){checkPassword(); 
-            }});
-        
-        id_contraseña1.focusedProperty().addListener((observable, oldValue, newValue)-> {
-            if(!newValue){checkEqualsPassword(); 
-            }});
-        
-        
-        //comprobacion boton aceptar
-        id_buttonA.disableProperty().bind(Bindings.not(validFields));
-        
     }    
-
-    @FXML
-    private void handleAcceptOnAction(ActionEvent event) throws IOException, NavegacionDAOException {
-        usuario.setPassword(id_contraseña.getText());
-        usuario.setBirthdate(id_FechaNacimiento.getValue());
-        usuario.setEmail(id_correo.getText());
-        usuario.setAvatar(id_imagen.getImage());
-        
-        switchToScene(event, "FXMLPrincipal_1");
-    }
-
-    @FXML
-    private void handleCancelOnAction(ActionEvent event) throws IOException {
-         switchToScene(event, "FXMLInicio"); 
-    }
-
-    @FXML
-    private void handleDate(ActionEvent event) {
-        LocalDate fecha = id_FechaNacimiento.getValue();
-        LocalDate actual = LocalDate.now();
-        
-        int años = actual.getYear() - fecha.getYear();
-        int meses = abs(actual.getMonthValue() - fecha.getMonthValue());
-        int dias = abs(actual.getDayOfMonth() - fecha.getDayOfMonth());
- 
-        if(años >= 16) {
-            validAge.setValue(Boolean.TRUE);
-        }else if (años == 15 && meses == 0 && dias == 0) {
-            validAge.setValue(Boolean.TRUE);
-        }else {
-            validAge.setValue(Boolean.FALSE);
-            mensaje = "El usuario debe ser mayor de edad. Introduzca una fecha válida.";
-            alerta.setContentText(mensaje);
-            alerta.showAndWait();
-            }
-       
-        }   
-    
-
-    @FXML
-    private void handlePressedAction(MouseEvent event) throws FileNotFoundException {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Selecciona imagen de perfil");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Imágenes", "*.png", "*.jpg", "*.gif"));
-        File selectedFile = fileChooser.showOpenDialog(((Node)event.getSource()).getScene().getWindow());
-        
-        Image imagen = new Image(new FileInputStream(selectedFile));
-        id_imagen.setImage(imagen);
-        
-    }
-         
-        
 
 }
     

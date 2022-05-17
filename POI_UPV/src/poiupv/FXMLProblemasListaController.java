@@ -9,8 +9,10 @@ import com.sun.javafx.logging.PlatformLogger.Level;
 import java.io.IOException;
 import java.lang.System.Logger;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -32,6 +34,8 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import model.Navegacion;
 import model.Problem;
+import model.Session;
+import model.User;
 
 /**
  * FXML Controller class
@@ -43,7 +47,7 @@ public class FXMLProblemasListaController implements Initializable {
     private Stage stage;
     private Scene primaryScene;
     private Parent root;
-
+    
     private double valorHB;
     private int valor;
     
@@ -53,6 +57,9 @@ public class FXMLProblemasListaController implements Initializable {
     private VBox id_vBox;
     @FXML
     private AnchorPane id_AnchorPane;
+    User usuario;
+    int aciertos;
+    int fallos;
     
     
     
@@ -168,11 +175,37 @@ public class FXMLProblemasListaController implements Initializable {
         
                 }
         
+            id_vBox.sceneProperty().addListener((obs, oldScene, newScene) -> {
+            Platform.runLater(() -> {
+                Stage stage = (Stage) newScene.getWindow();
+                stage.setOnCloseRequest(e -> {
+                    LocalDateTime tiempo = LocalDateTime.now();
+                    Session sesion = new Session(tiempo, aciertos, fallos);
+                    try {
+                        usuario.addSession(sesion);
+                    } catch (NavegacionDAOException ex) {
+                        java.util.logging.Logger.getLogger(FXMLProblemaController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                    }
+                    Platform.exit();
+                    System.exit(0);
+                        });
+                    });
+                });
+        
+        
     }    
 
     @FXML
     private void handleMenu(ActionEvent event) throws IOException {
-        switchToScene(event, "FXMLPrincipal");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLPrincipal.fxml"));
+        Parent root = loader.load();
+        FXMLPrincipalController controlador = loader.getController();
+        controlador.pasarDatos(usuario, aciertos, fallos);
+        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();
     }
 
     @FXML
@@ -198,6 +231,7 @@ public class FXMLProblemasListaController implements Initializable {
         //esta línea es para pasar referencia del problema concreto que vamos a realizar
         //Estamos pasando información entre escenas!!!!
         controller.setProblemaActual(n);
+        controller.pasarDatos(usuario, aciertos, fallos);
         
         stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         stage.setScene(scene);
@@ -205,4 +239,11 @@ public class FXMLProblemasListaController implements Initializable {
         stage.show();
         
     }
+    
+     public void pasarDatos(User u, int aciertos, int fallos) {
+        usuario = u;
+        this.aciertos = aciertos;
+        this.fallos = fallos;
+    }
+    
 }
