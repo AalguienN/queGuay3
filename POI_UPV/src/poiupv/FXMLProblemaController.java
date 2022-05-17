@@ -5,6 +5,7 @@
  */
 package poiupv;
 
+import javafx.scene.paint.Color;
 import DBAccess.NavegacionDAOException;
 import java.io.IOException;
 import java.net.URL;
@@ -49,6 +50,8 @@ import model.Answer;
 import model.Navegacion;
 import model.Problem;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.shape.Circle;
 
 /**
  * FXML Controller class
@@ -104,7 +107,6 @@ public class FXMLProblemaController implements Initializable {
     //Booleanos
     private BooleanProperty respuestaSeleccionada;
     
-    private BooleanProperty boolean_linea; //SII true -> pinta lineas
     @FXML
     private Button id_confirmRepsButton;
     
@@ -118,7 +120,11 @@ public class FXMLProblemaController implements Initializable {
     @FXML
     private ImageView MapaScrollPaneID;
     @FXML
-    private Button lapizID;
+    private ToggleButton ToggBLapizID;
+    @FXML
+    private ToggleButton ToggPuntoID1;
+    @FXML
+    private ToggleGroup ToolBar;
     
     //SII problema >= 0 saca problema de la lista
     //SII problema = -1 problema aleatorio
@@ -221,10 +227,14 @@ public class FXMLProblemaController implements Initializable {
         // TODO
         initData();
         
-        //borrar luego
-        boolean_linea = new SimpleBooleanProperty();
-        boolean_linea.set(Boolean.FALSE);
-        map_scrollpane.pannableProperty().bind(boolean_linea.not());
+        //Listeners
+        
+        respuestaSeleccionada = new SimpleBooleanProperty();
+        respuestaSeleccionada.setValue(Boolean.FALSE);
+        //Binding botón respuestas
+        id_confirmRepsButton.disableProperty().bind(respuestaSeleccionada.not());
+        
+        map_scrollpane.pannableProperty().bind(ToggBLapizID.selectedProperty().not());
         
         //map_scrollpane.setPannable(false);
         
@@ -256,10 +266,6 @@ public class FXMLProblemaController implements Initializable {
         //En el caso de que no fuera cargado un problema anteriormente
         //if(problemaActual == null) problemaActual = lista.get(0);
         
-        respuestaSeleccionada = new SimpleBooleanProperty();
-        respuestaSeleccionada.setValue(Boolean.FALSE);
-        //Binding botón respuestas
-        id_confirmRepsButton.disableProperty().bind(respuestaSeleccionada.not());
         
         
 
@@ -332,7 +338,7 @@ public class FXMLProblemaController implements Initializable {
     //Zona de pintura
     @FXML
     private void MdragEnMapa(MouseEvent event) {
-        if (boolean_linea.getValue()){
+        if (ToggBLapizID.selectedProperty().getValue()){
             linePainting.setEndX(event.getX());
             linePainting.setEndY(event.getY());
         }
@@ -341,25 +347,34 @@ public class FXMLProblemaController implements Initializable {
     @FXML
     private void MReleaseEnMapa(MouseEvent event) {
         
+        
+        
+        
     }
 
     @FXML
     private void MclickEnMapa(MouseEvent event) {
-        if (boolean_linea.getValue()){
+        
+        //Línea
+        if (ToggBLapizID.selectedProperty().getValue()){
             linePainting = new Line(event.getX(), event.getY(),event.getX(),event.getY());
             zoomGroup.getChildren().add(linePainting);
         }
-
         
-        
-    }
+        //Punto
+        if(ToggPuntoID1.selectedProperty().getValue()){
+            Circle pin = new Circle();
+            pin.setCenterX(event.getX());
+            pin.setCenterY(event.getY());
+            pin.setRadius(10);
+            pin.setFill(Color.BLUE);
 
-    @FXML
-    private void lapizBAction(ActionEvent event) {
-        if (boolean_linea.getValue()==false){
-            boolean_linea.setValue(Boolean.TRUE);
+            pin.getStyleClass().clear();
+            zoomGroup.getChildren().add(pin);
         }
-        else boolean_linea.setValue(Boolean.FALSE);
+        
     }
+
+    
 
 }
