@@ -8,15 +8,19 @@ package poiupv;
 import DBAccess.NavegacionDAOException;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
@@ -45,6 +49,7 @@ import javafx.util.Duration;
 import model.Answer;
 import model.Navegacion;
 import model.Problem;
+import model.Session;
 import model.User;
 
 /**
@@ -104,6 +109,8 @@ public class FXMLProblemaController implements Initializable {
     private Button id_confirmRepsButton;
     
     User usuario;
+    int aciertos;
+    int fallos;
     
     //SII problema >= 0 saca problema de la lista
     //SII problema = -1 problema aleatorio
@@ -241,7 +248,22 @@ public class FXMLProblemaController implements Initializable {
         //Binding botón respuestas
         id_confirmRepsButton.disableProperty().bind(respuestaSeleccionada.not());
         
-        
+        id_EnunciadoProblema.sceneProperty().addListener((obs, oldScene, newScene) -> {
+            Platform.runLater(() -> {
+                Stage stage = (Stage) newScene.getWindow();
+                stage.setOnCloseRequest(e -> {
+                    LocalDateTime tiempo = LocalDateTime.now();
+                    Session sesion = new Session(tiempo, aciertos, fallos);
+                    try {
+                        usuario.addSession(sesion);
+                    } catch (NavegacionDAOException ex) {
+                        Logger.getLogger(FXMLProblemaController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    Platform.exit();
+                    System.exit(0);
+                    });
+                });
+            });
 
     }
     @FXML
@@ -262,8 +284,18 @@ public class FXMLProblemaController implements Initializable {
 
     @FXML
     private void ConfirmarRespuesta(ActionEvent event) {
-        if(compararRespuesta()) System.out.println("Correcto!");
-        else System.out.println("Falso :(");
+        id_respuesta1.disableProperty().setValue(Boolean.TRUE);
+        id_respuesta2.disableProperty().setValue(Boolean.TRUE);
+        id_respuesta3.disableProperty().setValue(Boolean.TRUE);
+        id_respuesta4.disableProperty().setValue(Boolean.TRUE);
+        
+        if(compararRespuesta()) {
+            aciertos++;
+            System.out.println("Correcto!");
+        } else {
+            fallos++;
+            System.out.println("Falso :(");
+        }
     }
 
     @FXML
@@ -271,7 +303,7 @@ public class FXMLProblemaController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLPrincipal.fxml"));
         Parent root = loader.load();
         FXMLPrincipalController controlador = loader.getController();
-        controlador.pasarDatos(usuario);
+        controlador.pasarDatos(usuario, aciertos, fallos);
         primaryStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         primaryStage.setScene(scene);
@@ -285,9 +317,10 @@ public class FXMLProblemaController implements Initializable {
         respuestaSeleccionada.setValue(Boolean.TRUE);
     }
     
-    public void pasarDatos(User u) {
+    public void pasarDatos(User u, int aciertos, int fallos) {
         usuario = u;
-        System.out.println(usuario.toString());
+        this.aciertos = aciertos;
+        this.fallos = fallos;
     }
     
     //Está feo pero está

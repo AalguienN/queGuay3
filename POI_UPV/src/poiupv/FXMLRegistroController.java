@@ -241,7 +241,7 @@ public class FXMLRegistroController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLPrincipal.fxml"));
         Parent root = loader.load();
         FXMLPrincipalController controlador = loader.getController();
-        controlador.pasarDatos(usuario);
+        controlador.pasarDatosA(usuario);
         stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);

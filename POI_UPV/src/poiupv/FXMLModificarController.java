@@ -14,7 +14,9 @@ import static java.lang.Math.abs;
 import java.lang.System.Logger;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
@@ -39,6 +41,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.Navegacion;
+import model.Session;
 import model.User;
 
 /**
@@ -71,6 +74,8 @@ public class FXMLModificarController implements Initializable {
     private final int EQUALS = 0;
     
     User usuario;
+    int aciertos;
+    int fallos;
 
     @FXML
     private Button id_buttonA;
@@ -147,6 +152,23 @@ public class FXMLModificarController implements Initializable {
         //comprobacion boton aceptar
         id_buttonA.disableProperty().bind(Bindings.not(validFields));
         
+        id_buttonA.sceneProperty().addListener((obs, oldScene, newScene) -> {
+            Platform.runLater(() -> {
+                Stage stage = (Stage) newScene.getWindow();
+                stage.setOnCloseRequest(e -> {
+                    LocalDateTime tiempo = LocalDateTime.now();
+                    Session sesion = new Session(tiempo, aciertos, fallos);
+                    try {
+                        usuario.addSession(sesion);
+                    } catch (NavegacionDAOException ex) {
+                        java.util.logging.Logger.getLogger(FXMLProblemaController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                    }
+                    Platform.exit();
+                    System.exit(0);
+                        });
+                    });
+                });
+        
     }    
 
     @FXML
@@ -159,7 +181,7 @@ public class FXMLModificarController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLPrincipal.fxml"));
         Parent root = loader.load();
         FXMLPrincipalController controlador = loader.getController();
-        controlador.pasarDatos(usuario);
+        controlador.pasarDatos(usuario, aciertos, fallos);
         primaryStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         primaryStage.setScene(scene);
@@ -172,7 +194,7 @@ public class FXMLModificarController implements Initializable {
          FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLPrincipal.fxml"));
         Parent root = loader.load();
         FXMLPrincipalController controlador = loader.getController();
-        controlador.pasarDatos(usuario);
+        controlador.pasarDatos(usuario, aciertos, fallos);
         primaryStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         primaryStage.setScene(scene);
@@ -215,9 +237,10 @@ public class FXMLModificarController implements Initializable {
         
     }
     
-     public void pasarDatos(User u) {
+     public void pasarDatos(User u, int aciertos, int fallos) {
         usuario = u;
-        System.out.println(usuario.toString());
+        this.aciertos = aciertos;
+        this.fallos = fallos;
         
         id_nombre.setText(usuario.getNickName());
         id_correo.setPromptText(usuario.getEmail());

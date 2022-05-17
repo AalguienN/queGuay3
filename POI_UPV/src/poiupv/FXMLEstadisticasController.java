@@ -9,6 +9,7 @@ import DBAccess.NavegacionDAOException;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,9 +28,11 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import model.Navegacion;
 import java.util.Random; //Borrar en el futuro
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import model.Session;
 import model.User;
 
 /**
@@ -62,6 +65,8 @@ public class FXMLEstadisticasController implements Initializable {
     private LocalDate actual;
     
     User usuario;
+    int aciertos;
+    int fallos;
     
     
     /**
@@ -76,6 +81,24 @@ public class FXMLEstadisticasController implements Initializable {
             Logger.getLogger(FXMLInicioController.class.getName()).log(Level.SEVERE, null, ex);
         }
         printChar();
+        
+        id_porcentajeAcierto1.sceneProperty().addListener((obs, oldScene, newScene) -> {
+            Platform.runLater(() -> {
+                Stage stage = (Stage) newScene.getWindow();
+                stage.setOnCloseRequest(e -> {
+                    LocalDateTime tiempo = LocalDateTime.now();
+                    Session sesion = new Session(tiempo, aciertos, fallos);
+                    try {
+                        usuario.addSession(sesion);
+                    } catch (NavegacionDAOException ex) {
+                        java.util.logging.Logger.getLogger(FXMLProblemaController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                    }
+                    Platform.exit();
+                    System.exit(0);
+                        });
+                    });
+                });
+        
     }    
 
     public void switchToScene(ActionEvent event, String name) throws IOException {
@@ -92,7 +115,7 @@ public class FXMLEstadisticasController implements Initializable {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLPrincipal.fxml"));
                     Parent root = loader.load();
                     FXMLPrincipalController controlador = loader.getController();
-                    controlador.pasarDatos(usuario);
+                    controlador.pasarDatos(usuario, aciertos, fallos);
                     primaryStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
                     scene = new Scene(root);
                     primaryStage.setScene(scene);
@@ -122,9 +145,10 @@ public class FXMLEstadisticasController implements Initializable {
             printChar();
     }
     
-    public void pasarDatos(User u) {
+    public void pasarDatos(User u, int aciertos, int fallos) {
         usuario = u;
-        System.out.println(usuario.toString());
+        this.aciertos = aciertos;
+        this.fallos = fallos;
         
     }
     
