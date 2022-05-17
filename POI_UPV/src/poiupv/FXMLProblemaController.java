@@ -111,6 +111,7 @@ public class FXMLProblemaController implements Initializable {
     private Button id_confirmRepsButton;
     
     private Line linePainting;
+    private Circle circlePainting;
     
     //Para pintar
     private double iniX;
@@ -119,12 +120,16 @@ public class FXMLProblemaController implements Initializable {
     private Pane mapaPane;
     @FXML
     private ImageView MapaScrollPaneID;
+    
+    
     @FXML
-    private ToggleButton ToggBLapizID;
+    private ToggleGroup ToolBar;
     @FXML
     private ToggleButton ToggPuntoID1;
     @FXML
-    private ToggleGroup ToolBar;
+    private ToggleButton ToggBLapizID;
+    @FXML
+    private ToggleButton ToggCompID;
     
     //SII problema >= 0 saca problema de la lista
     //SII problema = -1 problema aleatorio
@@ -234,7 +239,9 @@ public class FXMLProblemaController implements Initializable {
         //Binding botón respuestas
         id_confirmRepsButton.disableProperty().bind(respuestaSeleccionada.not());
         
-        map_scrollpane.pannableProperty().bind(ToggBLapizID.selectedProperty().not());
+        map_scrollpane.pannableProperty().bind(ToggBLapizID.selectedProperty()
+                .or(ToggPuntoID1.selectedProperty().or(ToggCompID.selectedProperty())
+                ).not());
         
         //map_scrollpane.setPannable(false);
         
@@ -338,9 +345,20 @@ public class FXMLProblemaController implements Initializable {
     //Zona de pintura
     @FXML
     private void MdragEnMapa(MouseEvent event) {
+        //Línea
         if (ToggBLapizID.selectedProperty().getValue()){
             linePainting.setEndX(event.getX());
             linePainting.setEndY(event.getY());
+        }
+        //Punto
+        if (ToggCompID.selectedProperty().getValue()){
+            double actX = event.getX()-iniX;
+            double actY = event.getY()-iniY;
+            double radio = Math.sqrt(actX*actX + actY*actY);
+            circlePainting.setRadius(radio);
+            
+            event.consume();
+            
         }
 }
 
@@ -360,18 +378,33 @@ public class FXMLProblemaController implements Initializable {
             linePainting = new Line(event.getX(), event.getY(),event.getX(),event.getY());
             zoomGroup.getChildren().add(linePainting);
         }
-        
+        //Compás
+        if (ToggCompID.selectedProperty().getValue()){
+            circlePainting = new Circle(1);
+            circlePainting.setFill(Color.TRANSPARENT);
+            circlePainting.setStroke(Color.RED);
+            
+            zoomGroup.getChildren().add(circlePainting);
+            
+            circlePainting.setCenterX(event.getX());
+            circlePainting.setCenterY(event.getY());
+            iniX = event.getX();
+            iniY = event.getY();
+        }
         //Punto
         if(ToggPuntoID1.selectedProperty().getValue()){
             Circle pin = new Circle();
             pin.setCenterX(event.getX());
             pin.setCenterY(event.getY());
-            pin.setRadius(10);
-            pin.setFill(Color.BLUE);
+            pin.setRadius(2);
+            pin.setStroke(Color.BLUE);
+            pin.setFill(Color.TRANSPARENT);
 
             pin.getStyleClass().clear();
             zoomGroup.getChildren().add(pin);
         }
+        
+        
         
     }
 

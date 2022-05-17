@@ -141,7 +141,7 @@
                         </HBox>
                         <ScrollPane fx:id="map_scrollpane" hbarPolicy="ALWAYS" onMouseMoved="#muestraPosicion" pannable="true" vbarPolicy="ALWAYS">
                            <content>
-                              <Pane fx:id="mapaPane" onMouseClicked="#MclickEnMapa" onMouseDragged="#MdragEnMapa" onMousePressed="#MclickEnMapa" onMouseReleased="#MReleaseEnMapa">
+                              <Pane fx:id="mapaPane" onMouseDragged="#MdragEnMapa" onMousePressed="#MclickEnMapa" onMouseReleased="#MReleaseEnMapa">
                                  <children>
                                     <ImageView fx:id="MapaScrollPaneID" fitHeight="10000.0" fitWidth="10000.0" layoutX="24.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -187,6 +187,15 @@
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../resources/lapiz%20j%20.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </ToggleButton>
+                  <ToggleButton fx:id="ToggCompID" mnemonicParsing="false" toggleGroup="$ToolBar">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/50005.png" />
                            </image>
                         </ImageView>
                      </graphic>
