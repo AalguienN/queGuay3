@@ -140,9 +140,9 @@
                         </HBox>
                         <ScrollPane fx:id="map_scrollpane" hbarPolicy="ALWAYS" onMouseMoved="#muestraPosicion" pannable="true" vbarPolicy="ALWAYS">
                            <content>
-                              <Pane onMouseClicked="#MclickEnMapa" onMouseDragged="#MdragEnMapa" onMousePressed="#MclickEnMapa" onMouseReleased="#MReleaseEnMapa">
+                              <Pane fx:id="mapaPane" onMouseClicked="#MclickEnMapa" onMouseDragged="#MdragEnMapa" onMousePressed="#MclickEnMapa" onMouseReleased="#MReleaseEnMapa">
                                  <children>
-                                    <ImageView fitHeight="10000.0" fitWidth="10000.0" layoutX="24.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="MapaScrollPaneID" fitHeight="10000.0" fitWidth="10000.0" layoutX="24.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../resources/carta_nautica.jpg" />
                                        </image>
@@ -169,7 +169,7 @@
             </SplitPane>
             <ToolBar orientation="VERTICAL" prefHeight="700.0">
                <items>
-                  <Button mnemonicParsing="false">
+                  <Button fx:id="lapizID" mnemonicParsing="false" onAction="#lapizBAction">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>

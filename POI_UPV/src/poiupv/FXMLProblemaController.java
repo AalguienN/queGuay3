@@ -39,13 +39,16 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.Answer;
 import model.Navegacion;
 import model.Problem;
+import javafx.scene.control.ScrollPane;
 
 /**
  * FXML Controller class
@@ -98,6 +101,7 @@ public class FXMLProblemaController implements Initializable {
     
     private Stage primaryStage;
     
+    //Booleanos
     private BooleanProperty respuestaSeleccionada;
     
     private BooleanProperty boolean_linea; //SII true -> pinta lineas
@@ -109,6 +113,12 @@ public class FXMLProblemaController implements Initializable {
     //Para pintar
     private double iniX;
     private double iniY;
+    @FXML
+    private Pane mapaPane;
+    @FXML
+    private ImageView MapaScrollPaneID;
+    @FXML
+    private Button lapizID;
     
     //SII problema >= 0 saca problema de la lista
     //SII problema = -1 problema aleatorio
@@ -210,7 +220,14 @@ public class FXMLProblemaController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         initData();
-            
+        
+        //borrar luego
+        boolean_linea = new SimpleBooleanProperty();
+        boolean_linea.set(Boolean.FALSE);
+        map_scrollpane.pannableProperty().bind(boolean_linea.not());
+        
+        //map_scrollpane.setPannable(false);
+        
         //Navegador
         try {
             navegador = Navegacion.getSingletonNavegacion();
@@ -315,22 +332,34 @@ public class FXMLProblemaController implements Initializable {
     //Zona de pintura
     @FXML
     private void MdragEnMapa(MouseEvent event) {
-    }
+        if (boolean_linea.getValue()){
+            linePainting.setEndX(event.getX());
+            linePainting.setEndY(event.getY());
+        }
+}
 
     @FXML
     private void MReleaseEnMapa(MouseEvent event) {
-        linePainting = new Line(iniX, iniY,event.getX(),event.getY());
-        zoomGroup.getChildren().add(linePainting);
         
     }
 
     @FXML
     private void MclickEnMapa(MouseEvent event) {
-        
-        iniX = event.getX();
-        iniY = event.getY();
-        System.out.println(iniX +" "+iniY );
+        if (boolean_linea.getValue()){
+            linePainting = new Line(event.getX(), event.getY(),event.getX(),event.getY());
+            zoomGroup.getChildren().add(linePainting);
+        }
+
         
         
     }
+
+    @FXML
+    private void lapizBAction(ActionEvent event) {
+        if (boolean_linea.getValue()==false){
+            boolean_linea.setValue(Boolean.TRUE);
+        }
+        else boolean_linea.setValue(Boolean.FALSE);
+    }
+
 }
