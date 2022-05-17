@@ -71,72 +71,6 @@ public class FXMLModificarController implements Initializable {
     private final int EQUALS = 0;
     
     User usuario;
-     
-    
-    //CAMBIAR ESCENA: parametros son el evento causante y el nombre del fichero .fxml
-    private void switchToScene(ActionEvent event, String name) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource(name+".fxml"));
-        Stage primaryStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
-        primaryStage.show();
-    }
-    
-     private void pasoUsuario(ActionEvent event, User usuario) {
-        this.usuario = usuario;
-    }
-    
-    public void checkEmail() {
-        if(!User.checkEmail(id_correo.getText())) {
-            validEmail.setValue(Boolean.FALSE);
-            mensaje = "El correo no es válido.";
-            id_correo.styleProperty().setValue("-fx-background-color: #FCE5E0");
-            alerta.setContentText(mensaje);
-            alerta.showAndWait();
-        }else{
-            validEmail.setValue(Boolean.TRUE);
-            id_correo.styleProperty().setValue("-fx-background-color: #CDFFD0");
-        }
-    }
-     
-    //COMPROBAR CONTRASEÑA VÁLIDA
-    public void checkPassword() {
-        if(!User.checkPassword(id_contraseña.getText())) {
-            validPassword.setValue(Boolean.FALSE);
-            mensaje = "La contraseña no es válida. La contraseña debe contener [8-20] caracteres, contener al menos una letra mayúscula, una letra minúscula, un dígito y un caracter especial [!@#$%&*()-+=]. No debe contener espacios";
-            id_contraseña.styleProperty().setValue("-fx-background-color: #FCE5E0");
-            alerta.setContentText(mensaje);
-            alerta.showAndWait();
-        }else if(usuario.getPassword().equals(id_contraseña.getText())) {
-            mensaje = "La contraseña introducida no puede coincidir con la contraseña activa actualmente. Introduce una contraseña nueva";
-            id_contraseña.styleProperty().setValue("-fx-background-color: #FCE5E0");
-            alerta.setContentText(mensaje);
-            alerta.showAndWait();
-        }else {
-            validPassword.setValue(Boolean.TRUE);
-            id_contraseña.styleProperty().setValue("-fx-background-color: #CDFFD0");
-        }
-    }
-    
-    //COMPROBAR CONTRASEÑAS IGUALES
-    public void checkEqualsPassword() {
-        if("".equals(id_contraseña1.getText())){
-            equalsPassword.setValue(Boolean.FALSE);
-            id_contraseña1.styleProperty().setValue("-fx-background-color: #FCE5E0");
-        } else if(id_contraseña.textProperty().getValueSafe().compareTo(id_contraseña1.textProperty().getValueSafe()) == EQUALS){
-            equalsPassword.setValue(Boolean.TRUE);
-            id_contraseña1.styleProperty().setValue("-fx-background-color: #CDFFD0");
-        }else {
-            equalsPassword.setValue(Boolean.FALSE);
-            mensaje = "No coincide con la contraseña. Compruebe que haya escrito la misma contraseña.";
-            id_contraseña1.styleProperty().setValue("-fx-background-color: #FCE5E0");
-            alerta.setContentText(mensaje);
-            alerta.showAndWait(); 
-        }
-    }
-    
-   
 
     @FXML
     private Button id_buttonA;
@@ -156,6 +90,9 @@ public class FXMLModificarController implements Initializable {
     private ImageView id_imagen;
     @FXML
     private Label id_SelecImagen;
+    
+    private Stage primaryStage;
+
 
     /**
      * Initializes the controller class.
@@ -169,17 +106,6 @@ public class FXMLModificarController implements Initializable {
         } catch (NavegacionDAOException ex) {
             java.util.logging.Logger.getLogger(FXMLRegistroController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        
-        LocalDate fecha;
-        fecha = LocalDate.of(2000, 12, 01);
-        Image img = null;
-        usuario = new User("Usuario", "a@gmail.com", "Bb123456!",img, fecha);
-        
-        id_nombre.setText(usuario.getNickName());
-        id_correo.setPromptText(usuario.getEmail());
-        id_FechaNacimiento.setValue(usuario.getBirthdate());
-        id_imagen.setImage(usuario.getAvatar());
-        
         
         //INICIALIZA LAS VENTANAS EMERGENTES
         alerta.setTitle("Datos inválidos");
@@ -230,12 +156,28 @@ public class FXMLModificarController implements Initializable {
         usuario.setEmail(id_correo.getText());
         usuario.setAvatar(id_imagen.getImage());
         
-        switchToScene(event, "FXMLPrincipal_1");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLPrincipal.fxml"));
+        Parent root = loader.load();
+        FXMLPrincipalController controlador = loader.getController();
+        controlador.pasarDatos(usuario);
+        primaryStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
+        primaryStage.show();
     }
 
     @FXML
-    private void handleCancelOnAction(ActionEvent event) throws IOException {
-         switchToScene(event, "FXMLInicio"); 
+    private void handleCancelOnAction(ActionEvent event) throws IOException { 
+         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLPrincipal.fxml"));
+        Parent root = loader.load();
+        FXMLPrincipalController controlador = loader.getController();
+        controlador.pasarDatos(usuario);
+        primaryStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
+        primaryStage.show();
     }
 
     @FXML
@@ -272,8 +214,66 @@ public class FXMLModificarController implements Initializable {
         id_imagen.setImage(imagen);
         
     }
-         
+    
+     public void pasarDatos(User u) {
+        usuario = u;
+        System.out.println(usuario.toString());
         
+        id_nombre.setText(usuario.getNickName());
+        id_correo.setPromptText(usuario.getEmail());
+        id_FechaNacimiento.setValue(usuario.getBirthdate());
+        id_imagen.setImage(usuario.getAvatar());
+        
+    }
+    
+    public void checkEmail() {
+        if(!User.checkEmail(id_correo.getText())) {
+            validEmail.setValue(Boolean.FALSE);
+            mensaje = "El correo no es válido.";
+            id_correo.styleProperty().setValue("-fx-background-color: #FCE5E0");
+            alerta.setContentText(mensaje);
+            alerta.showAndWait();
+        }else{
+            validEmail.setValue(Boolean.TRUE);
+            id_correo.styleProperty().setValue("-fx-background-color: #CDFFD0");
+        }
+    }
+     
+    //COMPROBAR CONTRASEÑA VÁLIDA
+    public void checkPassword() {
+        if(!User.checkPassword(id_contraseña.getText())) {
+            validPassword.setValue(Boolean.FALSE);
+            mensaje = "La contraseña no es válida. La contraseña debe contener [8-20] caracteres, contener al menos una letra mayúscula, una letra minúscula, un dígito y un caracter especial [!@#$%&*()-+=]. No debe contener espacios";
+            id_contraseña.styleProperty().setValue("-fx-background-color: #FCE5E0");
+            alerta.setContentText(mensaje);
+            alerta.showAndWait();
+        }else if(usuario.getPassword().equals(id_contraseña.getText())) {
+            mensaje = "La contraseña introducida no puede coincidir con la contraseña activa actualmente. Introduce una contraseña nueva";
+            id_contraseña.styleProperty().setValue("-fx-background-color: #FCE5E0");
+            alerta.setContentText(mensaje);
+            alerta.showAndWait();
+        }else {
+            validPassword.setValue(Boolean.TRUE);
+            id_contraseña.styleProperty().setValue("-fx-background-color: #CDFFD0");
+        }
+    }
+    
+    //COMPROBAR CONTRASEÑAS IGUALES
+    public void checkEqualsPassword() {
+        if("".equals(id_contraseña1.getText())){
+            equalsPassword.setValue(Boolean.FALSE);
+            id_contraseña1.styleProperty().setValue("-fx-background-color: #FCE5E0");
+        } else if(id_contraseña.textProperty().getValueSafe().compareTo(id_contraseña1.textProperty().getValueSafe()) == EQUALS){
+            equalsPassword.setValue(Boolean.TRUE);
+            id_contraseña1.styleProperty().setValue("-fx-background-color: #CDFFD0");
+        }else {
+            equalsPassword.setValue(Boolean.FALSE);
+            mensaje = "No coincide con la contraseña. Compruebe que haya escrito la misma contraseña.";
+            id_contraseña1.styleProperty().setValue("-fx-background-color: #FCE5E0");
+            alerta.setContentText(mensaje);
+            alerta.showAndWait(); 
+        }
+    }    
 
 }
     

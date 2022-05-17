@@ -92,6 +92,8 @@ public class FXMLRegistroController implements Initializable {
     @FXML
     private Label id_SelecImagen;
     
+    User usuario;
+    
    //CAMBIAR ESCENA: parametros son el evento causante y el nombre del fichero .fxml
     private void switchToScene(ActionEvent event, String name) throws IOException {
   
@@ -234,8 +236,17 @@ public class FXMLRegistroController implements Initializable {
 
     @FXML   //ACEPTAR... sustituir el string por nombre del .fxml de la ventana FUNCIONES
     private void handleAcceptOnAction(ActionEvent event) throws IOException, NavegacionDAOException {
-        navegador.registerUser(id_nombre.getText(), id_correo.getText(), id_contraseña.getText(), id_imagen.getImage(), id_FechaNacimiento.getValue());
-        switchToScene(event, "FXMLPrincipal");
+        usuario = navegador.registerUser(id_nombre.getText(), id_correo.getText(), id_contraseña.getText(), id_imagen.getImage(), id_FechaNacimiento.getValue());
+        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLPrincipal.fxml"));
+        Parent root = loader.load();
+        FXMLPrincipalController controlador = loader.getController();
+        controlador.pasarDatos(usuario);
+        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();
     }
 
     @FXML   //SELECCIONAR IMAGEN... falta mantener el ratio de imagen (sino el resto de bloques se descolocan)

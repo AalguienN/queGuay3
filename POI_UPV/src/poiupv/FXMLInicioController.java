@@ -15,6 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import static javafx.fxml.FXMLLoader.load;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -52,6 +53,7 @@ public class FXMLInicioController implements Initializable{
     private Navegacion datos; //creacion del Map
     private Stage primaryStage;
     private Scene scene;
+    
     
     
     /**
@@ -101,7 +103,17 @@ public class FXMLInicioController implements Initializable{
                 if(user == null){
                         id_contraseñaIncorrecta.visibleProperty().set(true); 
                 }else{ //si todo está bien, te envía al principal
-                    switchToScene(event, "FXMLPrincipal_1");
+                    //switchToScene(event, "FXMLPrincipal_1");
+                    
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLPrincipal.fxml"));
+                    Parent root = loader.load();
+                    FXMLPrincipalController controlador = loader.getController();
+                    controlador.pasarDatos(user);
+                    primaryStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+                    scene = new Scene(root);
+                    primaryStage.setScene(scene);
+                    primaryStage.setResizable(false);
+                    primaryStage.show();
                 }
         }
     }

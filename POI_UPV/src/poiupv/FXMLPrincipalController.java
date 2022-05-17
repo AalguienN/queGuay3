@@ -27,6 +27,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import model.Navegacion;
 import model.Problem;
+import model.User;
 
 
 /**
@@ -50,6 +51,7 @@ public class FXMLPrincipalController implements Initializable {
     private AnchorPane id_split;
     @FXML
     private Label id_salir;
+    User usuario;
     
     /**
      * Initializes the controller class.
@@ -84,10 +86,24 @@ public class FXMLPrincipalController implements Initializable {
         primaryStage.show();
     }
     
+    public void pasarDatos(User u) {
+        usuario = u;
+        System.out.println(usuario.toString());
+    }
+    
+    
 
     @FXML
     private void listaProblemas(ActionEvent event) throws IOException {
-        switchToScene(event, "FXMLProblemasLista");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLProblemasLista.fxml"));
+        Parent root = loader.load();
+        FXMLProblemasListaController controlador = loader.getController();
+        controlador.pasarDatos(usuario);
+        primaryStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
+        primaryStage.show();
     }
 
     @FXML
@@ -98,12 +114,30 @@ public class FXMLPrincipalController implements Initializable {
 
     @FXML
     private void estadisticas(ActionEvent event) throws IOException {
-        switchToScene(event, "FXMLEstadisticas");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLEstadisticas.fxml"));
+        Parent root = loader.load();
+        FXMLEstadisticasController controlador = loader.getController();
+        controlador.pasarDatos(usuario);
+        primaryStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
+        primaryStage.show();
     }
 
     @FXML
     private void modificarPerfil(MouseEvent event) throws IOException {
-        switchToScene(event, "FXMLModificar");
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLModificar.fxml"));
+        Parent root = loader.load();
+        FXMLModificarController controlador = loader.getController();
+        controlador.pasarDatos(usuario);
+        primaryStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
+        primaryStage.show();
+        
     }
 
     @FXML
@@ -134,6 +168,7 @@ public class FXMLPrincipalController implements Initializable {
         //esta línea es para pasar referencia del problema concreto que vamos a realizar
         //Estamos pasando información entre escenas!!!!
         controller.setProblemaActual(n);
+        controller.pasarDatos(usuario);
         
         primaryStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         primaryStage.setScene(scene);

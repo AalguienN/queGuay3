@@ -45,6 +45,7 @@ import javafx.util.Duration;
 import model.Answer;
 import model.Navegacion;
 import model.Problem;
+import model.User;
 
 /**
  * FXML Controller class
@@ -96,10 +97,13 @@ public class FXMLProblemaController implements Initializable {
     private List<Answer> respuestasList;
     
     private Stage primaryStage;
+    private Scene scene;
     
     private BooleanProperty respuestaSeleccionada;
     @FXML
     private Button id_confirmRepsButton;
+    
+    User usuario;
     
     //SII problema >= 0 saca problema de la lista
     //SII problema = -1 problema aleatorio
@@ -240,31 +244,10 @@ public class FXMLProblemaController implements Initializable {
         
 
     }
-
-    private void switchToScene(ActionEvent event, String name) throws IOException {
-  
-        Parent root = FXMLLoader.load(getClass().getResource(name+".fxml"));
-        primaryStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
-        primaryStage.show();
-    }
     @FXML
     private void muestraPosicion(MouseEvent event) {
         posicion.setText("sceneX: " + (int) event.getSceneX() + ", sceneY: " + (int) event.getSceneY() + "\n"
                 + "         X: " + (int) event.getX() + ",          Y: " + (int) event.getY());
-    }
-
-    private void cerrarAplicacion(ActionEvent event) {
-        ((Stage)zoom_slider.getScene().getWindow()).close();
-    }
-
-    private void acercaDe(ActionEvent event) {
-        Alert mensaje= new Alert(Alert.AlertType.INFORMATION);
-        mensaje.setTitle("Acerca de");
-        mensaje.setHeaderText("IPC - 2022");
-        mensaje.showAndWait();
     }
 
     @FXML
@@ -285,7 +268,26 @@ public class FXMLProblemaController implements Initializable {
 
     @FXML
     private void volverMenu(ActionEvent event) throws IOException {
-        switchToScene(event,"FXMLPrincipal_1");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLPrincipal.fxml"));
+        Parent root = loader.load();
+        FXMLPrincipalController controlador = loader.getController();
+        controlador.pasarDatos(usuario);
+        primaryStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
+        primaryStage.show();
+    }
+    
+
+    @FXML
+    private void respuestaSeleccionada(ActionEvent event) {
+        respuestaSeleccionada.setValue(Boolean.TRUE);
+    }
+    
+    public void pasarDatos(User u) {
+        usuario = u;
+        System.out.println(usuario.toString());
     }
     
     //Está feo pero está
@@ -298,9 +300,15 @@ public class FXMLProblemaController implements Initializable {
         
         return false;
     }
+    
+    private void cerrarAplicacion(ActionEvent event) {
+        ((Stage)zoom_slider.getScene().getWindow()).close();
+    }
 
-    @FXML
-    private void respuestaSeleccionada(ActionEvent event) {
-        respuestaSeleccionada.setValue(Boolean.TRUE);
+    private void acercaDe(ActionEvent event) {
+        Alert mensaje= new Alert(Alert.AlertType.INFORMATION);
+        mensaje.setTitle("Acerca de");
+        mensaje.setHeaderText("IPC - 2022");
+        mensaje.showAndWait();
     }
 }

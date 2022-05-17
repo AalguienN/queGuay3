@@ -30,6 +30,7 @@ import java.util.Random; //Borrar en el futuro
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import model.User;
 
 /**
  * FXML Controller class
@@ -59,6 +60,10 @@ public class FXMLEstadisticasController implements Initializable {
     private CategoryAxis id_xAxis;
     
     private LocalDate actual;
+    
+    User usuario;
+    
+    
     /**
      * Initializes the controller class.
      */
@@ -84,7 +89,15 @@ public class FXMLEstadisticasController implements Initializable {
     }
     @FXML
     private void volverMenuPrincipal(ActionEvent event) throws IOException {
-        switchToScene(event, "FXMLPrincipal");
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLPrincipal.fxml"));
+                    Parent root = loader.load();
+                    FXMLPrincipalController controlador = loader.getController();
+                    controlador.pasarDatos(usuario);
+                    primaryStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+                    scene = new Scene(root);
+                    primaryStage.setScene(scene);
+                    primaryStage.setResizable(false);
+                    primaryStage.show();
 
     }
     
@@ -107,6 +120,12 @@ public class FXMLEstadisticasController implements Initializable {
     private void filtrarFecha(ActionEvent event) {
             id_barChar.getData().clear();
             printChar();
+    }
+    
+    public void pasarDatos(User u) {
+        usuario = u;
+        System.out.println(usuario.toString());
+        
     }
     
     
