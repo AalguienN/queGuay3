@@ -420,7 +420,7 @@ public class FXMLProblemaController implements Initializable {
         //Línea
         if (ToggBLapizID.selectedProperty().getValue()){
             linePainting = new Line(event.getX(), event.getY(),event.getX(),event.getY());
-            zoomGroup.getChildren().add(linePainting);
+            mapaPane.getChildren().add(linePainting);
         }
         //Compás
         if (ToggCompID.selectedProperty().getValue()){
@@ -428,7 +428,7 @@ public class FXMLProblemaController implements Initializable {
             circlePainting.setFill(Color.TRANSPARENT);
             circlePainting.setStroke(Color.RED);
             
-            zoomGroup.getChildren().add(circlePainting);
+            mapaPane.getChildren().add(circlePainting);
             
             circlePainting.setCenterX(event.getX());
             circlePainting.setCenterY(event.getY());
@@ -445,7 +445,7 @@ public class FXMLProblemaController implements Initializable {
             pin.setFill(Color.TRANSPARENT);
 
             pin.getStyleClass().clear();
-            zoomGroup.getChildren().add(pin);
+            mapaPane.getChildren().add(pin);
         }
         
         
