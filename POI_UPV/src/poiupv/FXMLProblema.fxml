@@ -5,6 +5,7 @@
 <?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
@@ -14,6 +15,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.control.ToolBar?>
@@ -25,7 +27,10 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <VBox prefHeight="750.0" prefWidth="1000.0" stylesheets="@../resources/estilos.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="poiupv.FXMLProblemaController">
    <children>
@@ -34,7 +39,7 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </VBox.margin>
          <children>
-            <SplitPane dividerPositions="0.5">
+            <SplitPane dividerPositions="0.25, 0.99">
                <items>
                   <VBox maxWidth="500.0" minWidth="200.0" spacing="5.0">
                      <children>
@@ -166,42 +171,145 @@
                         </ScrollPane>
                      </children>
                   </VBox>
+                  <HBox alignment="TOP_RIGHT" maxWidth="190.0">
+                     <children>
+                        <SplitPane dividerPositions="0.5" maxWidth="50.0" orientation="VERTICAL">
+                           <items>
+                              <ToolBar orientation="VERTICAL">
+                                 <items>
+                                    <ToggleButton fx:id="ToggPuntoID1" mnemonicParsing="false">
+                                       <graphic>
+                                          <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../resources/69667.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="ToolBar" />
+                                       </toggleGroup>
+                                    </ToggleButton>
+                                    <ToggleButton fx:id="ToggBLapizID" mnemonicParsing="false" toggleGroup="$ToolBar">
+                                       <graphic>
+                                          <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../resources/lapiz%20j%20.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </ToggleButton>
+                                    <ToggleButton fx:id="ToggCompID" mnemonicParsing="false" toggleGroup="$ToolBar">
+                                       <graphic>
+                                          <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../resources/3485832.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </ToggleButton>
+                                    <ToggleButton fx:id="ToggTextID" mnemonicParsing="false" toggleGroup="$ToolBar">
+                                       <graphic>
+                                          <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../resources/icons8-t-circulada-48.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </ToggleButton>
+                                    <ToggleButton fx:id="ToggAngID" mnemonicParsing="false">
+                                       <graphic>
+                                          <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../resources/icons8-grados-50.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </ToggleButton>
+                                 </items>
+                              </ToolBar>
+                              <ToolBar orientation="VERTICAL">
+                                <items>
+                                    <ToggleButton fx:id="ToggGomaID" mnemonicParsing="false" toggleGroup="$ToolBar">
+                                       <graphic>
+                                          <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../resources/erase.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </ToggleButton>
+                                  <Button mnemonicParsing="false" onAction="#clearMap">
+                                       <graphic>
+                                          <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../resources/icons8-borrar-para-siempre-24.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </Button>
+                                </items>
+                              </ToolBar>
+                           </items>
+                        </SplitPane>
+                        <VBox>
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Color: " underline="true">
+                                 <VBox.margin>
+                                    <Insets top="7.5" />
+                                 </VBox.margin>
+                              </Text>
+                              <HBox alignment="CENTER_LEFT">
+                                 <children>
+                                    <ColorPicker fx:id="ColorPickerID" minWidth="85.0">
+                                       <value>
+                                          <Color />
+                                       </value>
+                                    </ColorPicker>
+                                 </children>
+                              </HBox>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Grosor de línea:" underline="true">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </Text>
+                              <HBox alignment="CENTER_LEFT">
+                                 <children>
+                                    <TextField fx:id="TamLineaFieldID" onAction="#grosorLineaAct" prefWidth="35.0" text="3" />
+                                    <Label text="px" />
+                                    <Circle fx:id="circuloMuestraID" radius="10.0" stroke="BLACK" strokeType="INSIDE">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </Circle>
+                                 </children>
+                              </HBox>
+                              <Label text="Tamaño de fuente:" underline="true" wrapText="true">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <HBox alignment="CENTER_LEFT">
+                                 <children>
+                                    <TextField fx:id="TamFuenteFieldID" onAction="#tamanoFuenteAct" prefWidth="35.0" text="20" />
+                                    <Label text="px" />
+                                    <Label fx:id="LabelMuestraID" text="A">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Forma:" underline="true">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </Text>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
                </items>
             </SplitPane>
-            <ToolBar orientation="VERTICAL" prefHeight="700.0">
-               <items>
-                  <ToggleButton fx:id="ToggPuntoID1" mnemonicParsing="false">
-                     <graphic>
-                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../resources/69667.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                     <toggleGroup>
-                        <ToggleGroup fx:id="ToolBar" />
-                     </toggleGroup>
-                  </ToggleButton>
-                  <ToggleButton fx:id="ToggBLapizID" mnemonicParsing="false" toggleGroup="$ToolBar">
-                     <graphic>
-                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../resources/lapiz%20j%20.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </ToggleButton>
-                  <ToggleButton fx:id="ToggCompID" mnemonicParsing="false" toggleGroup="$ToolBar">
-                     <graphic>
-                        <ImageView fitHeight="20.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../resources/3485832.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </ToggleButton>
-               </items>
-            </ToolBar>
          </children>
       </HBox>
       <HBox alignment="CENTER_RIGHT">
