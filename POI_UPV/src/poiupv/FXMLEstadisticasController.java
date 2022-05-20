@@ -8,8 +8,11 @@ package poiupv;
 import DBAccess.NavegacionDAOException;
 import java.io.IOException;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,6 +35,8 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.DateCell;
+import javafx.util.Callback;
 import model.Session;
 import model.User;
 
@@ -67,6 +72,10 @@ public class FXMLEstadisticasController implements Initializable {
     User usuario;
     int aciertos;
     int fallos;
+    List<Session>  lista;
+    List<LocalDate> listaFechas = new ArrayList();
+    int HITS;
+    int FAULTS;
     
     
     /**
@@ -99,17 +108,29 @@ public class FXMLEstadisticasController implements Initializable {
                     });
                 });
         
-    }    
+        //Colores para las fechas en las que ha habido sesion
+        id_fechaFiltrar.setDayCellFactory(new Callback<DatePicker, DateCell>() {
+            @Override
+            public DateCell call(DatePicker param) {
+              return new DateCell() {
+                @Override
+                public void updateItem(LocalDate item, boolean empty) {
+                  super.updateItem(item, empty);
+                  
+                  if (!listaFechas.isEmpty()) {
+			if(listaFechas.contains(item)) {
+			this.setStyle("-fx-background-color: yellow");}}
+              };
+            };
+          }});
 
-    public void switchToScene(ActionEvent event, String name) throws IOException {
-  
-        Parent root = FXMLLoader.load(getClass().getResource(name+".fxml"));
-        primaryStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
-        primaryStage.show();
-    }
+            
+        
+        
+    }   
+    
+    
+
     @FXML
     private void volverMenuPrincipal(ActionEvent event) throws IOException {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLPrincipal.fxml"));
@@ -150,7 +171,27 @@ public class FXMLEstadisticasController implements Initializable {
         this.aciertos = aciertos;
         this.fallos = fallos;
         
+        lista = usuario.getSessions();
+        
+        for(int i = 0; i < lista.size();i++) {
+            Session sesion = lista.get(i);
+            HITS += sesion.getHits();
+            FAULTS += sesion.getFaults();
+            listaFechas.add(sesion.getLocalDate());
+        }
+        HITS += aciertos;
+        FAULTS += fallos;
+
+        System.out.println(HITS + " " + FAULTS);
+        System.out.println();
+        
+        if((HITS+FAULTS) == 0) {id_porcentajeAcierto.setText("0%");
+        } else {
+        double valor = Math.round((double)HITS/(HITS+FAULTS) * 100);
+        id_porcentajeAcierto.setText(Double.toString(valor));
+        }
     }
+    
     
     
 }
