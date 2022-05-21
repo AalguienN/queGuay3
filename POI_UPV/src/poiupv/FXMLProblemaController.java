@@ -186,6 +186,8 @@ public class FXMLProblemaController implements Initializable {
     private String formaPunto;
     @FXML
     private MenuButton FormaPuntoID;
+    @FXML
+    private ToggleButton ToggPosID;
     
     //SII problema >= 0 saca problema de la lista
     //SII problema = -1 problema aleatorio
@@ -630,6 +632,11 @@ public class FXMLProblemaController implements Initializable {
             
             
         }
+        //Apartado 3.10
+        if (ToggPosID.selectedProperty().getValue()){
+            
+        
+        }
     }
 
     @FXML
@@ -708,6 +715,10 @@ public class FXMLProblemaController implements Initializable {
         
         angulosID.setX(iniX);
         angulosID.setY(iniY);
+    }
+
+    @FXML
+    private void ToggPosAct(ActionEvent event) {
     }
 
     
