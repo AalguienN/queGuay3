@@ -113,7 +113,7 @@
                   </VBox>
                   <VBox>
                      <children>
-                        <HBox alignment="BOTTOM_LEFT">
+                        <HBox alignment="BOTTOM_RIGHT">
                            <children>
                               <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                  <image>

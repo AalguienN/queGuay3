@@ -502,16 +502,26 @@ public class FXMLProblemaController implements Initializable {
             
             linePainting.setOnContextMenuRequested(e -> {
                 ContextMenu menuContext = new ContextMenu();
+                //Eliminar
                 MenuItem borrarItem = new MenuItem("eliminar");
                 menuContext.getItems().add(borrarItem);
                 borrarItem.setOnAction(ev -> {
                     mapaPane.getChildren().remove((Node)e.getSource());
                     ev.consume();
                 });
+                //Editar
+                MenuItem editarItem = new MenuItem("editar - selecciónActual");
+                menuContext.getItems().add(editarItem);
+                editarItem.setOnAction(ev->{
+                    linePainting = (Line)e.getSource();
+                    linePainting.setStroke(ColorPickerID.getValue());
+                    linePainting.setStrokeWidth(tamanoLinea);
+                });
+                
                 Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
                 menuContext.setX(e.getX());
                 menuContext.setY(e.getY());
-                menuContext.show(linePainting,  stage.getX()+e.getSceneX(), stage.getY()+e.getSceneY());
+                menuContext.show((Node)e.getSource(),  stage.getX()+e.getSceneX(), stage.getY()+e.getSceneY());
             });
         }
         //Compás
@@ -620,11 +630,29 @@ public class FXMLProblemaController implements Initializable {
                 textoT.setStyle("-fx-font-family:Gafata; -fx-font-size: "+tamanoFuente+";");
                 textoT.setFill(ColorPickerID.getValue());
                 mapaPane.getChildren().add(textoT);
+                textoT.setOnContextMenuRequested(eve -> {
+                    ContextMenu menuContext = new ContextMenu();
+                    MenuItem borrarItem = new MenuItem("eliminar");
+                    menuContext.getItems().add(borrarItem);
+                    borrarItem.setOnAction(ev -> {
+                    mapaPane.getChildren().remove((Node)eve.getSource());
+                    ev.consume();
+                });
+                Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+                menuContext.setX(eve.getX());
+                menuContext.setY(eve.getY());
+                menuContext.show((Node)eve.getSource(),  stage.getX()+eve.getSceneX(), stage.getY()+eve.getSceneY());
+            });
+                
+                
                 mapaPane.getChildren().remove(texto);
                 e.consume();
+                
             });
             
             ToggTextID.selectedProperty().set(false);
+            
+            
         }
     }
 
@@ -645,13 +673,13 @@ public class FXMLProblemaController implements Initializable {
         } catch (final NumberFormatException e){}
         if (num < 3)
             num = 3;
-        if (num > 20)
+        if (num > 40)
             num = 20;
         
         tamanoLinea = num;
         TamLineaFieldID.setText(""+num);
         
-        circuloMuestraID.setRadius(num);
+        circuloMuestraID.setRadius(num/2);
         
     }
 
