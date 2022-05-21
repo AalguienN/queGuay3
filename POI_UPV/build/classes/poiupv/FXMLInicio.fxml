@@ -7,6 +7,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -105,16 +107,24 @@
       </VBox>
    </center>
    <top>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: olivedrab;" BorderPane.alignment="CENTER_LEFT">
+      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: olivedrab;" BorderPane.alignment="CENTER_LEFT">
          <children>
-            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="LOGO!">
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="NavTest">
                <HBox.margin>
-                  <Insets />
+                  <Insets left="40.0" />
                </HBox.margin>
                <font>
                   <Font name="Arial Rounded MT Bold" size="40.0" />
                </font>
             </Text>
+            <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/NT%20%20copia%20OK%20.png" />
+               </image>
+               <HBox.margin>
+                  <Insets left="70.0" />
+               </HBox.margin>
+            </ImageView>
          </children>
          <BorderPane.margin>
             <Insets top="30.0" />

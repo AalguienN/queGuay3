@@ -243,7 +243,7 @@ public class FXMLModificarController implements Initializable {
         this.fallos = fallos;
         
         id_nombre.setText(usuario.getNickName());
-        id_correo.setPromptText(usuario.getEmail());
+        id_correo.setText(usuario.getEmail());
         id_FechaNacimiento.setValue(usuario.getBirthdate());
         id_imagen.setImage(usuario.getAvatar());
         
