@@ -87,16 +87,13 @@ public class FXMLProblemaController implements Initializable {
     // el escalado se realiza sobre este nodo, al escalar el Group no mueve sus nodos
     private Group zoomGroup;
 
-    @FXML
-    private ListView<Poi> map_listview;
+   
     @FXML
     private ScrollPane map_scrollpane;
     @FXML
     private Slider zoom_slider;
-    @FXML
-    private MenuButton map_pin;
-    @FXML
-    private MenuItem pin_info;
+    
+    
     @FXML
     private Label posicion;
     @FXML
@@ -254,44 +251,12 @@ public class FXMLProblemaController implements Initializable {
         map_scrollpane.setVvalue(scrollV);
     }
 
-    @FXML
-    void listClicked(MouseEvent event) {
-        Poi itemSelected = map_listview.getSelectionModel().getSelectedItem();
+    
 
-        // Animación del scroll hasta la posicion del item seleccionado
-        double mapWidth = zoomGroup.getBoundsInLocal().getWidth();
-        double mapHeight = zoomGroup.getBoundsInLocal().getHeight();
-        double scrollH = itemSelected.getPosition().getX() / mapWidth;
-        double scrollV = itemSelected.getPosition().getY() / mapHeight;
-        final Timeline timeline = new Timeline();
-        final KeyValue kv1 = new KeyValue(map_scrollpane.hvalueProperty(), scrollH);
-        final KeyValue kv2 = new KeyValue(map_scrollpane.vvalueProperty(), scrollV);
-        final KeyFrame kf = new KeyFrame(Duration.millis(500), kv1, kv2);
-        timeline.getKeyFrames().add(kf);
-        timeline.play();
-
-        // movemos el objto map_pin hasta la posicion del POI
-        double pinW = map_pin.getBoundsInLocal().getWidth();
-        double pinH = map_pin.getBoundsInLocal().getHeight();
-        map_pin.setLayoutX(itemSelected.getPosition().getX());
-        map_pin.setLayoutY(itemSelected.getPosition().getY());
-        pin_info.setText(itemSelected.getDescription());
-        map_pin.setVisible(true);
-    }
-
-    private void initData() {
-        hm.put("2F", new Poi("2F", "Edificion del DSIC", 325, 225));
-        hm.put("Agora", new Poi("Agora", "Agora", 600, 360));
-        map_listview.getItems().add(hm.get("2F"));
-        map_listview.getItems().add(hm.get("Agora"));
-    }
+    
 
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        initData();
-        
-        
+    public void initialize(URL url, ResourceBundle rb) {        
         //Pintar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
         //Listeners
         respuestaSeleccionada = new SimpleBooleanProperty();
@@ -625,6 +590,7 @@ public class FXMLProblemaController implements Initializable {
             
             texto.setOnAction(e->{
                 Text textoT = new Text (texto.getText());
+                dibList.add(textoT);
                 textoT.setX(texto.getLayoutX());
                 textoT.setY(texto.getLayoutY());
                 textoT.setStyle("-fx-font-family:Gafata; -fx-font-size: "+tamanoFuente+";");
@@ -638,6 +604,12 @@ public class FXMLProblemaController implements Initializable {
                     mapaPane.getChildren().remove((Node)eve.getSource());
                     ev.consume();
                 });
+                textoT.setOnMouseEntered(ev->{
+                System.out.println("yey");
+                    if (ToggGomaID.selectedProperty().getValue())
+                        mapaPane.getChildren().remove((Node)ev.getSource());
+                });    
+                
                 Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
                 menuContext.setX(eve.getX());
                 menuContext.setY(eve.getY());
@@ -674,7 +646,7 @@ public class FXMLProblemaController implements Initializable {
         if (num < 3)
             num = 3;
         if (num > 40)
-            num = 20;
+            num = 40;
         
         tamanoLinea = num;
         TamLineaFieldID.setText(""+num);
