@@ -60,12 +60,14 @@ import model.Problem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.input.MouseButton;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 import model.Session;
 import model.User;
+
 
 
 /**
@@ -171,6 +173,12 @@ public class FXMLProblemaController implements Initializable {
     
     private int tamanoLinea;
     private int tamanoFuente;
+    
+    private boolean mouseOnClick;
+    @FXML
+    private ImageView angulosID;
+    @FXML
+    private ToggleButton ToggMovID;
     
     //SII problema >= 0 saca problema de la lista
     //SII problema = -1 problema aleatorio
@@ -279,13 +287,21 @@ public class FXMLProblemaController implements Initializable {
         respuestaSeleccionada.setValue(Boolean.FALSE);
         //Binding botón respuestas
         id_confirmRepsButton.disableProperty().bind(respuestaSeleccionada.not());
+        
+        angulosID.visibleProperty().bind(ToggAngID.selectedProperty());
         //Lista de objetos de pintura
         dibList = new ArrayList<Object>();
         
         
         map_scrollpane.pannableProperty().bind(ToggBLapizID.selectedProperty()
                 .or(ToggPuntoID1.selectedProperty().or(ToggCompID.selectedProperty())
-                ).not());
+                ).or(ToggGomaID.selectedProperty()).not());
+        
+        angulosID.setOnMouseDragged(e->{
+           angulosID.setX(e.getX());
+           angulosID.setY(e.getY());
+        });
+        
         
         //map_scrollpane.setPannable(false);
         
@@ -440,19 +456,20 @@ public class FXMLProblemaController implements Initializable {
             event.consume();
             
         }
+        mouseOnClick = true;
 }
 
     @FXML
     private void MReleaseEnMapa(MouseEvent event) {
-        
-        
-        
-        
+        mouseOnClick = false;
+        //System.out.println(mouseOnClick);
     }
 
     @FXML
     private void MclickEnMapa(MouseEvent event) {
+        mouseOnClick = true;
         
+        //System.out.println(mouseOnClick);
         //Línea
         if (ToggBLapizID.selectedProperty().getValue()){
             linePainting = new Line(event.getX(), event.getY(),event.getX(),event.getY());
@@ -461,8 +478,14 @@ public class FXMLProblemaController implements Initializable {
             dibList.add(linePainting);
             linePainting.setStrokeWidth(tamanoLinea);
             
+            linePainting.setOnMouseEntered(e->{
+                //System.out.println(mouseOnClick);
+                
+                if (ToggGomaID.selectedProperty().getValue())
+                    mapaPane.getChildren().remove((Node)e.getSource());
+
+            });
             
-            //Se supone que esto funciona si la gerarquía no varía...
             linePainting.setOnContextMenuRequested(e -> {
                 ContextMenu menuContext = new ContextMenu();
                 MenuItem borrarItem = new MenuItem("eliminar");
@@ -471,7 +494,10 @@ public class FXMLProblemaController implements Initializable {
                     mapaPane.getChildren().remove((Node)e.getSource());
                     ev.consume();
                 });
-                menuContext.show(linePainting, e.getSceneX(), e.getSceneY());
+                Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+                menuContext.setX(e.getX());
+                menuContext.setY(e.getY());
+                menuContext.show(linePainting,  stage.getX()+e.getX(), stage.getY()+e.getY());
             });
         }
         //Compás
@@ -567,6 +593,10 @@ public class FXMLProblemaController implements Initializable {
         tamanoFuente = num;
         TamFuenteFieldID.setText(""+num);
         LabelMuestraID.setFont(new Font(LabelMuestraID.getFont().getName(), num));
+    }
+
+    @FXML
+    private void angulosDragAct(MouseEvent event) {
     }
 
     

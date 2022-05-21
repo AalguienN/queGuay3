@@ -165,6 +165,11 @@
                                           <String fx:value="map-pin" />
                                        </styleClass>
                                     </MenuButton>
+                                    <ImageView fx:id="angulosID" fitHeight="150.0" fitWidth="200.0" onDragDetected="#angulosDragAct" opacity="0.5" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../resources/transportador.png" />
+                                       </image>
+                                    </ImageView>
                                  </children>
                               </Pane>
                            </content>
@@ -177,7 +182,19 @@
                            <items>
                               <ToolBar orientation="VERTICAL">
                                  <items>
-                                    <ToggleButton fx:id="ToggPuntoID1" mnemonicParsing="false">
+                                    <ToggleButton fx:id="ToggMovID" mnemonicParsing="false">
+                                       <graphic>
+                                          <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../resources/icons8-mover-64.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="ToolBar" />
+                                       </toggleGroup>
+                                    </ToggleButton>
+                                    <ToggleButton fx:id="ToggPuntoID1" mnemonicParsing="false" toggleGroup="$ToolBar">
                                        <graphic>
                                           <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -185,9 +202,6 @@
                                              </image>
                                           </ImageView>
                                        </graphic>
-                                       <toggleGroup>
-                                          <ToggleGroup fx:id="ToolBar" />
-                                       </toggleGroup>
                                     </ToggleButton>
                                     <ToggleButton fx:id="ToggBLapizID" mnemonicParsing="false" toggleGroup="$ToolBar">
                                        <graphic>
