@@ -341,6 +341,8 @@ public class FXMLProblemaController implements Initializable {
     private void muestraPosicion(MouseEvent event) {
         posicion.setText("sceneX: " + (int) event.getSceneX() + ", sceneY: " + (int) event.getSceneY() + "\n"
                 + "         X: " + (int) event.getX() + ",          Y: " + (int) event.getY());
+        
+        
     }
 
     @FXML
@@ -441,6 +443,8 @@ public class FXMLProblemaController implements Initializable {
     @FXML
     private void MReleaseEnMapa(MouseEvent event) {
         mouseOnClick = false;
+        iniX = event.getX();
+        iniY = event.getY();
         //System.out.println(mouseOnClick);
     }
 
@@ -696,6 +700,14 @@ public class FXMLProblemaController implements Initializable {
     private void FormaPuntoCuadrado(ActionEvent event) {
         FormaPuntoID.setText("Cuadrado");
         formaPunto = "Cuadrado";
+    }
+
+    @FXML
+    private void TiggAngID(ActionEvent event) {
+        Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        
+        angulosID.setX(iniX);
+        angulosID.setY(iniY);
     }
 
     

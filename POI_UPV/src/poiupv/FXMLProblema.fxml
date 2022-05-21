@@ -228,7 +228,7 @@
                                           </ImageView>
                                        </graphic>
                                     </ToggleButton>
-                                    <ToggleButton fx:id="ToggAngID" mnemonicParsing="false">
+                                    <ToggleButton fx:id="ToggAngID" mnemonicParsing="false" onAction="#TiggAngID">
                                        <graphic>
                                           <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
