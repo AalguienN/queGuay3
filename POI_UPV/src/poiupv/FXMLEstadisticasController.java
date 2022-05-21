@@ -12,7 +12,9 @@ import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,6 +33,7 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import model.Navegacion;
 import java.util.Random; //Borrar en el futuro
+import java.util.Set;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -72,6 +75,7 @@ public class FXMLEstadisticasController implements Initializable {
     User usuario;
     int aciertos;
     int fallos;
+    Map<LocalDate, Auxiliar> mapa = new HashMap<LocalDate, Auxiliar>();
     List<Session>  lista;
     List<LocalDate> listaFechas = new ArrayList();
     int HITS;
@@ -89,7 +93,7 @@ public class FXMLEstadisticasController implements Initializable {
         } catch (NavegacionDAOException ex) {
             Logger.getLogger(FXMLInicioController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        printChar();
+        
         
         id_porcentajeAcierto1.sceneProperty().addListener((obs, oldScene, newScene) -> {
             Platform.runLater(() -> {
@@ -119,18 +123,43 @@ public class FXMLEstadisticasController implements Initializable {
                   
                   if (!listaFechas.isEmpty()) {
 			if(listaFechas.contains(item)) {
-			this.setStyle("-fx-background-color: yellow");}}
+			this.setStyle("-fx-background-color: pink");}}
               };
             };
           }});
 
+        id_checkFecha.disableProperty().set(true);
+        
+        id_fechaFiltrar.valueProperty().addListener((o, oldV, newV) -> {
+                if(newV!=null){
+                    id_checkFecha.disableProperty().set(false);
+                    
+                if(id_checkFecha.isSelected()) {
+                    id_barChar.getData().clear();
             
+                    XYChart.Series datos = new XYChart.Series();
+                    datos.setName(id_fechaFiltrar.getValue().toString());
+
+                    id_porcentajeAcierto1.setText("Sesion del: " + id_fechaFiltrar.getValue().toString());
+                    
+                    LocalDate dia = id_fechaFiltrar.getValue();
+                    if(mapa.containsKey(dia)) {
+                        Auxiliar aux = mapa.get(dia);
+                        datos.getData().add(new XYChart.Data("ACIERTOS",aux.getAciertos()));
+                        datos.getData().add(new XYChart.Data("FALLOS",aux.getFallos()));
+                    } else {
+                        datos.getData().add(new XYChart.Data("ACIERTOS",0));
+                        datos.getData().add(new XYChart.Data("FALLOS",0));
+                    }
+                    
+                    id_barChar.getData().addAll(datos);
+                }}});
         
-        
+        id_checkFecha.selectedProperty().addListener((o, oldV, newV) -> {
+                if(!id_checkFecha.isSelected()) {printChar();}
+        });
     }   
     
-    
-
     @FXML
     private void volverMenuPrincipal(ActionEvent event) throws IOException {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLPrincipal.fxml"));
@@ -145,25 +174,49 @@ public class FXMLEstadisticasController implements Initializable {
 
     }
     
-    private void printChar(){
-        XYChart.Series series1 = new XYChart.Series();
-        series1.setName("Porcentaje de acierto");
-                
-        actual = LocalDate.now();
-        Random rand = new Random();
-        for (int i = 6; i >= 0; i--){
-            int randInt = rand.nextInt(100); 
-            LocalDate dia = actual;
-            dia = dia.minusDays(i);
-            series1.getData().add(new XYChart.Data(dia.toString(),randInt));
-        }
-        id_barChar.getData().addAll(series1);
-    }
+    private void printChar() {
+        LocalDate dia = LocalDate.now();
+        
+        XYChart.Series aciertos = new XYChart.Series();
+        aciertos.setName("Aciertos");
+        XYChart.Series fallos = new XYChart.Series();
+        fallos.setName("Fallos");
 
+        for(int j = 6; j >= 0; j--) {
+            if(mapa.containsKey(dia)) {
+                Auxiliar aux = mapa.get(dia);
+                aciertos.getData().add(new XYChart.Data(dia.toString(),aux.getAciertos()));
+                fallos.getData().add(new XYChart.Data(dia.toString(),aux.getFallos()));
+            } else {
+                aciertos.getData().add(new XYChart.Data(dia.toString(),0));
+                fallos.getData().add(new XYChart.Data(dia.toString(),0));
+            }
+            dia = dia.minusDays(1);
+        }
+        
+        id_barChar.getData().addAll(aciertos);
+        id_barChar.getData().addAll(fallos);
+    }
+    
     @FXML
     private void filtrarFecha(ActionEvent event) {
             id_barChar.getData().clear();
-            printChar();
+            LocalDate dia = id_fechaFiltrar.getValue();
+            
+            XYChart.Series datos = new XYChart.Series();
+            datos.setName(dia.toString());
+            
+            id_porcentajeAcierto1.setText("Sesion del: " + dia.toString());
+            if(mapa.containsKey(dia)) {
+                Auxiliar aux = mapa.get(dia);
+                datos.getData().add(new XYChart.Data("ACIERTOS",aux.getAciertos()));
+                datos.getData().add(new XYChart.Data("FALLOS",aux.getFallos()));
+            } else {
+                datos.getData().add(new XYChart.Data("ACIERTOS",0));
+                datos.getData().add(new XYChart.Data("FALLOS",0));
+            }
+            
+            id_barChar.getData().addAll(datos);
     }
     
     public void pasarDatos(User u, int aciertos, int fallos) {
@@ -178,18 +231,28 @@ public class FXMLEstadisticasController implements Initializable {
             HITS += sesion.getHits();
             FAULTS += sesion.getFaults();
             listaFechas.add(sesion.getLocalDate());
+            
+            Auxiliar aux = mapa.get(sesion.getLocalDate());
+            
+            if(aux == null) {mapa.put(sesion.getLocalDate(), new Auxiliar(sesion.getHits(), sesion.getFaults()));
+            }else {
+                aux.setAciertos(aux.getAciertos()+ sesion.getHits());
+                aux.setFallos(aux.getFallos()+ sesion.getFaults());
+                mapa.put(sesion.getLocalDate(), aux);
+            }
+            
         }
         HITS += aciertos;
         FAULTS += fallos;
-
-        System.out.println(HITS + " " + FAULTS);
-        System.out.println();
         
         if((HITS+FAULTS) == 0) {id_porcentajeAcierto.setText("0%");
         } else {
         double valor = Math.round((double)HITS/(HITS+FAULTS) * 100);
-        id_porcentajeAcierto.setText(Double.toString(valor));
+        id_porcentajeAcierto.setText(Double.toString(valor)+ "%");
         }
+        
+        printChar();
+        
     }
     
     
