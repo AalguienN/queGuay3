@@ -62,6 +62,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseButton;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
@@ -180,6 +182,14 @@ public class FXMLProblemaController implements Initializable {
     @FXML
     private ToggleButton ToggMovID;
     
+    private boolean compasInteractable;
+    @FXML
+    private ToggleButton ToggCursorID;
+    
+    private String formaPunto;
+    @FXML
+    private MenuButton FormaPuntoID;
+    
     //SII problema >= 0 saca problema de la lista
     //SII problema = -1 problema aleatorio
     public void setProblemaActual(int problema){
@@ -281,6 +291,7 @@ public class FXMLProblemaController implements Initializable {
         // TODO
         initData();
         
+        
         //Pintar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
         //Listeners
         respuestaSeleccionada = new SimpleBooleanProperty();
@@ -293,14 +304,17 @@ public class FXMLProblemaController implements Initializable {
         dibList = new ArrayList<Object>();
         
         
-        map_scrollpane.pannableProperty().bind(ToggBLapizID.selectedProperty()
-                .or(ToggPuntoID1.selectedProperty().or(ToggCompID.selectedProperty())
-                ).or(ToggGomaID.selectedProperty()).not());
+        map_scrollpane.pannableProperty().bind(ToggMovID.selectedProperty());
         
+        compasInteractable = false;
         angulosID.setOnMouseDragged(e->{
-           angulosID.setX(e.getX());
-           angulosID.setY(e.getY());
+           if (ToggAngID.selectedProperty().getValue()){
+            angulosID.setX(e.getX());
+            angulosID.setY(e.getY());
+           }
         });
+        
+        angulosID.disableProperty().bind(ToggCursorID.selectedProperty().not());
         
         
         //map_scrollpane.setPannable(false);
@@ -497,7 +511,7 @@ public class FXMLProblemaController implements Initializable {
                 Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
                 menuContext.setX(e.getX());
                 menuContext.setY(e.getY());
-                menuContext.show(linePainting,  stage.getX()+e.getX(), stage.getY()+e.getY());
+                menuContext.show(linePainting,  stage.getX()+e.getSceneX(), stage.getY()+e.getSceneY());
             });
         }
         //Compás
@@ -514,20 +528,83 @@ public class FXMLProblemaController implements Initializable {
             circlePainting.setCenterY(event.getY());
             iniX = event.getX();
             iniY = event.getY();
+            
+            circlePainting.setOnMouseEntered(e->{
+                //System.out.println(mouseOnClick);
+                
+                if (ToggGomaID.selectedProperty().getValue())
+                    mapaPane.getChildren().remove((Node)e.getSource());
+
+            });
+            
+            circlePainting.setOnContextMenuRequested(e -> {
+                ContextMenu menuContext = new ContextMenu();
+                MenuItem borrarItem = new MenuItem("eliminar");
+                menuContext.getItems().add(borrarItem);
+                borrarItem.setOnAction(ev -> {
+                    mapaPane.getChildren().remove((Node)e.getSource());
+                    ev.consume();
+                });
+                Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+                menuContext.setX(e.getX());
+                menuContext.setY(e.getY());
+                menuContext.show((Node)e.getSource(),  stage.getX()+e.getSceneX(), stage.getY()+e.getSceneY());
+            });
         }
         //Punto
         if(ToggPuntoID1.selectedProperty().getValue()){
-            Circle pin = new Circle();
-            pin.setCenterX(event.getX());
-            pin.setCenterY(event.getY());
-            pin.setRadius(2);
+            Shape pin = new Rectangle();
+            if (formaPunto == "Cuadrado"){
+                Rectangle auxPin = new Rectangle();
+                
+                auxPin.setHeight(4);
+                auxPin.setWidth(4);
+                auxPin.setX(event.getX()-2);
+                auxPin.setY(event.getY()-2);
+                
+                pin = auxPin;
+            }
+            else {
+                Circle auxPin = new Circle();
+                
+                auxPin.setRadius(2);
+                auxPin.setCenterX(event.getX());
+                auxPin.setCenterY(event.getY());
+                
+                pin = auxPin;
+            }
+            
             pin.setStroke(ColorPickerID.getValue());
             pin.setFill(Color.TRANSPARENT);
 
             pin.getStyleClass().clear();
             mapaPane.getChildren().add(pin);
             dibList.add(pin);
+            
+            pin.setOnMouseEntered(e->{
+                //System.out.println(mouseOnClick);
+                
+                if (ToggGomaID.selectedProperty().getValue())
+                    mapaPane.getChildren().remove((Node)e.getSource());
+
+            });
+            
+            pin.setOnContextMenuRequested(e -> {
+                ContextMenu menuContext = new ContextMenu();
+                MenuItem borrarItem = new MenuItem("eliminar");
+                menuContext.getItems().add(borrarItem);
+                borrarItem.setOnAction(ev -> {
+                    mapaPane.getChildren().remove((Node)e.getSource());
+                    ev.consume();
+                });
+                Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+                menuContext.setX(e.getX());
+                menuContext.setY(e.getY());
+                menuContext.show((Node)e.getSource(),  stage.getX()+e.getSceneX(), stage.getY()+e.getSceneY());
+            });
         }  
+        
+        //texto
         if (ToggTextID.selectedProperty().getValue()){
             TextField texto = new TextField();
             
@@ -597,6 +674,28 @@ public class FXMLProblemaController implements Initializable {
 
     @FXML
     private void angulosDragAct(MouseEvent event) {
+    }
+
+    @FXML
+    private void cursorAct(ActionEvent event) {
+        ToggCursorID.selectedProperty().setValue(Boolean.TRUE);
+    }
+
+    @FXML
+    private void FormaPuntoAct(ActionEvent event) {
+        
+    }
+
+    @FXML
+    private void FormaPuntoCirculo(ActionEvent event) {
+        FormaPuntoID.setText("Circulo");
+        formaPunto = "Circulo";
+    }
+
+    @FXML
+    private void FormaPuntoCuadrado(ActionEvent event) {
+        FormaPuntoID.setText("Cuadrado");
+        formaPunto = "Cuadrado";
     }
 
     

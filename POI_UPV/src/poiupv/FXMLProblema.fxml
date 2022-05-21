@@ -29,6 +29,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -182,7 +183,19 @@
                            <items>
                               <ToolBar orientation="VERTICAL">
                                  <items>
-                                    <ToggleButton fx:id="ToggMovID" mnemonicParsing="false">
+                                    <ToggleButton fx:id="ToggCursorID" mnemonicParsing="false" onAction="#cursorAct">
+                                       <graphic>
+                                          <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../resources/icons8-cursor-50.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="ToolBar" />
+                                       </toggleGroup>
+                                    </ToggleButton>
+                                    <ToggleButton fx:id="ToggMovID" mnemonicParsing="false" toggleGroup="$ToolBar">
                                        <graphic>
                                           <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -190,9 +203,6 @@
                                              </image>
                                           </ImageView>
                                        </graphic>
-                                       <toggleGroup>
-                                          <ToggleGroup fx:id="ToolBar" />
-                                       </toggleGroup>
                                     </ToggleButton>
                                     <ToggleButton fx:id="ToggPuntoID1" mnemonicParsing="false" toggleGroup="$ToolBar">
                                        <graphic>
@@ -313,11 +323,21 @@
                                     </Label>
                                  </children>
                               </HBox>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Forma:" underline="true">
-                                 <VBox.margin>
-                                    <Insets top="5.0" />
-                                 </VBox.margin>
-                              </Text>
+                              <Label text="Forma punto:" underline="true" wrapText="true" />
+                              <MenuButton fx:id="FormaPuntoID" mnemonicParsing="false" onAction="#FormaPuntoAct" text="Forma">
+                                <items>
+                                  <MenuItem mnemonicParsing="false" onAction="#FormaPuntoCirculo" text="Circulo">
+                                       <graphic>
+                                          <Circle fill="WHITE" radius="5.0" stroke="RED" strokeType="INSIDE" strokeWidth="2.0" />
+                                       </graphic>
+                                    </MenuItem>
+                                  <MenuItem mnemonicParsing="false" onAction="#FormaPuntoCuadrado" text="Cuadrado">
+                                       <graphic>
+                                          <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="10.0" stroke="BLACK" strokeType="INSIDE" width="10.0" />
+                                       </graphic>
+                                    </MenuItem>
+                                </items>
+                              </MenuButton>
                            </children>
                         </VBox>
                      </children>
