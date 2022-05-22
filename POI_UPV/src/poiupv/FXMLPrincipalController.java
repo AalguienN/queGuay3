@@ -152,7 +152,6 @@ public class FXMLPrincipalController implements Initializable {
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();
-        
     }
     */
 /*
@@ -210,6 +209,7 @@ public class FXMLPrincipalController implements Initializable {
         
         primaryStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         primaryStage.setScene(scene);
+        primaryStage.setFullScreen(!primaryStage.isFullScreen());
         primaryStage.setResizable(true);
         primaryStage.show();
         
