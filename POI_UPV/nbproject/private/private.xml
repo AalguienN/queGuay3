@@ -1,23 +1,18 @@
-<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/User/Documents/Jorge/Universidad/2º/2º%20cuatri/Practicas/IPC/Entregable/Proyecto/queGuay3/POI_UPV/src/poiupv/FXMLPrincipalController.java</file>
-            <file>file:/C:/Users/User/Documents/Jorge/Universidad/2º/2º%20cuatri/Practicas/IPC/Entregable/Proyecto/queGuay3/POI_UPV/src/poiupv/FXMLInicioController.java</file>
-            <file>file:/C:/Users/User/Documents/Jorge/Universidad/2º/2º%20cuatri/Practicas/IPC/Entregable/Proyecto/queGuay3/POI_UPV/src/poiupv/FXMLModificarController.java</file>
+            <file>file:/C:/Users/Adrián/Desktop/EntregaIPC/queGuay3/POI_UPV/src/poiupv/FXMLModificarController.java</file>
+            <file>file:/C:/Users/Adrián/Desktop/EntregaIPC/queGuay3/POI_UPV/src/poiupv/FXMLInicioController.java</file>
+            <file>file:/C:/Users/Adrián/Desktop/EntregaIPC/queGuay3/POI_UPV/src/poiupv/FXMLProblemasListaController.java</file>
+            <file>file:/C:/Users/Adrián/Desktop/EntregaIPC/queGuay3/POI_UPV/src/poiupv/FXMLPrincipalController.java</file>
+            <file>file:/C:/Users/Adrián/Desktop/EntregaIPC/queGuay3/POI_UPV/src/poiupv/FXMLProblemasLista.fxml</file>
+            <file>file:/C:/Users/Adrián/Desktop/EntregaIPC/queGuay3/POI_UPV/src/css/estilos.css</file>
+            <file>file:/C:/Users/Adrián/Desktop/EntregaIPC/queGuay3/POI_UPV/src/poiupv/FXMLRegistroController.java</file>
+            <file>file:/C:/Users/Adrián/Desktop/EntregaIPC/queGuay3/POI_UPV/src/poiupv/FXMLProblemaController.java</file>
+            <file>file:/C:/Users/Adrián/Desktop/EntregaIPC/queGuay3/POI_UPV/src/poiupv/FXMLProblema.fxml</file>
+            <file>file:/C:/Users/Adrián/Desktop/EntregaIPC/queGuay3/POI_UPV/src/css/a.css</file>
         </group>
     </open-files>
 </project-private>
-=======
-<?xml version="1.0" encoding="UTF-8"?>
-<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
-    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/marta/OneDrive/Escritorio/queGuay3/POI_UPV/src/poiupv/FXMLModificarController.java</file>
-        </group>
-    </open-files>
-</project-private>
->>>>>>> ModificarPerfil
