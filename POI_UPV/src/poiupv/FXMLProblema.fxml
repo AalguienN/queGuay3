@@ -40,7 +40,7 @@
          <children>
             <SplitPane dividerPositions="0.25, 0.99">
                <items>
-                  <VBox maxWidth="500.0" minWidth="200.0" spacing="5.0">
+                  <VBox maxWidth="500.0" minWidth="210.0" spacing="5.0">
                      <children>
                         <VBox spacing="10.0">
                            <children>
@@ -64,7 +64,7 @@
                                     </HBox>
                                     <Label fx:id="id_TituloProblema" text="Problema X" wrapText="true">
                                        <font>
-                                          <Font name="Arial Rounded MT Bold" size="18.0" />
+                                          <Font name="Arial Rounded MT Bold" size="17.0" />
                                        </font>
                                     </Label>
                                  </children>
@@ -96,11 +96,16 @@
                         </VBox>
                         <HBox alignment="CENTER_RIGHT">
                            <children>
-                              <Button fx:id="id_confirmRepsButton" mnemonicParsing="false" onAction="#ConfirmarRespuesta" text="Confirmar respuesta">
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </Button>
+                              <VBox spacing="10.0">
+                                 <children>
+                                    <Button fx:id="id_confirmRepsButton" mnemonicParsing="false" onAction="#ConfirmarRespuesta" text="Confirmar respuesta">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Button>
+                                    <Button mnemonicParsing="false" onAction="#irAOtroProblema" text="Otro Problema Aleatorio" />
+                                 </children>
+                              </VBox>
                            </children>
                            <VBox.margin>
                               <Insets left="20.0" right="20.0" />
@@ -154,7 +159,7 @@
                                           <Rectangle2D />
                                        </viewport>
                                     </ImageView>
-                                    <ImageView fx:id="angulosID" fitHeight="150.0" fitWidth="200.0" layoutX="33.0" layoutY="-6.0" onDragDetected="#angulosDragAct" opacity="0.5" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="angulosID" fitHeight="150.0" fitWidth="200.0" layoutX="47.0" layoutY="31.0" onDragDetected="#angulosDragAct" opacity="0.5" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../resources/transportador.png" />
                                        </image>
