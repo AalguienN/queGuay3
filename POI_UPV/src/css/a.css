@@ -1,4 +1,82 @@
 .button{
     -fx-border-radius: 10%;
-    -fx-background-color:  yellowgreen;
+    -fx-background-color:  #69DAFF;
+    -fx-background-radius: 15px;
+    -fx-text-fill:  white;
+}
+
+.hyperlink {
+    -fx-text-fill:  white;
+}
+
+#Titulo {
+    -fx-background-color:  #69DAFF;
+}
+
+#Fondo {
+    -fx-background-color:  #63757B;
+}
+
+.label {-fx-text-fill:  white;}
+.text {-fx-text-fill:  white;}
+
+#PrincipalTitulo{-fx-fill:  white;}
+
+#MenuButton{
+    -fx-background-color:  #69DAFF;
+    -fx-text-fill:  white;
+    -fx-my-menu-color: black;
+    -fx-my-menu-color-highlighted: #69DAFF;
+}
+
+.check-box {-fx-text-fill:  white;}
+
+.date-picker .text-field {
+    -fx-control-inner-background: #424647;
+    -fx-text-fill:  white;
+}
+
+.date-picker .cell {
+	-fx-background-color: #424647;
+        -fx-text-fill:  white;
+}
+
+.date-picker-popup .month-year-pane {
+	-fx-background-color: #69DAFF;
+}
+
+.date-picker-popup .month-year-pane .label {
+	-fx-text-fill: white;
+}
+
+.chart-plot-background {
+    -fx-background-color: transparent;
+}
+  
+.axis {
+    -fx-text-fill: white;
+    -fx-tick-label-fill: white;
+}
+
+#Region {
+    -fx-background-color:  #7F98A0;
+}
+
+#Lista{
+    -fx-background-color: #63757B;
+}
+
+.scroll-bar{-fx-background-color:  #465255;}
+
+.scroll-bar:vertical .increment-arrow,
+ .scroll-bar:vertical .decrement-arrow{
+    -fx-shape-color : #69DAFF; 
+}
+
+.scroll-bar:vertical .thumb {
+    -fx-background-color : #69DAFF;
+}
+
+#Otro {
+    -fx-background-color : #465255;;
 }

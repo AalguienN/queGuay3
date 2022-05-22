@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="poiupv.FXMLEstadisticasController">
+<BorderPane id="Fondo" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/a.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="poiupv.FXMLEstadisticasController">
    <center>
       <VBox prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
@@ -22,7 +22,7 @@
                <children>
                   <VBox prefHeight="175.0" prefWidth="185.0">
                      <children>
-                        <Text fx:id="id_porcentajeAcierto2" fill="YELLOWGREEN" strokeType="OUTSIDE" strokeWidth="0.0" text="Porcentaje de aciertos general:" wrappingWidth="165.9375">
+                        <Text id="PrincipalTitulo" fx:id="id_porcentajeAcierto2" strokeType="OUTSIDE" strokeWidth="0.0" text="Porcentaje de aciertos general:" wrappingWidth="165.9375">
                            <font>
                               <Font name="Arial Rounded MT Bold" size="20.0" />
                            </font>
@@ -95,9 +95,9 @@
       </VBox>
    </center>
    <top>
-      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: olivedrab;" BorderPane.alignment="CENTER">
+      <HBox id="Titulo" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Estadísticas">
+            <Text id="Titulo" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Estadísticas">
                <font>
                   <Font name="Arial Rounded MT Bold" size="50.0" />
                </font>
@@ -111,7 +111,7 @@
    <bottom>
       <HBox alignment="BOTTOM_RIGHT" BorderPane.alignment="CENTER_RIGHT">
          <children>
-            <Button fx:id="id_volverMenuPrincipalButton" mnemonicParsing="false" onAction="#volverMenuPrincipal" style="-fx-background-color: yellowgreen;" text="Volver a menú principal" textFill="WHITE">
+            <Button fx:id="id_volverMenuPrincipalButton" mnemonicParsing="false" onAction="#volverMenuPrincipal" text="Volver a menú principal" textFill="WHITE">
                <HBox.margin>
                   <Insets bottom="20.0" right="20.0" />
                </HBox.margin>

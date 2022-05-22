@@ -15,9 +15,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="550.0" prefWidth="450.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="poiupv.FXMLRegistroController">
+<BorderPane id="Fondo" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="550.0" prefWidth="450.0" stylesheets="@../css/a.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="poiupv.FXMLRegistroController">
    <top>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #0685BC;" BorderPane.alignment="CENTER_LEFT">
+      <HBox id="Titulo" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER_LEFT">
          <children>
             <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Registro">
                <font>
@@ -40,7 +40,7 @@
       <HBox alignment="CENTER_RIGHT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="30.0" prefWidth="360.0" spacing="25.0" BorderPane.alignment="CENTER_RIGHT">
          <children>
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="25.0" />
-            <Button fx:id="id_buttonA" alignment="CENTER" minWidth="80.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#handleAcceptOnAction" prefWidth="100.0" style="-fx-background-color: #0685BC;" text="Aceptar" textAlignment="CENTER" textFill="WHITE">
+            <Button fx:id="id_buttonA" alignment="CENTER" minWidth="80.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#handleAcceptOnAction" prefWidth="100.0" text="Aceptar" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -48,7 +48,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="id_buttonC" alignment="CENTER" minWidth="80.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#handleCancelOnAction" prefWidth="100.0" style="-fx-background-color: #0685BC;" text="Cancelar" textFill="WHITE">
+            <Button fx:id="id_buttonC" alignment="CENTER" minWidth="80.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#handleCancelOnAction" prefWidth="100.0" text="Cancelar" textFill="WHITE">
                <HBox.margin>
                   <Insets />
                </HBox.margin>

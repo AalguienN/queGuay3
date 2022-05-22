@@ -24,11 +24,11 @@
       <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
-    <AnchorPane fx:id="id_split" minHeight="160.0" minWidth="100.0" prefHeight="160.0" prefWidth="100.0">
+    <AnchorPane id="Fondo" fx:id="id_split" minHeight="160.0" minWidth="100.0" prefHeight="160.0" prefWidth="100.0" stylesheets="@../css/a.css">
          <children>
             <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="182.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="NavTest">
+                  <Text id="PrincipalTitulo" strokeType="OUTSIDE" strokeWidth="0.0" text="NavTest">
                      <VBox.margin>
                         <Insets bottom="70.0" top="30.0" />
                      </VBox.margin>
@@ -60,7 +60,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <MenuButton fx:id="id_MenuButton" mnemonicParsing="false" text="Nickname">
+                  <MenuButton id="MenuButton" fx:id="id_MenuButton" mnemonicParsing="false" text="Nickname">
                      <items>
                         <MenuItem mnemonicParsing="false" onAction="#modificarPerfil" text="Modificar Perfil" />
                         <MenuItem mnemonicParsing="false" onAction="#cerrarSesion" text="Cerrar Sesión" />

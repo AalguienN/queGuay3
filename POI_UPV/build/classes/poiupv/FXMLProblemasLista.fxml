@@ -9,20 +9,20 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="poiupv.FXMLProblemasListaController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="400.0" stylesheets="@../css/a.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="poiupv.FXMLProblemasListaController">
    <center>
       <ScrollPane hbarPolicy="NEVER" vbarPolicy="ALWAYS" vmax="10.0" BorderPane.alignment="CENTER">
         <content>
           <AnchorPane fx:id="id_AnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="1300.0" prefWidth="380.0">
                <children>
-                  <VBox fx:id="id_vBox" alignment="TOP_CENTER" fillWidth="false" prefWidth="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <VBox id="Lista" fx:id="id_vBox" alignment="TOP_CENTER" fillWidth="false" prefWidth="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
         </content>
       </ScrollPane>
    </center>
    <bottom>
-      <HBox alignment="CENTER" style="-fx-background-color: #9acd32;" BorderPane.alignment="CENTER">
+      <HBox id="Region" alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
             <Button mnemonicParsing="false" onAction="#handleMenu" prefWidth="100.0" text="Menú">
                <HBox.margin>
@@ -38,12 +38,12 @@
       </HBox>
    </bottom>
    <left>
-      <Region prefWidth="10.0" style="-fx-background-color: #9acd32;" BorderPane.alignment="CENTER" />
+      <Region id="Region" prefWidth="10.0" BorderPane.alignment="CENTER" />
    </left>
    <right>
-      <Region prefWidth="10.0" style="-fx-background-color: #9acd32;" BorderPane.alignment="CENTER" />
+      <Region id="Region" prefWidth="10.0" BorderPane.alignment="CENTER" />
    </right>
    <top>
-      <Region prefHeight="10.0" style="-fx-background-color: #9acd32;" BorderPane.alignment="CENTER" />
+      <Region id="Region" prefHeight="10.0" BorderPane.alignment="CENTER" />
    </top>
 </BorderPane>
