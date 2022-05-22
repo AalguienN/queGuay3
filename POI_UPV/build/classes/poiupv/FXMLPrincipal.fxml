@@ -78,7 +78,7 @@
          <children>
             <ImageView fitHeight="400.0" fitWidth="350.0" pickOnBounds="true">
                <image>
-                  <Image url="@../resources/carta_nautica.jpg" />
+                  <Image url="@../resources/homer.gif" />
                </image>
             </ImageView>
             <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="75.0" AnchorPane.rightAnchor="75.0" AnchorPane.topAnchor="100.0">
