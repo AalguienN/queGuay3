@@ -23,7 +23,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -52,11 +54,14 @@ public class FXMLPrincipalController implements Initializable {
     private Scene scene;
     @FXML
     private AnchorPane id_split;
-    @FXML
     private Label id_salir;
     User usuario;
     int aciertos;
     int fallos;
+    @FXML
+    private MenuButton id_MenuButton;
+    @FXML
+    private ImageView id_avatar;
     
     /**
      * Initializes the controller class.
@@ -65,6 +70,7 @@ public class FXMLPrincipalController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         try {
             datos = Navegacion.getSingletonNavegacion();
+            
             
         } catch (NavegacionDAOException ex) {
             Logger.getLogger(FXMLPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
@@ -94,10 +100,12 @@ public class FXMLPrincipalController implements Initializable {
         usuario = u;
         this.aciertos = aciertos;
         this.fallos = fallos;
+        id_MenuButton.setText(usuario.getNickName());
+        id_avatar.setImage(usuario.getAvatar());
     }
     
     public void pasarDatosA(User u) {
-        usuario = u;
+        usuario = u;   
     }
 
     @FXML
@@ -132,7 +140,7 @@ public class FXMLPrincipalController implements Initializable {
         primaryStage.show();
     }
 
-    @FXML
+/*    @FXML
     private void modificarPerfil(MouseEvent event) throws IOException {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLModificar.fxml"));
@@ -146,7 +154,8 @@ public class FXMLPrincipalController implements Initializable {
         primaryStage.show();
         
     }
-
+    */
+/*
     @FXML
     private void cerrarSesion(MouseEvent event) throws IOException {
         LocalDateTime tiempo = LocalDateTime.now();
@@ -165,8 +174,7 @@ public class FXMLPrincipalController implements Initializable {
         primaryStage.setResizable(false);
         primaryStage.show();
     }
-
-    @FXML
+*/
     private void salir(MouseEvent event) {
         LocalDateTime tiempo = LocalDateTime.now();
         Session sesion = new Session(tiempo, aciertos, fallos);
@@ -205,5 +213,42 @@ public class FXMLPrincipalController implements Initializable {
         primaryStage.setResizable(true);
         primaryStage.show();
         
+    }
+
+    @FXML
+    private void cerrarSesion(ActionEvent event) throws IOException {
+        LocalDateTime tiempo = LocalDateTime.now();
+        Session sesion = new Session(tiempo, aciertos, fallos);
+        try {
+            usuario.addSession(sesion);
+        } catch (NavegacionDAOException ex) {
+            java.util.logging.Logger.getLogger(FXMLProblemaController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLInicio.fxml"));
+        Parent root = loader.load();
+        primaryStage = (Stage) id_listaProblemas.getScene().getWindow();
+        scene = new Scene(root);
+        primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
+        primaryStage.show();
+    }
+
+    @FXML
+    private void modificarPerfil(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLModificar.fxml"));
+        Parent root = loader.load();
+        FXMLModificarController controlador = loader.getController();
+        controlador.pasarDatos(usuario, aciertos, fallos);
+        primaryStage = (Stage) id_listaProblemas.getScene().getWindow();
+        scene = new Scene(root);
+        primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
+        primaryStage.show();
+    }
+
+    @FXML
+    private void salirEscritorio(ActionEvent event) {
+        System.exit(0);
     }
 }
