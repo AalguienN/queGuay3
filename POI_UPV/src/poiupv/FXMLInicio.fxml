@@ -15,9 +15,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="420.0" maxWidth="400.0" minHeight="420.0" minWidth="400.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="420.0" prefWidth="400.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="poiupv.FXMLInicioController">
+<BorderPane maxHeight="420.0" maxWidth="400.0" minHeight="420.0" minWidth="400.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="420.0" prefWidth="400.0" style="-fx-background-color: white;" stylesheets="@../css/a.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="poiupv.FXMLInicioController">
    <center>
-      <VBox alignment="CENTER_LEFT" prefWidth="380.0" BorderPane.alignment="TOP_CENTER">
+      <VBox alignment="CENTER_LEFT" prefWidth="380.0" stylesheets="@../css/a.css" BorderPane.alignment="TOP_CENTER">
          <children>
             <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
                <children>
@@ -74,9 +74,9 @@
                   </VBox>
                </children>
             </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox prefHeight="100.0" prefWidth="200.0" stylesheets="@../css/a.css">
                <children>
-                  <Button fx:id="id_iniciarSesion" contentDisplay="CENTER" defaultButton="true" minWidth="120.0" mnemonicParsing="false" onAction="#iniciarSesion" style="-fx-background-color: yellowgreen;" text="Iniciar Sesión" textAlignment="RIGHT" textFill="WHITE">
+                  <Button id="boton" fx:id="id_iniciarSesion" contentDisplay="CENTER" defaultButton="true" minWidth="120.0" mnemonicParsing="false" onAction="#iniciarSesion" text="Iniciar Sesión" textAlignment="RIGHT" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
@@ -87,7 +87,7 @@
                         <Insets left="80.0" right="30.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="id_cancelar" cancelButton="true" contentDisplay="CENTER" minWidth="120.0" mnemonicParsing="false" onAction="#cancelar" style="-fx-background-color: yellowgreen;" text="Cancelar" textAlignment="RIGHT" textFill="WHITE">
+                  <Button fx:id="id_cancelar" cancelButton="true" contentDisplay="CENTER" minWidth="120.0" mnemonicParsing="false" onAction="#cancelar" text="Cancelar" textAlignment="RIGHT" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
@@ -107,7 +107,7 @@
       </VBox>
    </center>
    <top>
-      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: olivedrab;" BorderPane.alignment="CENTER_LEFT">
+      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: olivedrab;" stylesheets="@../css/a.css" BorderPane.alignment="CENTER_LEFT">
          <children>
             <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="NavTest">
                <HBox.margin>
@@ -135,7 +135,7 @@
       </HBox>
    </top>
    <bottom>
-      <HBox alignment="CENTER_RIGHT" spacing="25.0" BorderPane.alignment="CENTER_RIGHT">
+      <HBox alignment="CENTER_RIGHT" spacing="25.0" stylesheets="@../css/a.css" BorderPane.alignment="CENTER_RIGHT">
          <BorderPane.margin>
             <Insets />
          </BorderPane.margin>

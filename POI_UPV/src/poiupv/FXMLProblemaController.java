@@ -807,7 +807,15 @@ public class FXMLProblemaController implements Initializable {
 
     @FXML
     private void irAOtroProblema(ActionEvent event) throws IOException{
-        switchToProblema(event,-1);
+        //switchToProblema(event,-1);
+        
+        
+        id_respuesta1.disableProperty().setValue(Boolean.FALSE);
+        id_respuesta2.disableProperty().setValue(Boolean.FALSE);
+        id_respuesta3.disableProperty().setValue(Boolean.FALSE);
+        id_respuesta4.disableProperty().setValue(Boolean.FALSE);
+        BorrarSeleccion(event);
+        setProblemaActual(-1);
         
     }
     
