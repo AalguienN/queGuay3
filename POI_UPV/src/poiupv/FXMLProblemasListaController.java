@@ -236,7 +236,6 @@ public class FXMLProblemasListaController implements Initializable {
         stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.setResizable(true);
-        stage.setFullScreen(!stage.isFullScreen());
         stage.show();
         
     }
