@@ -249,6 +249,14 @@ public class FXMLPrincipalController implements Initializable {
 
     @FXML
     private void salirEscritorio(ActionEvent event) {
+        LocalDateTime tiempo = LocalDateTime.now();
+        Session sesion = new Session(tiempo, aciertos, fallos);
+        try {
+            usuario.addSession(sesion);
+        } catch (NavegacionDAOException ex) {
+            java.util.logging.Logger.getLogger(FXMLProblemaController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        
         System.exit(0);
     }
 }
