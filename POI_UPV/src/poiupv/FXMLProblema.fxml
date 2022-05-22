@@ -17,6 +17,7 @@
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.effect.Blend?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -118,13 +119,16 @@
                      <children>
                         <HBox alignment="BOTTOM_RIGHT">
                            <children>
-                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView id="Lupa" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../resources/lupa%20j%20.png" />
+                                    <Image url="@../resources/lupa-blanca.png" />
                                  </image>
                                  <HBox.margin>
                                     <Insets right="5.0" />
                                  </HBox.margin>
+                                 <effect>
+                                    <Blend />
+                                 </effect>
                               </ImageView>
                               <Label onMouseClicked="#zoomOut" text="-">
                                  <cursor>
@@ -304,7 +308,7 @@
                                  <children>
                                     <TextField id="Texto" fx:id="TamLineaFieldID" onAction="#grosorLineaAct" prefWidth="35.0" text="3" />
                                     <Label text="px" />
-                                    <Circle fx:id="circuloMuestraID" radius="10.0" stroke="BLACK" strokeType="INSIDE">
+                                    <Circle fx:id="circuloMuestraID" fill="WHITE" radius="10.0" stroke="WHITE" strokeType="INSIDE">
                                        <HBox.margin>
                                           <Insets left="10.0" />
                                        </HBox.margin>
