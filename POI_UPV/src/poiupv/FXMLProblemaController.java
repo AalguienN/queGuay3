@@ -40,6 +40,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuButton;
@@ -190,6 +191,8 @@ public class FXMLProblemaController implements Initializable {
     private MenuButton FormaPuntoID;
     @FXML
     private ToggleButton ToggPosID;
+    @FXML
+    private Hyperlink id_borrarSeleccion;
     
     //SII problema >= 0 saca problema de la lista
     //SII problema = -1 problema aleatorio
@@ -266,7 +269,8 @@ public class FXMLProblemaController implements Initializable {
         respuestaSeleccionada = new SimpleBooleanProperty();
         respuestaSeleccionada.setValue(Boolean.FALSE);
         //Binding botón respuestas
-        id_confirmRepsButton.disableProperty().bind(respuestaSeleccionada.not());
+        id_confirmRepsButton.disableProperty().bind(respuestaSeleccionada.not().or(id_respuesta1.disableProperty()));
+        id_borrarSeleccion.disableProperty().bind(respuestaSeleccionada.not().or(id_respuesta1.disableProperty()));
         
         angulosID.visibleProperty().bind(ToggAngID.selectedProperty());
         //Lista de objetos de pintura
@@ -365,62 +369,46 @@ public class FXMLProblemaController implements Initializable {
 
     @FXML
     private void ConfirmarRespuesta(ActionEvent event) {
+        
+        for(int i = 0; i<4; i++){
+                if(problemaActual.getAnswers().get(intList.get(i)).getValidity() == true){
+                    switch (i){
+                        case 0:
+                                id_respuesta1.textFillProperty().set(Color.GREEN);
+                                break;
+                        case 1:
+                                id_respuesta2.textFillProperty().set(Color.GREEN);
+                                break;
+                        case 2:
+                                id_respuesta3.textFillProperty().set(Color.GREEN);
+                                break; 
+                        case 3:
+                                id_respuesta4.textFillProperty().set(Color.GREEN);
+                                break;
+                    }
+                }
+            }
+        
+        if(compararRespuesta()) {
+            aciertos++;
+            System.out.println("Correcto!");
+        } else {
+            fallos++;
+            if(id_respuesta1.isSelected()){
+                id_respuesta1.textFillProperty().set(Color.RED);
+            }else if(id_respuesta2.isSelected()){
+                id_respuesta2.textFillProperty().set(Color.RED);
+            }else if(id_respuesta3.isSelected()){
+                id_respuesta3.textFillProperty().set(Color.RED);
+            }else if(id_respuesta4.isSelected()){
+                id_respuesta4.textFillProperty().set(Color.RED);
+            }        
+            System.out.println("Falso :(");
+        }
         id_respuesta1.disableProperty().setValue(Boolean.TRUE);
         id_respuesta2.disableProperty().setValue(Boolean.TRUE);
         id_respuesta3.disableProperty().setValue(Boolean.TRUE);
         id_respuesta4.disableProperty().setValue(Boolean.TRUE);
-        
-        if(compararRespuesta()) {
-            aciertos++;
-            for(int i = 0; i<4; i++){
-                if(problemaActual.getAnswers().get(intList.get(i)).getValidity() == true){
-                    switch (i){
-                        case 0:
-                                id_respuesta1.textFillProperty().set(Color.GREEN);
-                                break;
-                        case 1:
-                                id_respuesta2.textFillProperty().set(Color.GREEN);
-                                break;
-                        case 2:
-                                id_respuesta3.textFillProperty().set(Color.GREEN);
-                                break; 
-                        case 3:
-                                id_respuesta4.textFillProperty().set(Color.GREEN);
-                                break;
-                    }
-                }
-            }
-            System.out.println("Correcto!");
-        } else {
-            fallos++;
-            for(int i = 0; i<4; i++){
-                if(problemaActual.getAnswers().get(intList.get(i)).getValidity() == true){
-                    switch (i){
-                        case 0:
-                                id_respuesta1.textFillProperty().set(Color.GREEN);
-                                break;
-                        case 1:
-                                id_respuesta2.textFillProperty().set(Color.GREEN);
-                                break;
-                        case 2:
-                                id_respuesta3.textFillProperty().set(Color.GREEN);
-                                break; 
-                        case 3:
-                                id_respuesta4.textFillProperty().set(Color.GREEN);
-                                break;
-                    }
-                }else if(id_respuesta1.isSelected()){
-                    id_respuesta1.textFillProperty().set(Color.RED);
-                }else if(id_respuesta2.isSelected()){
-                    id_respuesta2.textFillProperty().set(Color.RED);
-                }else if(id_respuesta3.isSelected()){
-                    id_respuesta3.textFillProperty().set(Color.RED);
-                }else if(id_respuesta4.isSelected()){
-                    id_respuesta4.textFillProperty().set(Color.RED);
-                }
-            }
-            System.out.println("Falso :(");
-        }
     }
 
     @FXML
