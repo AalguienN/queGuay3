@@ -804,6 +804,38 @@ public class FXMLProblemaController implements Initializable {
     private void ToggPosAct(ActionEvent event) {
     }
 
+    @FXML
+    private void irAOtroProblema(ActionEvent event) throws IOException{
+        switchToProblema(event,-1);
+        
+    }
+    
+    private void switchToProblema(ActionEvent event, int n) throws IOException{
+        //switchToScene(event, "FXMLProblema");
+        
+        
+        List<Problem> lista = navegador.getProblems();
+        
+        
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("FXMLProblema.fxml"));
+        Parent parent = loader.load();
+        
+        Scene scene = new Scene(parent);
+        
+        FXMLProblemaController controller = loader.getController();
+        //esta línea es para pasar referencia del problema concreto que vamos a realizar
+        //Estamos pasando información entre escenas!!!!
+        controller.setProblemaActual(n);
+        controller.pasarDatos(usuario, aciertos, fallos);
+        
+        primaryStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        primaryStage.setScene(scene);
+        primaryStage.setResizable(true);
+        primaryStage.show();
+        
+    }
+
     
 
 }
