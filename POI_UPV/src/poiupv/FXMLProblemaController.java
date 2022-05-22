@@ -337,9 +337,13 @@ public class FXMLProblemaController implements Initializable {
         try{   
             tamanoFuente = Integer.parseInt(TamFuenteFieldID.getText());
         } catch (final NumberFormatException e){}
+        LabelMuestraID.setFont(new Font(LabelMuestraID.getFont().getName(), tamanoFuente));
+
         try{   
             tamanoLinea = Integer.parseInt(TamLineaFieldID.getText());
         } catch (final NumberFormatException e){}
+        circuloMuestraID.setRadius(tamanoLinea/2);
+
     }
     @FXML
     private void muestraPosicion(MouseEvent event) {
@@ -746,7 +750,7 @@ public class FXMLProblemaController implements Initializable {
         tamanoLinea = num;
         TamLineaFieldID.setText(""+num);
         
-        circuloMuestraID.setRadius(num/2);
+        circuloMuestraID.setRadius(tamanoLinea/2);
         
     }
 
@@ -764,7 +768,7 @@ public class FXMLProblemaController implements Initializable {
         
         tamanoFuente = num;
         TamFuenteFieldID.setText(""+num);
-        LabelMuestraID.setFont(new Font(LabelMuestraID.getFont().getName(), num));
+        LabelMuestraID.setFont(new Font(LabelMuestraID.getFont().getName(), tamanoFuente));
     }
 
     @FXML
