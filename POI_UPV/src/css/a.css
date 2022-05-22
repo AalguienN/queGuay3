@@ -67,19 +67,6 @@
     -fx-my-menu-color-highlighted: #69DAFF;
 }
 
-.color-picker:focused {
-     -fx-background-color: #69DAFF;
-}
-
-.color-picker:focused .label {
-    -fx-text-fill: white;
-}
-
-.context-menu-color-picker {
-    -fx-background-color: #465255;
-}
-
-
 .check-box {-fx-text-fill:  white;}
 
 .date-picker .text-field {
