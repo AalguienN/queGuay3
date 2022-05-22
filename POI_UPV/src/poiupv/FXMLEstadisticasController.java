@@ -39,6 +39,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.DateCell;
+import javafx.scene.text.Text;
 import javafx.util.Callback;
 import model.Session;
 import model.User;
@@ -80,6 +81,8 @@ public class FXMLEstadisticasController implements Initializable {
     List<LocalDate> listaFechas = new ArrayList();
     int HITS;
     int FAULTS;
+    @FXML
+    private Text id_porcentajeAcierto2;
     
     
     /**
@@ -136,23 +139,34 @@ public class FXMLEstadisticasController implements Initializable {
                     
                 if(id_checkFecha.isSelected()) {
                     id_barChar.getData().clear();
-            
-                    XYChart.Series datos = new XYChart.Series();
-                    datos.setName(id_fechaFiltrar.getValue().toString());
+                LocalDate dia = id_fechaFiltrar.getValue();
+                int aciertosAux = 0;
+                int fallosAux = 0;
 
-                    id_porcentajeAcierto1.setText("Sesion del: " + id_fechaFiltrar.getValue().toString());
-                    
-                    LocalDate dia = id_fechaFiltrar.getValue();
-                    if(mapa.containsKey(dia)) {
-                        Auxiliar aux = mapa.get(dia);
-                        datos.getData().add(new XYChart.Data("ACIERTOS",aux.getAciertos()));
-                        datos.getData().add(new XYChart.Data("FALLOS",aux.getFallos()));
-                    } else {
-                        datos.getData().add(new XYChart.Data("ACIERTOS",0));
-                        datos.getData().add(new XYChart.Data("FALLOS",0));
-                    }
-                    
-                    id_barChar.getData().addAll(datos);
+                XYChart.Series datos = new XYChart.Series();
+                datos.setName(dia.toString());
+
+                id_porcentajeAcierto1.setText("Sesion del: " + dia.toString());
+                id_porcentajeAcierto2.setText("Porcentaje aciertos de sesion:");
+                if(mapa.containsKey(dia)) {
+                    Auxiliar aux = mapa.get(dia);
+                    aciertosAux = aux.getAciertos();
+                    fallosAux = aux.getFallos();
+
+                    datos.getData().add(new XYChart.Data("ACIERTOS",aciertosAux));
+                    datos.getData().add(new XYChart.Data("FALLOS",fallosAux));
+                } else {
+                    datos.getData().add(new XYChart.Data("ACIERTOS",0));
+                    datos.getData().add(new XYChart.Data("FALLOS",0));
+                }    
+
+                id_barChar.getData().addAll(datos);
+
+                if((aciertosAux+fallosAux) == 0) {id_porcentajeAcierto.setText("0%");
+                } else {
+                double valor = Math.round((double)aciertosAux/(aciertosAux+fallosAux) * 100);
+                id_porcentajeAcierto.setText(Double.toString(valor)+ "%");
+                }
                 }}});
         
         id_checkFecha.selectedProperty().addListener((o, oldV, newV) -> {
@@ -202,21 +216,33 @@ public class FXMLEstadisticasController implements Initializable {
     private void filtrarFecha(ActionEvent event) {
             id_barChar.getData().clear();
             LocalDate dia = id_fechaFiltrar.getValue();
+            int aciertosAux = 0;
+            int fallosAux = 0;
             
             XYChart.Series datos = new XYChart.Series();
             datos.setName(dia.toString());
             
             id_porcentajeAcierto1.setText("Sesion del: " + dia.toString());
+            id_porcentajeAcierto2.setText("Porcentaje aciertos de sesion:");
             if(mapa.containsKey(dia)) {
                 Auxiliar aux = mapa.get(dia);
-                datos.getData().add(new XYChart.Data("ACIERTOS",aux.getAciertos()));
-                datos.getData().add(new XYChart.Data("FALLOS",aux.getFallos()));
+                aciertosAux = aux.getAciertos();
+                fallosAux = aux.getFallos();
+                
+                datos.getData().add(new XYChart.Data("ACIERTOS",aciertosAux));
+                datos.getData().add(new XYChart.Data("FALLOS",fallosAux));
             } else {
                 datos.getData().add(new XYChart.Data("ACIERTOS",0));
                 datos.getData().add(new XYChart.Data("FALLOS",0));
-            }
+            }    
             
             id_barChar.getData().addAll(datos);
+            
+            if((aciertosAux+fallosAux) == 0) {id_porcentajeAcierto.setText("0%");
+            } else {
+            double valor = Math.round((double)aciertosAux/(aciertosAux+fallosAux) * 100);
+            id_porcentajeAcierto.setText(Double.toString(valor)+ "%");
+        }
     }
     
     public void pasarDatos(User u, int aciertos, int fallos) {

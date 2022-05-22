@@ -22,7 +22,7 @@
                <children>
                   <VBox prefHeight="175.0" prefWidth="185.0">
                      <children>
-                        <Text fill="YELLOWGREEN" strokeType="OUTSIDE" strokeWidth="0.0" text="Porcentaje de acierto:" wrappingWidth="142.9375">
+                        <Text fx:id="id_porcentajeAcierto2" fill="YELLOWGREEN" strokeType="OUTSIDE" strokeWidth="0.0" text="Porcentaje de aciertos general:" wrappingWidth="165.9375">
                            <font>
                               <Font name="Arial Rounded MT Bold" size="20.0" />
                            </font>
@@ -32,7 +32,7 @@
                         </Text>
                         <Label fx:id="id_porcentajeAcierto" prefHeight="60.0" prefWidth="135.0">
                            <font>
-                              <Font size="40.0" />
+                              <Font size="35.0" />
                            </font>
                            <VBox.margin>
                               <Insets left="30.0" right="30.0" />
