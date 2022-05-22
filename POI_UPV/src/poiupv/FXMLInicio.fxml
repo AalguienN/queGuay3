@@ -33,7 +33,7 @@
                               <Insets right="30.0" top="20.0" />
                            </VBox.margin>
                         </TextField>
-                        <Label fx:id="id_usuarioIncorrecto" text="Usuario Incorrecto" textFill="#ec2626" visible="false">
+                        <Label id="Errores" fx:id="id_usuarioIncorrecto" text="Usuario Incorrecto" textFill="#ec2626" visible="false">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
@@ -62,7 +62,7 @@
                               <Insets right="30.0" top="20.0" />
                            </VBox.margin>
                         </PasswordField>
-                        <Label fx:id="id_contraseñaIncorrecta" text="Contraseña Incorrecta" textFill="#ec2626" visible="false">
+                        <Label id="Errores" fx:id="id_contraseñaIncorrecta" text="Contraseña Incorrecta" textFill="#ec2626" visible="false">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>

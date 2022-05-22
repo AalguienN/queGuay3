@@ -39,6 +39,8 @@
 .label {-fx-text-fill:  white;}
 .text {-fx-text-fill:  white;}
 
+#Errores{-fx-text-fill:  red;}
+
 #PrincipalTitulo{-fx-fill:  white;}
 
 .menu-button{
