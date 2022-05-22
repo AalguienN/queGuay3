@@ -372,9 +372,53 @@ public class FXMLProblemaController implements Initializable {
         
         if(compararRespuesta()) {
             aciertos++;
+            for(int i = 0; i<4; i++){
+                if(problemaActual.getAnswers().get(intList.get(i)).getValidity() == true){
+                    switch (i){
+                        case 0:
+                                id_respuesta1.textFillProperty().set(Color.GREEN);
+                                break;
+                        case 1:
+                                id_respuesta2.textFillProperty().set(Color.GREEN);
+                                break;
+                        case 2:
+                                id_respuesta3.textFillProperty().set(Color.GREEN);
+                                break; 
+                        case 3:
+                                id_respuesta4.textFillProperty().set(Color.GREEN);
+                                break;
+                    }
+                }
+            }
             System.out.println("Correcto!");
         } else {
             fallos++;
+            for(int i = 0; i<4; i++){
+                if(problemaActual.getAnswers().get(intList.get(i)).getValidity() == true){
+                    switch (i){
+                        case 0:
+                                id_respuesta1.textFillProperty().set(Color.GREEN);
+                                break;
+                        case 1:
+                                id_respuesta2.textFillProperty().set(Color.GREEN);
+                                break;
+                        case 2:
+                                id_respuesta3.textFillProperty().set(Color.GREEN);
+                                break; 
+                        case 3:
+                                id_respuesta4.textFillProperty().set(Color.GREEN);
+                                break;
+                    }
+                }else if(id_respuesta1.isSelected()){
+                    id_respuesta1.textFillProperty().set(Color.RED);
+                }else if(id_respuesta2.isSelected()){
+                    id_respuesta2.textFillProperty().set(Color.RED);
+                }else if(id_respuesta3.isSelected()){
+                    id_respuesta3.textFillProperty().set(Color.RED);
+                }else if(id_respuesta4.isSelected()){
+                    id_respuesta4.textFillProperty().set(Color.RED);
+                }
+            }
             System.out.println("Falso :(");
         }
     }
@@ -819,37 +863,12 @@ public class FXMLProblemaController implements Initializable {
         id_respuesta2.disableProperty().setValue(Boolean.FALSE);
         id_respuesta3.disableProperty().setValue(Boolean.FALSE);
         id_respuesta4.disableProperty().setValue(Boolean.FALSE);
+        id_respuesta1.textFillProperty().set(Color.BLACK);
+        id_respuesta2.textFillProperty().set(Color.BLACK);
+        id_respuesta3.textFillProperty().set(Color.BLACK);
+        id_respuesta4.textFillProperty().set(Color.BLACK);
         BorrarSeleccion(event);
         setProblemaActual(-1);
         
     }
-    
-    private void switchToProblema(ActionEvent event, int n) throws IOException{
-        //switchToScene(event, "FXMLProblema");
-        
-        
-        List<Problem> lista = navegador.getProblems();
-        
-        
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("FXMLProblema.fxml"));
-        Parent parent = loader.load();
-        
-        Scene scene = new Scene(parent);
-        
-        FXMLProblemaController controller = loader.getController();
-        //esta línea es para pasar referencia del problema concreto que vamos a realizar
-        //Estamos pasando información entre escenas!!!!
-        controller.setProblemaActual(n);
-        controller.pasarDatos(usuario, aciertos, fallos);
-        
-        primaryStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        primaryStage.setScene(scene);
-        primaryStage.setResizable(true);
-        primaryStage.show();
-        
-    }
-
-    
-
 }
