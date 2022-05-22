@@ -23,6 +23,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
@@ -172,7 +173,7 @@
                   </VBox>
                   <HBox alignment="TOP_RIGHT" maxWidth="190.0">
                      <children>
-                        <SplitPane dividerPositions="0.5" maxWidth="50.0" orientation="VERTICAL">
+                        <SplitPane dividerPositions="0.55" maxWidth="50.0" orientation="VERTICAL">
                            <items>
                               <ToolBar orientation="VERTICAL">
                                  <items>
@@ -233,15 +234,6 @@
                                           </ImageView>
                                        </graphic>
                                     </ToggleButton>
-                                    <ToggleButton fx:id="ToggAngID" mnemonicParsing="false" onAction="#TiggAngID">
-                                       <graphic>
-                                          <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../resources/icons8-grados-50.png" />
-                                             </image>
-                                          </ImageView>
-                                       </graphic>
-                                    </ToggleButton>
                                     <ToggleButton fx:id="ToggPosID" mnemonicParsing="false" onAction="#ToggPosAct" toggleGroup="$ToolBar">
                                        <graphic>
                                           <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
@@ -251,10 +243,7 @@
                                           </ImageView>
                                        </graphic>
                                     </ToggleButton>
-                                 </items>
-                              </ToolBar>
-                              <ToolBar orientation="VERTICAL">
-                                <items>
+                                    <Region prefHeight="20.0" />
                                     <ToggleButton fx:id="ToggGomaID" mnemonicParsing="false" toggleGroup="$ToolBar">
                                        <graphic>
                                           <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
@@ -273,6 +262,19 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
+                                 </items>
+                              </ToolBar>
+                              <ToolBar orientation="VERTICAL">
+                                <items>
+                                    <ToggleButton fx:id="ToggAngID" mnemonicParsing="false" onAction="#TiggAngID">
+                                       <graphic>
+                                          <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../resources/icons8-grados-50.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </ToggleButton>
                                 </items>
                               </ToolBar>
                            </items>
