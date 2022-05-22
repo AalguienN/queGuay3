@@ -52,10 +52,10 @@ import model.User;
 public class FXMLModificarController implements Initializable {
     
    //properties to control valid fieds values. 
-    private BooleanProperty validPassword;
-    private BooleanProperty validEmail;
-    private BooleanProperty equalsPassword;  
-    private BooleanProperty validAge;
+    private Boolean validPassword;
+    private Boolean validEmail;
+    private Boolean equalsPassword;  
+    private Boolean validAge;
     
     //VARIABLES PARA CAMBIAR DE ESCENA
     
@@ -71,7 +71,6 @@ public class FXMLModificarController implements Initializable {
     Navegacion navegador;
     
     //When to strings are equal, compareTo returns zero
-    private final int EQUALS = 0;
     
     User usuario;
     int aciertos;
@@ -119,38 +118,26 @@ public class FXMLModificarController implements Initializable {
         alerta.getDialogPane().setPrefSize(350, 150);
         
         //variables valid_
-        validEmail = new SimpleBooleanProperty();
-        validPassword = new SimpleBooleanProperty();   
-        equalsPassword = new SimpleBooleanProperty();
- 
-        validAge = new SimpleBooleanProperty();
-        
-        //inicializadas a FALSE
-        validPassword.setValue(Boolean.FALSE);
-        validEmail.setValue(Boolean.FALSE);
-        equalsPassword.setValue(Boolean.FALSE);
-        validAge.setValue(Boolean.FALSE);
-
-        //AND de todas las condiciones, la comprobacion final es sobre validFields
-        BooleanBinding validFields = Bindings.and(validEmail, validPassword).and(equalsPassword).and(validAge);
-                
-
+        validEmail = false;
+        validPassword = false;   
+        equalsPassword = false;
+        validAge = false;
         
         id_correo.focusedProperty().addListener((observable, oldValue, newValue)-> {
-            if(!newValue){checkEmail(); 
-            }});
+            if(!newValue)checkEmail();
+        });
         
         id_contraseña.focusedProperty().addListener((observable, oldValue, newValue)-> {
-            if(!newValue){checkPassword(); 
-            }});
+            if(!newValue){checkPassword();}
+        });
         
         id_contraseña1.focusedProperty().addListener((observable, oldValue, newValue)-> {
-            if(!newValue){checkEqualsPassword(); 
-            }});
+           if(!newValue){checkEqualsPassword();}
+            });
         
         
         //comprobacion boton aceptar
-        id_buttonA.disableProperty().bind(Bindings.not(validFields));
+        //id_buttonA.disableProperty().bind(Bindings.not(validFields));
         
         id_buttonA.sceneProperty().addListener((obs, oldScene, newScene) -> {
             Platform.runLater(() -> {
@@ -173,9 +160,9 @@ public class FXMLModificarController implements Initializable {
 
     @FXML
     private void handleAcceptOnAction(ActionEvent event) throws IOException, NavegacionDAOException {
-        usuario.setPassword(id_contraseña.getText());
-        usuario.setBirthdate(id_FechaNacimiento.getValue());
-        usuario.setEmail(id_correo.getText());
+        if(validPassword){usuario.setPassword(id_contraseña.getText());}
+        if(validAge){usuario.setBirthdate(id_FechaNacimiento.getValue());}
+        if(validEmail){usuario.setEmail(id_correo.getText());}
         usuario.setAvatar(id_imagen.getImage());
         
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLPrincipal.fxml"));
@@ -212,11 +199,11 @@ public class FXMLModificarController implements Initializable {
         int dias = abs(actual.getDayOfMonth() - fecha.getDayOfMonth());
  
         if(años >= 16) {
-            validAge.setValue(Boolean.TRUE);
+            validAge = true;
         }else if (años == 15 && meses == 0 && dias == 0) {
-            validAge.setValue(Boolean.TRUE);
+            validAge = true;
         }else {
-            validAge.setValue(Boolean.FALSE);
+            validAge = false;
             mensaje = "El usuario debe ser mayor de edad. Introduzca una fecha válida.";
             alerta.setContentText(mensaje);
             alerta.showAndWait();
@@ -244,6 +231,7 @@ public class FXMLModificarController implements Initializable {
         
         id_nombre.setText(usuario.getNickName());
         id_correo.setText(usuario.getEmail());
+        id_contraseña.setText(usuario.getPassword());
         id_FechaNacimiento.setValue(usuario.getBirthdate());
         id_imagen.setImage(usuario.getAvatar());
         
@@ -251,13 +239,13 @@ public class FXMLModificarController implements Initializable {
     
     public void checkEmail() {
         if(!User.checkEmail(id_correo.getText())) {
-            validEmail.setValue(Boolean.FALSE);
+            validEmail = false;
             mensaje = "El correo no es válido.";
             id_correo.styleProperty().setValue("-fx-background-color: #FCE5E0");
             alerta.setContentText(mensaje);
             alerta.showAndWait();
         }else{
-            validEmail.setValue(Boolean.TRUE);
+            validEmail = true;
             id_correo.styleProperty().setValue("-fx-background-color: #CDFFD0");
         }
     }
@@ -265,18 +253,19 @@ public class FXMLModificarController implements Initializable {
     //COMPROBAR CONTRASEÑA VÁLIDA
     public void checkPassword() {
         if(!User.checkPassword(id_contraseña.getText())) {
-            validPassword.setValue(Boolean.FALSE);
+            validPassword = false;
             mensaje = "La contraseña no es válida. La contraseña debe contener [8-20] caracteres, contener al menos una letra mayúscula, una letra minúscula, un dígito y un caracter especial [!@#$%&*()-+=]. No debe contener espacios";
             id_contraseña.styleProperty().setValue("-fx-background-color: #FCE5E0");
             alerta.setContentText(mensaje);
             alerta.showAndWait();
         }else if(usuario.getPassword().equals(id_contraseña.getText())) {
+            validPassword = false;
             mensaje = "La contraseña introducida no puede coincidir con la contraseña activa actualmente. Introduce una contraseña nueva";
             id_contraseña.styleProperty().setValue("-fx-background-color: #FCE5E0");
             alerta.setContentText(mensaje);
             alerta.showAndWait();
         }else {
-            validPassword.setValue(Boolean.TRUE);
+            validPassword = true;
             id_contraseña.styleProperty().setValue("-fx-background-color: #CDFFD0");
         }
     }
@@ -284,13 +273,13 @@ public class FXMLModificarController implements Initializable {
     //COMPROBAR CONTRASEÑAS IGUALES
     public void checkEqualsPassword() {
         if("".equals(id_contraseña1.getText())){
-            equalsPassword.setValue(Boolean.FALSE);
+            equalsPassword = false;
             id_contraseña1.styleProperty().setValue("-fx-background-color: #FCE5E0");
-        } else if(id_contraseña.textProperty().getValueSafe().compareTo(id_contraseña1.textProperty().getValueSafe()) == EQUALS){
-            equalsPassword.setValue(Boolean.TRUE);
+        } else if(id_contraseña.textProperty().getValueSafe().compareTo(id_contraseña1.textProperty().getValueSafe()) == 0){
+            equalsPassword = true;
             id_contraseña1.styleProperty().setValue("-fx-background-color: #CDFFD0");
         }else {
-            equalsPassword.setValue(Boolean.FALSE);
+            equalsPassword = false;
             mensaje = "No coincide con la contraseña. Compruebe que haya escrito la misma contraseña.";
             id_contraseña1.styleProperty().setValue("-fx-background-color: #FCE5E0");
             alerta.setContentText(mensaje);
