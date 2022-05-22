@@ -117,9 +117,9 @@
                   <Font name="Arial Rounded MT Bold" size="40.0" />
                </font>
             </Text>
-            <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true">
                <image>
-                  <Image url="@../resources/NT%20%20copia%20OK%20.png" />
+                  <Image url="@../resources/Sin_titulo-2.png" />
                </image>
                <HBox.margin>
                   <Insets left="70.0" />

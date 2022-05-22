@@ -132,7 +132,7 @@ public class FXMLModificarController implements Initializable {
         validAge.setValue(Boolean.FALSE);
 
         //AND de todas las condiciones, la comprobacion final es sobre validFields
-        BooleanBinding validFields = Bindings.and(validEmail, validPassword).and(equalsPassword).and(validAge);
+        BooleanBinding validFields = Bindings.and(validEmail, validPassword).and(equalsPassword);
                 
 
         
@@ -244,6 +244,7 @@ public class FXMLModificarController implements Initializable {
         
         id_nombre.setText(usuario.getNickName());
         id_correo.setText(usuario.getEmail());
+        id_contraseña.setText(usuario.getPassword());
         id_FechaNacimiento.setValue(usuario.getBirthdate());
         id_imagen.setImage(usuario.getAvatar());
         
