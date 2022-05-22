@@ -109,7 +109,9 @@
     -fx-font-size: 16px;
     -fx-font-weight: bold;
 }
-.radio-button{-fx-text-fill:  white;}
+.radio-button{
+    -fx-text-fill:  white;
+}
 
 #Problema{
     -fx-background-color: #465255;
@@ -117,4 +119,19 @@
     
 }
 
-.tool-bar{-fx-background-color: #465255;}
+.tool-bar{
+    -fx-background-color: #465255;
+}
+
+#Texto {
+    -fx-background-color:#465255;
+    -fx-text-fill:  white;
+}
+
+.slider .track{
+    -fx-background-color:#465255;
+}
+
+.slider .thumb {
+    -fx-background-color : #69DAFF;
+}
