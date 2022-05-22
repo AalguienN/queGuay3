@@ -31,6 +31,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -66,6 +67,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Screen;
 
 import model.Session;
 import model.User;
@@ -186,6 +188,8 @@ public class FXMLProblemaController implements Initializable {
     private String formaPunto;
     @FXML
     private MenuButton FormaPuntoID;
+    @FXML
+    private ToggleButton ToggPosID;
     
     //SII problema >= 0 saca problema de la lista
     //SII problema = -1 problema aleatorio
@@ -341,6 +345,8 @@ public class FXMLProblemaController implements Initializable {
     private void muestraPosicion(MouseEvent event) {
         posicion.setText("sceneX: " + (int) event.getSceneX() + ", sceneY: " + (int) event.getSceneY() + "\n"
                 + "         X: " + (int) event.getX() + ",          Y: " + (int) event.getY());
+        
+        
     }
 
     @FXML
@@ -441,6 +447,8 @@ public class FXMLProblemaController implements Initializable {
     @FXML
     private void MReleaseEnMapa(MouseEvent event) {
         mouseOnClick = false;
+        iniX = event.getX();
+        iniY = event.getY();
         //System.out.println(mouseOnClick);
     }
 
@@ -626,6 +634,92 @@ public class FXMLProblemaController implements Initializable {
             
             
         }
+        //Apartado 3.10
+        if (ToggPosID.selectedProperty().getValue()){
+            Screen screen = Screen.getPrimary();
+            Rectangle2D bounds = screen.getVisualBounds();
+
+            
+            
+            //Linea 1
+            linePainting = new Line(0, event.getY(),MapaScrollPaneID.getFitWidth(),event.getY());
+            linePainting.setStroke(ColorPickerID.getValue());
+            mapaPane.getChildren().add(linePainting);
+            dibList.add(linePainting);
+            linePainting.setStrokeWidth(tamanoLinea);
+            
+            linePainting.setOnMouseEntered(e->{
+                //System.out.println(mouseOnClick);
+                
+                if (ToggGomaID.selectedProperty().getValue())
+                    mapaPane.getChildren().remove((Node)e.getSource());
+
+            });
+            
+            linePainting.setOnContextMenuRequested(e -> {
+                ContextMenu menuContext = new ContextMenu();
+                //Eliminar
+                MenuItem borrarItem = new MenuItem("eliminar");
+                menuContext.getItems().add(borrarItem);
+                borrarItem.setOnAction(ev -> {
+                    mapaPane.getChildren().remove((Node)e.getSource());
+                    ev.consume();
+                });
+                //Editar
+                MenuItem editarItem = new MenuItem("editar - selecciónActual");
+                menuContext.getItems().add(editarItem);
+                editarItem.setOnAction(ev->{
+                    linePainting = (Line)e.getSource();
+                    linePainting.setStroke(ColorPickerID.getValue());
+                    linePainting.setStrokeWidth(tamanoLinea);
+                });
+                
+                Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+                menuContext.setX(e.getX());
+                menuContext.setY(e.getY());
+                menuContext.show((Node)e.getSource(),  stage.getX()+e.getSceneX(), stage.getY()+e.getSceneY());
+            });
+            
+            //Linea 2
+            linePainting = new Line(event.getX(), 0,event.getX(),MapaScrollPaneID.getFitHeight());
+            linePainting.setStroke(ColorPickerID.getValue());
+            mapaPane.getChildren().add(linePainting);
+            dibList.add(linePainting);
+            linePainting.setStrokeWidth(tamanoLinea);
+            
+            linePainting.setOnMouseEntered(e->{
+                //System.out.println(mouseOnClick);
+                
+                if (ToggGomaID.selectedProperty().getValue())
+                    mapaPane.getChildren().remove((Node)e.getSource());
+
+            });
+            
+            linePainting.setOnContextMenuRequested(e -> {
+                ContextMenu menuContext = new ContextMenu();
+                //Eliminar
+                MenuItem borrarItem = new MenuItem("eliminar");
+                menuContext.getItems().add(borrarItem);
+                borrarItem.setOnAction(ev -> {
+                    mapaPane.getChildren().remove((Node)e.getSource());
+                    ev.consume();
+                });
+                //Editar
+                MenuItem editarItem = new MenuItem("editar - selecciónActual");
+                menuContext.getItems().add(editarItem);
+                editarItem.setOnAction(ev->{
+                    linePainting = (Line)e.getSource();
+                    linePainting.setStroke(ColorPickerID.getValue());
+                    linePainting.setStrokeWidth(tamanoLinea);
+                });
+                
+                Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+                menuContext.setX(e.getX());
+                menuContext.setY(e.getY());
+                menuContext.show((Node)e.getSource(),  stage.getX()+e.getSceneX(), stage.getY()+e.getSceneY());
+            });
+        
+        }
     }
 
     @FXML
@@ -696,6 +790,18 @@ public class FXMLProblemaController implements Initializable {
     private void FormaPuntoCuadrado(ActionEvent event) {
         FormaPuntoID.setText("Cuadrado");
         formaPunto = "Cuadrado";
+    }
+
+    @FXML
+    private void TiggAngID(ActionEvent event) {
+        Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        
+        angulosID.setX(iniX);
+        angulosID.setY(iniY);
+    }
+
+    @FXML
+    private void ToggPosAct(ActionEvent event) {
     }
 
     
