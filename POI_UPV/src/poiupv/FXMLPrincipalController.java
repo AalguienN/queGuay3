@@ -117,6 +117,7 @@ public class FXMLPrincipalController implements Initializable {
         primaryStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         primaryStage.setScene(scene);
+        primaryStage.setTitle("Problemas");
         primaryStage.setResizable(false);
         primaryStage.show();
     }
@@ -136,6 +137,7 @@ public class FXMLPrincipalController implements Initializable {
         primaryStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         primaryStage.setScene(scene);
+        primaryStage.setTitle("Estadísticas");
         primaryStage.setResizable(false);
         primaryStage.show();
     }
@@ -209,7 +211,7 @@ public class FXMLPrincipalController implements Initializable {
         
         primaryStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         primaryStage.setScene(scene);
-        
+        primaryStage.setTitle("Problemas");
         primaryStage.setResizable(true);
         primaryStage.show();
         
@@ -229,6 +231,7 @@ public class FXMLPrincipalController implements Initializable {
         Parent root = loader.load();
         primaryStage = (Stage) id_listaProblemas.getScene().getWindow();
         scene = new Scene(root);
+        primaryStage.setTitle("Inicio Sesión");
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();
@@ -243,6 +246,7 @@ public class FXMLPrincipalController implements Initializable {
         primaryStage = (Stage) id_listaProblemas.getScene().getWindow();
         scene = new Scene(root);
         primaryStage.setScene(scene);
+        primaryStage.setTitle("Perfil");
         primaryStage.setResizable(false);
         primaryStage.show();
     }

@@ -90,6 +90,7 @@ public class FXMLInicioController implements Initializable{
         primaryStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         primaryStage.setScene(scene);
+        primaryStage.setTitle("Registro");
         primaryStage.setResizable(false);
         primaryStage.show();
     }
@@ -117,6 +118,7 @@ public class FXMLInicioController implements Initializable{
                     primaryStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
                     scene = new Scene(root);
                     primaryStage.setScene(scene);
+                    primaryStage.setTitle("Menú");
                     primaryStage.setResizable(false);
                     primaryStage.show();
                 }

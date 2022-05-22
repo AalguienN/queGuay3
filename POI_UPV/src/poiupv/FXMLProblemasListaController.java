@@ -204,6 +204,7 @@ public class FXMLProblemasListaController implements Initializable {
         stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);
+        stage.setTitle("Menú");
         stage.setResizable(false);
         stage.show();
     }
@@ -235,9 +236,9 @@ public class FXMLProblemasListaController implements Initializable {
         
         stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         stage.setScene(scene);
+        stage.setTitle("Problemas");
         stage.setResizable(true);
         stage.show();
-        
     }
     
      public void pasarDatos(User u, int aciertos, int fallos) {
@@ -245,5 +246,4 @@ public class FXMLProblemasListaController implements Initializable {
         this.aciertos = aciertos;
         this.fallos = fallos;
     }
-    
 }

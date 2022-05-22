@@ -389,6 +389,7 @@ public class FXMLProblemaController implements Initializable {
         primaryStage.sizeToScene();
         scene = new Scene(root);
         primaryStage.setScene(scene);
+        primaryStage.setTitle("Menú");
         primaryStage.setResizable(false);
         primaryStage.show();
     }

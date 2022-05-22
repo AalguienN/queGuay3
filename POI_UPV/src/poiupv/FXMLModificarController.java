@@ -172,6 +172,7 @@ public class FXMLModificarController implements Initializable {
         primaryStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         primaryStage.setScene(scene);
+        primaryStage.setTitle("Menú");
         primaryStage.setResizable(false);
         primaryStage.show();
     }
@@ -185,6 +186,7 @@ public class FXMLModificarController implements Initializable {
         primaryStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         primaryStage.setScene(scene);
+        primaryStage.setTitle("Menú");
         primaryStage.setResizable(false);
         primaryStage.show();
     }
