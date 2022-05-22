@@ -152,7 +152,6 @@ public class FXMLPrincipalController implements Initializable {
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();
-        
     }
     */
 /*
