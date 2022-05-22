@@ -79,15 +79,15 @@
                                  </font></Label>
                               <VBox>
                                  <children>
-                                    <RadioButton fx:id="id_respuesta1" mnemonicParsing="false" onAction="#respuestaSeleccionada" text="Respuesta 1" wrapText="true">
+                                    <RadioButton fx:id="id_respuesta1" mnemonicParsing="false" onAction="#respuestaSeleccionada" text="Respuesta 1" textFill="WHITE" wrapText="true">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="Respuesta" />
                                        </toggleGroup>
                                     </RadioButton>
-                                    <RadioButton fx:id="id_respuesta2" mnemonicParsing="false" onAction="#respuestaSeleccionada" text="Respuesta 2" toggleGroup="$Respuesta" wrapText="true" />
-                                    <RadioButton fx:id="id_respuesta3" mnemonicParsing="false" onAction="#respuestaSeleccionada" text="Respuesta 3" toggleGroup="$Respuesta" wrapText="true" />
-                                    <RadioButton fx:id="id_respuesta4" mnemonicParsing="false" onAction="#respuestaSeleccionada" text="Respuesta 4" toggleGroup="$Respuesta" wrapText="true" />
-                                    <Hyperlink onAction="#BorrarSeleccion" text="Borrar selección" />
+                                    <RadioButton fx:id="id_respuesta2" mnemonicParsing="false" onAction="#respuestaSeleccionada" text="Respuesta 2" textFill="WHITE" toggleGroup="$Respuesta" wrapText="true" />
+                                    <RadioButton fx:id="id_respuesta3" mnemonicParsing="false" onAction="#respuestaSeleccionada" text="Respuesta 3" textFill="WHITE" toggleGroup="$Respuesta" wrapText="true" />
+                                    <RadioButton fx:id="id_respuesta4" mnemonicParsing="false" onAction="#respuestaSeleccionada" text="Respuesta 4" textFill="WHITE" toggleGroup="$Respuesta" wrapText="true" />
+                                    <Hyperlink fx:id="id_borrarSeleccion" onAction="#BorrarSeleccion" text="Borrar selección" />
                                  </children>
                               </VBox>
                            </children>
