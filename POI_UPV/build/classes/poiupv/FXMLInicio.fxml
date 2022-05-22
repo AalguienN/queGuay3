@@ -107,7 +107,7 @@
       </VBox>
    </center>
    <top>
-      <HBox id="Titulo" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" stylesheets="@../css/a.css" BorderPane.alignment="CENTER_LEFT">
+      <HBox id="Titulo" alignment="CENTER_LEFT" stylesheets="@../css/a.css" BorderPane.alignment="CENTER_LEFT">
          <children>
             <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="NavTest">
                <HBox.margin>
@@ -117,12 +117,12 @@
                   <Font name="Arial Rounded MT Bold" size="40.0" />
                </font>
             </Text>
-            <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true">
+            <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true">
                <image>
                   <Image url="@../resources/Sin_titulo-2.png" />
                </image>
                <HBox.margin>
-                  <Insets left="70.0" />
+                  <Insets left="60.0" />
                </HBox.margin>
             </ImageView>
          </children>

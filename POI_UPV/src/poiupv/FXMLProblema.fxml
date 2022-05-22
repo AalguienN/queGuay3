@@ -121,7 +121,7 @@
                            <children>
                               <ImageView id="Lupa" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../resources/lupa-blanca.png" />
+                                    <Image url="@../resources/lupa_blanca_blanca_.png" />
                                  </image>
                                  <HBox.margin>
                                     <Insets right="5.0" />
@@ -301,7 +301,7 @@
                               </HBox>
                               <Text id="PrincipalTitulo" strokeType="OUTSIDE" strokeWidth="0.0" text="Grosor de línea:" underline="true">
                                  <VBox.margin>
-                                    <Insets top="5.0" />
+                                    <Insets top="10.0" />
                                  </VBox.margin>
                               </Text>
                               <HBox alignment="CENTER_LEFT">
@@ -317,7 +317,7 @@
                               </HBox>
                               <Label text="Tamaño de fuente:" underline="true" wrapText="true">
                                  <VBox.margin>
-                                    <Insets top="5.0" />
+                                    <Insets top="10.0" />
                                  </VBox.margin>
                               </Label>
                               <HBox alignment="CENTER_LEFT">
@@ -331,7 +331,10 @@
                                     </Label>
                                  </children>
                               </HBox>
-                              <Label text="Forma punto:" underline="true" wrapText="true" />
+                              <Label text="Forma punto:" underline="true" wrapText="true">
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin></Label>
                               <MenuButton fx:id="FormaPuntoID" mnemonicParsing="false" onAction="#FormaPuntoAct" text="Forma">
                                 <items>
                                   <MenuItem mnemonicParsing="false" onAction="#FormaPuntoCirculo" text="Circulo">
@@ -347,6 +350,9 @@
                                 </items>
                               </MenuButton>
                            </children>
+                           <padding>
+                              <Insets left="5.0" right="5.0" />
+                           </padding>
                         </VBox>
                      </children>
                   </HBox>
