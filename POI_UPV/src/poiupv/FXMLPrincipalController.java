@@ -79,6 +79,15 @@ public class FXMLPrincipalController implements Initializable {
         id_estadisticas.sceneProperty().addListener((obs, oldScene, newScene) -> {
             Platform.runLater(() -> {
                 Stage stage = (Stage) newScene.getWindow();
+                stage.setMaximized(false);
+                stage.setWidth(700);
+                stage.setHeight(440);
+                    });
+                });
+        
+        id_estadisticas.sceneProperty().addListener((obs, oldScene, newScene) -> {
+            Platform.runLater(() -> {
+                Stage stage = (Stage) newScene.getWindow();
                 stage.setOnCloseRequest(e -> {
                     LocalDateTime tiempo = LocalDateTime.now();
                     Session sesion = new Session(tiempo, aciertos, fallos);
