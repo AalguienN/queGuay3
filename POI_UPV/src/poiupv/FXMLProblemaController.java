@@ -382,6 +382,7 @@ public class FXMLProblemaController implements Initializable {
         FXMLPrincipalController controlador = loader.getController();
         controlador.pasarDatos(usuario, aciertos, fallos);
         primaryStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        primaryStage.sizeToScene();
         scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
