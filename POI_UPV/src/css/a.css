@@ -5,6 +5,13 @@
     -fx-text-fill:  white;
 }
 
+.toggle-button{
+    -fx-border-radius: 10%;
+    -fx-background-color:  #69DAFF;
+    -fx-background-radius: 15px;
+    -fx-text-fill:  white;
+}
+
 .hyperlink {
     -fx-text-fill:  white;
 }
@@ -22,7 +29,14 @@
 
 #PrincipalTitulo{-fx-fill:  white;}
 
-#MenuButton{
+.menu-button{
+    -fx-background-color:  #69DAFF;
+    -fx-text-fill:  white;
+    -fx-my-menu-color: black;
+    -fx-my-menu-color-highlighted: #69DAFF;
+}
+
+.color-picker{
     -fx-background-color:  #69DAFF;
     -fx-text-fill:  white;
     -fx-my-menu-color: black;
@@ -77,6 +91,30 @@
     -fx-background-color : #69DAFF;
 }
 
-#Otro {
-    -fx-background-color : #465255;;
+.scroll-bar:horizontal .thumb {
+    -fx-background-color : #69DAFF;
 }
+
+.titled-pane{
+    -fx-background-color: #465255;
+}
+
+.titled-pane > *.content{
+    -fx-background-color: #465255;
+}
+
+.titled-pane > .title
+{
+    -fx-background-color: #7F98A0;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+.radio-button{-fx-text-fill:  white;}
+
+#Problema{
+    -fx-background-color: #465255;
+    -fx-text-fill:  white;
+    
+}
+
+.tool-bar{-fx-background-color: #465255;}

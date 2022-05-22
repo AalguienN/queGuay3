@@ -100,7 +100,6 @@ public class FXMLProblemasListaController implements Initializable {
             int j = i;
             //crean los elementos a incluir
             TitledPane titledPane = new TitledPane();
-            titledPane.setId("Otro");
             Label etiqueta = new Label();
             
             //para que el texto quede más ajustado al titledpane

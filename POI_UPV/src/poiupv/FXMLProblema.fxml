@@ -33,12 +33,12 @@
 
 <VBox prefHeight="750.0" prefWidth="1000.0" stylesheets="@../resources/estilos.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="poiupv.FXMLProblemaController">
    <children>
-      <HBox fillHeight="false" spacing="5.0" VBox.vgrow="NEVER">
+      <HBox id="Problema" fillHeight="false" spacing="5.0" VBox.vgrow="NEVER">
          <VBox.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </VBox.margin>
          <children>
-            <SplitPane dividerPositions="0.25, 0.99">
+            <SplitPane id="Fondo" dividerPositions="0.25, 0.99" stylesheets="@../css/a.css">
                <items>
                   <VBox maxWidth="500.0" minWidth="210.0" spacing="5.0">
                      <children>
@@ -279,7 +279,7 @@
                         </SplitPane>
                         <VBox>
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Color: " underline="true">
+                              <Text id="Titulo" strokeType="OUTSIDE" strokeWidth="0.0" text="Color: " underline="true">
                                  <VBox.margin>
                                     <Insets top="7.5" />
                                  </VBox.margin>
@@ -293,7 +293,7 @@
                                     </ColorPicker>
                                  </children>
                               </HBox>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Grosor de línea:" underline="true">
+                              <Text id="Titulo" strokeType="OUTSIDE" strokeWidth="0.0" text="Grosor de línea:" underline="true">
                                  <VBox.margin>
                                     <Insets top="5.0" />
                                  </VBox.margin>
@@ -348,7 +348,7 @@
             </SplitPane>
          </children>
       </HBox>
-      <HBox alignment="CENTER_RIGHT">
+      <HBox id="Problema" alignment="CENTER_RIGHT">
          <children>
             <Label fx:id="posicion" minHeight="-Infinity" minWidth="-Infinity" text="SceneX:     ScenY:     " wrapText="true" HBox.hgrow="ALWAYS" />
          </children>
