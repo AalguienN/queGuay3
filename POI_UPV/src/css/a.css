@@ -4,12 +4,24 @@
     -fx-background-radius: 15px;
     -fx-text-fill:  white;
 }
+.button:hover{
+    -fx-background-color: aqua;
+    -fx-cursor: hand;
+}
 
 .toggle-button{
     -fx-border-radius: 10%;
     -fx-background-color:  #69DAFF;
     -fx-background-radius: 15px;
-    -fx-text-fill:  white;
+    -fx-text-fill:  blue;
+}
+.toggle-button:hover{
+    -fx-background-color:aqua;
+    -fx-cursor:hand;
+}
+.toggle-button:selected{
+    -fx-background-color:white;
+    
 }
 
 .hyperlink {
