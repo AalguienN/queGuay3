@@ -78,12 +78,12 @@
          <children>
             <ImageView fitHeight="400.0" fitWidth="350.0" pickOnBounds="true">
                <image>
-                  <Image url="@../resources/homer.gif" />
+                  <Image url="@../resources/6Au.gif" />
                </image>
             </ImageView>
-            <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="75.0" AnchorPane.rightAnchor="75.0" AnchorPane.topAnchor="100.0">
+            <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="200.0" layoutY="250.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="0.39999999999997726" AnchorPane.topAnchor="250.0">
                <image>
-                  <Image url="@../resources/NT%20%20copia.jpg" />
+                  <Image url="@../resources/Sin_titulo-2.png" />
                </image>
             </ImageView>
          </children>
